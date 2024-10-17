@@ -1,0 +1,32 @@
+@startuml
+    entity Game{
+        <<PK>> gameID [NUMBER]
+        --
+        date [DATE]
+    }
+
+    entity GameList{
+        <<FK>> gameID[NUMBER]
+        <<FK>> teamID[NUMBER]
+    }
+
+    entity Team{
+        <<PK>> teamID [NUMBER]
+        --
+        teamName [VARCHAR2]
+        score [NUMBER]
+    }
+
+    entity Player{
+        <<PK>> playerID [NUMBER]
+        <<FK>> teamID [NUMBER]
+        --
+        playerName [VARCHAR2]
+    }
+
+
+    Team ||--|{ GameList
+    Team ||--o{ Player
+    Game ||--|{ GameList
+
+@enduml
