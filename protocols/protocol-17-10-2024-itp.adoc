@@ -1,0 +1,79 @@
+= Besprechungsprotokoll ITP 17.10.2024
+firstname lastname
+1.0, {docdate}: Some notes
+ifndef::imagesdir[:imagesdir: images]
+:icons: font
+//:sectnums:    // Nummerierung der Überschriften / section numbering
+//:toc: left
+
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+// https://fontawesome.com/v4.7.0/icons/
+icon:file-text-o[link=https://raw.githubusercontent.com/htl-leonding-college/asciidoctor-docker-template/master/asciidocs/{docname}.adoc] ‏ ‏ ‎
+icon:github-square[link=https://github.com/htl-leonding-college/asciidoctor-docker-template] ‏ ‏ ‎
+icon:home[link=https://htl-leonding.github.io/]
+endif::backend-html5[]
+
+
+.Teilnehmer
+|===
+|anwesend
+
+|Vorname Nachname
+
+|Prof. Stuetz (teilweise)
+
+|Prof. Aberger
+
+|Prof. Hammer (anfangs)
+
+|M. Anderson
+
+|F. Hayer (Protokollführer)
+
+|A. Simsek
+
+|V. Catic
+|===
+
+.Ort und Zeit
+[cols=2*]
+|===
+|Ort
+|HTL Leonding - Raum E58-2
+
+|von-bis
+|Do. 17.10.2024, 4. - 5. EH
+|Dauer
+|100 min
+|===
+
+
+
+== Besprochene Themen
+
+* Protokollführung
+* aktueller Sprint
+
+== Vereinbarungen und Entscheidungen
+
+.Was wurde vereinbart?
+[%autowidth]
+|===
+|wer |macht was |bis wann
+
+| Protokollführer
+a| Erstellung eines Protokolls
+| möglichst bald
+
+| Eispunkt
+a|
+** Wird weiter wie geplant bis zum 24.10.2024 durchgeführt.
+** Erstellung einer User-Story für ein "Fuchsen" spiel.
+** Es soll 2 (vorgefertigte) Teams geben, die gegeneinander antreten.
+** Per Klick auf ein Team bekommt dieses einen Punkt.
+** Die Punkte sind nicht persistent
+** Eine Datenbank wird nicht benötigt
+|24.10.2024
+|===
