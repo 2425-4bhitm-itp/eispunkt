@@ -1,6 +1,5 @@
 package at.ac.htlleonding;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,7 +7,7 @@ public class Team {
     private int teamId;
     private String name;
     private int score;
-    private List<Game> games = new LinkedList<>();
+    private final List<Game> games = new LinkedList<>();
 
     public Team(String name) {
         this.name = name;
@@ -45,6 +44,4 @@ public class Team {
     public void addGame(Game game) {
         games.add(game);
     }
-
-
 }
