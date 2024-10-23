@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Eispunkt</title>
-    <script src="spiel.js" defer></script>
+    <script src="script.js" defer></script>
     <link href="startPage.css" rel="stylesheet">
 </head>
 <body id="main">
@@ -11,13 +11,13 @@
     <div id="team_outer_box">
         <div class="team_box">
             <h2>Team 1</h2>
-            <input  placeholder="Team 1">
+            <input onfocusout="addTeam(1)" placeholder="Team 1">
         </div>
         <div class="team_box">
             <h2>Team 2</h2>
-            <input placeholder="Team 2">
+            <input onfocusout="addTeam(2)" placeholder="Team 2">
         </div>
     </div>
-    <div id="next_button">PLAY</div>
+    <a id="next_button" href="../../templates/spiel.html">PLAY</a>
 </body>
 </html>
