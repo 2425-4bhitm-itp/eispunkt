@@ -3,8 +3,8 @@ package at.ac.htlleonding;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
+//import javax.json.bind.Jsonb;
+//import javax.json.bind.JsonbBuilder;
 import java.time.LocalDate;
 
 @Path("/game")
@@ -47,10 +47,11 @@ public class GameResource {
         return Response.ok().build();
     }
 
-    @Path("/getGameInfo")
+
+    /*@Path("/getGameInfo")
     @GET
     public Response getInfo(){
         Jsonb jsonb = JsonbBuilder.create();
         return Response.ok(jsonb.toJson(currentGame)).build();
-    }
+    }*/
 }

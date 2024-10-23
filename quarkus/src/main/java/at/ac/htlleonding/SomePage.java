@@ -10,7 +10,7 @@ import jakarta.ws.rs.core.MediaType;
 
 import static java.util.Objects.requireNonNull;
 
-@Path("/some-page")
+@Path("/start")
 public class SomePage {
 
     private final Template page;
