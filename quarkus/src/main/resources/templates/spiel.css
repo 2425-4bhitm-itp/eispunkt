@@ -3,8 +3,6 @@
 }
 
 
-
-
 header{
     width: 88%;
     background-color: #007bff;
@@ -16,13 +14,13 @@ header{
 }
 
 
-.team1{
+#team1{
     margin-top: 5%;
     display: flex;
 
 }
 
-.team2 {
+#team2 {
     border-top: black solid 1px;
     display: flex;
     margin-top: 5%;
