@@ -6,7 +6,7 @@ let team2 =document.getElementById("team2").save
 function addPoint(teamNum){
     let teamName = document.getElementById(`team${teamNum}`);
     let counter ="|"
-    fetch("http://localhost:8080/game/modifyScore?team=[team${teamNum}]&type=[+]", {
+    fetch(`http://localhost:8080/game/modifyScore?team=team${teamNum}&type=+`, {
         method: 'post',
         body: teamName,
     }).then((response) =>{
@@ -17,13 +17,13 @@ function addPoint(teamNum){
         }
     })
 
-    document.getElementById("counter1").innerText += counter
+    document.getElementById(`counter${teamNum}`).innerText += counter
 }
 
 function deletePoint(teamNum){
     let teamName = document.getElementById(`team${teamNum}`);
 
-    fetch("http://localhost:8080/game/modifyScore?team=[team${teamNum}]&type=[-]", {
+    fetch(`http://localhost:8080/game/modifyScore?team=team${teamNum}&type=-`, {
         method: 'post',
         body: teamName,
     }).then((response) =>{
@@ -34,7 +34,7 @@ function deletePoint(teamNum){
         }
     })
 
-    let counterElement = document.getElementById("counter1");
+    let counterElement = document.getElementById(`counter${teamNum}`);
     let counterText = counterElement.innerText;
     if (counterText.length > 0) {
         counterElement.innerText = counterText.slice(0, -1);
