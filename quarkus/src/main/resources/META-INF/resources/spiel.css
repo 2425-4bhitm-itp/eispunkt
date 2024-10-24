@@ -1,0 +1,47 @@
+*{
+    margin: 0;
+}
+
+
+header{
+    width: 88%;
+    background-color: #007bff;
+    padding: 6%;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 400%;
+}
+
+
+#team1{
+    margin-top: 5%;
+    display: flex;
+
+}
+
+#team2 {
+    border-top: black solid 1px;
+    display: flex;
+    margin-top: 5%;
+
+}
+
+.counterBox{
+    cursor:pointer;
+    display: flex;
+    width: 20%;
+    padding: 5%;
+    font-size: 500%;
+    margin-left: 5%;
+}
+
+.minus{
+    margin-left: 30%;
+}
+
+.teamName{
+    width: 100%;
+    padding: 5%;
+    font-size: 300%;
+}
