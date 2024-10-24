@@ -1,0 +1,73 @@
+= Besprechungsprotokoll ITP 24.10.2024
+firstname lastname
+1.0, {docdate}: Some notes
+ifndef::imagesdir[:imagesdir: images]
+:icons: font
+//:sectnums:    // Nummerierung der Überschriften / section numbering
+//:toc: left
+
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+// https://fontawesome.com/v4.7.0/icons/
+icon:file-text-o[link=https://raw.githubusercontent.com/htl-leonding-college/asciidoctor-docker-template/master/asciidocs/{docname}.adoc] ‏ ‏ ‎
+icon:github-square[link=https://github.com/htl-leonding-college/asciidoctor-docker-template] ‏ ‏ ‎
+icon:home[link=https://htl-leonding.github.io/]
+endif::backend-html5[]
+
+
+.Teilnehmer
+|===
+|anwesend
+
+|Vorname Nachname
+
+|Prof. Aberger
+
+|Prof. Stuetz
+
+|M. Anderson
+
+|F. Hayer (Protokollführer)
+
+|A. Simsek
+
+|V. Catic
+|===
+
+.Ort und Zeit
+[cols=2*]
+|===
+|Ort
+|HTL Leonding - Raum E58-2
+
+|von-bis
+|Do. 24.10.2024, 5. EH
+|Dauer
+|20 min
+|===
+
+
+
+== Besprochene Themen
+
+* Sprint 2
+
+== Vereinbarungen und Entscheidungen
+
+.Was wurde vereinbart?
+[%autowidth]
+|===
+|wer |macht was |bis wann
+
+| Eispunkt
+a|
+** Teams erstellen
+** Player erstellen
+** Teams mit Player befüllen
+** Beliebige Runden
+** 6-9-Aus
+** Gewinner ermitteln
+| 07.10.2024
+
+|===
