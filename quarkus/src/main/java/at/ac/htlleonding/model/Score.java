@@ -1,4 +1,4 @@
-package at.ac.htlleonding;
+package at.ac.htlleonding.model;
 
 public class Score {
     private Team team;

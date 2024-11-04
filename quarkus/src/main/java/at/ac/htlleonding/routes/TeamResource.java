@@ -1,6 +1,6 @@
-package at.ac.htlleonding;
+package at.ac.htlleonding.routes;
 
-import io.quarkus.qute.runtime.ContentTypes;
+import at.ac.htlleonding.model.Team;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.FormParam;
 import jakarta.ws.rs.POST;

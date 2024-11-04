@@ -1,5 +1,6 @@
-package at.ac.htlleonding;
+package at.ac.htlleonding.routes;
 
+import at.ac.htlleonding.model.Game;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Response;
 

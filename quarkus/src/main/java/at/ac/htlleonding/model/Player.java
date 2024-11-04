@@ -1,4 +1,4 @@
-package at.ac.htlleonding;
+package at.ac.htlleonding.model;
 
 public class Player {
     private int playerId;

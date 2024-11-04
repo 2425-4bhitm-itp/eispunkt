@@ -1,4 +1,4 @@
-package at.ac.htlleonding;
+package at.ac.htlleonding.model;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
