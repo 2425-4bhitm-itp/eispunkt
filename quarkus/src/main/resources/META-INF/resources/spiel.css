@@ -28,6 +28,7 @@ header{
 }
 
 .counterBox{
+    cursor:pointer;
     display: flex;
     width: 20%;
     padding: 5%;
