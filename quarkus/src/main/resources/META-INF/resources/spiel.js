@@ -1,13 +1,18 @@
 
 let team1 = document.getElementById("team1").save
 let team2 =document.getElementById("team2").save
-let counter1 =0
-let counter2 =0
-let pointCounter = 0
+
+
+const counter = {}; // to store each team's 'counter' value
+const pointCounter = {}; //
 
 function addPoint(teamNum){
     let teamName = document.getElementById(`team${teamNum}`);
 
+    if (!(teamNum in counter)) {
+        counter[teamNum] = 0;
+        pointCounter[teamNum] = 0;
+    }
 
     fetch(`http://localhost:8080/game/modifyScore?team=team${teamNum}&type=+`, {
         method: 'post',
@@ -20,13 +25,17 @@ function addPoint(teamNum){
         }
     })
 
-    counter[teamNum]++
-    if (counter === 9){
-        pointCounter++
-        counter =""
-        document.getElementById(`pointCounter${teamNum}`).innerText = pointCounter
+    counter[teamNum]++;
+    if (counter[teamNum] === 9){
+        pointCounter[teamNum]++
+        counter[teamNum] =""
+        document.getElementById(`pointCounter${teamNum}`).innerText = pointCounter[teamNum]
     }
     document.getElementById(`counter${teamNum}`).innerText = counter[teamNum]
+
+    if (pointCounter[teamNum] === 5){
+
+    }
 
 }
 
