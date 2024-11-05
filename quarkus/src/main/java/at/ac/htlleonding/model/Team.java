@@ -1,4 +1,4 @@
-package at.ac.htlleonding;
+package at.ac.htlleonding.model;
 
 import java.util.LinkedList;
 import java.util.List;

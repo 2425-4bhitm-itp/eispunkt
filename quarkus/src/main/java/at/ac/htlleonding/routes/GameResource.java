@@ -1,10 +1,10 @@
-package at.ac.htlleonding;
+package at.ac.htlleonding.routes;
 
-import jakarta.json.bind.Jsonb;
-import jakarta.json.bind.JsonbBuilder;
+
+import at.ac.htlleonding.model.Game;
 import jakarta.ws.rs.*;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+
 import java.time.LocalDate;
 
 @Path("/game")

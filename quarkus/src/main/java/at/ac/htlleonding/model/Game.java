@@ -1,4 +1,4 @@
-package at.ac.htlleonding;
+package at.ac.htlleonding.model;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -6,7 +6,6 @@ import java.util.List;
 
 
 public class Game {
-    private int gameId;
     private LocalDate date;
     private List<Team> teams = new LinkedList<>();
 
@@ -22,9 +21,6 @@ public class Game {
         this.date = date;
     }
 
-    public int getGameId() {
-        return gameId;
-    }
 
     public List<Team> getTeams() {
         return new LinkedList<>(teams);
