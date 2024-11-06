@@ -1,12 +1,12 @@
-package at.ac.htlleonding;
+package at.ac.htlleonding.model;
 
 public class Score {
     private Team team;
-    private Game game;
+    private Stage stage;
     private int score;
 
-    public Score(Game game, Team team) {
-        this.game = game;
+    public Score(Stage stage, Team team) {
+        this.stage = stage;
         this.team = team;
     }
 
@@ -19,11 +19,11 @@ public class Score {
     }
 
     public Game getGame() {
-        return game;
+        return stage;
     }
 
-    private void setGame(Game game) {
-        this.game = game;
+    private void setGame(Stage stage) {
+        this.stage = stage;
     }
 
     public int getScore() {
