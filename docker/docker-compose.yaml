@@ -1,0 +1,15 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:14-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=eispunkt#4040#
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=eispunkt
+
+volumes:
+  postgres:

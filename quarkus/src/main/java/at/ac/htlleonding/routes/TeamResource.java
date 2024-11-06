@@ -19,9 +19,6 @@ public class TeamResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addTeam(@QueryParam("teamName") String name){
-        /*if(GameResource.currentGame.getTeams().size() == 2){
-            GameResource.currentGame.getTeams().clear();
-        }*/
         GameResource.currentGame.getTeams().add(new Team(name));
         return Response.ok().build();
     }

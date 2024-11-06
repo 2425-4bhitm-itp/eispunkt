@@ -18,11 +18,11 @@ public class Score {
         this.team = team;
     }
 
-    public Game getGame() {
+    public Stage getStage() {
         return stage;
     }
 
-    private void setGame(Stage stage) {
+    private void setStage(Stage stage) {
         this.stage = stage;
     }
 
