@@ -2,7 +2,8 @@
 let team1 = document.getElementById("team1").save
 let team2 =document.getElementById("team2").save
 
-
+document.getElementById('team1Name').innerText = `${sessionStorage.getItem('team1_name')}`
+document.getElementById('team2Name').innerText = `${sessionStorage.getItem('team2_name')}`
 
 let counter = {}; // to store each team's 'counter' value
 const pointCounter = {}; //
@@ -30,11 +31,10 @@ function addPoint(teamNum) {
     counter[teamNum]++;
 
     if (counter[teamNum] === 1) {
-        counterBox.innerText += "3"
+        counterBox.innerText += "6"
     }else if (counter[teamNum] === 2) {
-       counterBox.innerText += " 6"
+       counterBox.innerText += " 9"
     }else if (counter[teamNum] === 3){
-        counterBox.innerText += " 9"
         pointCounter[teamNum]++
         document.getElementById(`pointCounter${teamNum}`).innerText = pointCounter[teamNum]
         counter[teamNum] = 0;
@@ -85,5 +85,6 @@ function reset(){
     document.getElementById(`pointCounter2`).innerText = ""
     document.getElementById(`counter1`).innerText = ""
     document.getElementById(`counter2`).innerText = ""
+    document.getElementById('winner').innerText = ""
 
 }
