@@ -4,12 +4,13 @@ let team2 =document.getElementById("team2").save
 
 
 
-const counter = {}; // to store each team's 'counter' value
+let counter = {}; // to store each team's 'counter' value
 const pointCounter = {}; //
 
 function addPoint(teamNum) {
     let teamName = document.getElementById(`team${teamNum}`);
     let counterBox = document.getElementById(`counter${teamNum}`)
+
     if (!(teamNum in counter)) {
         counter[teamNum] = 0;
         pointCounter[teamNum] = 0;
@@ -26,30 +27,28 @@ function addPoint(teamNum) {
         }
     })
 
-
-
     counter[teamNum]++;
+
     if (counter[teamNum] === 1) {
         counterBox.innerText += "3"
     }else if (counter[teamNum] === 2) {
-       counterBox.innerText += "6"
+       counterBox.innerText += " 6"
     }else if (counter[teamNum] === 3){
-        counterBox.innerText += "9"
+        counterBox.innerText += " 9"
         pointCounter[teamNum]++
         document.getElementById(`pointCounter${teamNum}`).innerText = pointCounter[teamNum]
         counter[teamNum] = 0;
-
-        // Reset the counterBox display for the next cycle
         counterBox.innerText = "";
-
-
     }
-
-
 
     if (pointCounter[teamNum] === 5){
 
-        document.getElementById("winner").innerText = `Team ${teamNum} has won`
+        if(teamNum === 1){
+            document.getElementById("winner").innerText = `Team A has won`
+        }else if (teamNum === 2){
+            document.getElementById("winner").innerText = `Team B has won`
+        }
+
     }
 
 }
@@ -77,5 +76,5 @@ function deletePoint(teamNum){
         counter[teamNum]--
     }
 
-    document.getElementById("teamName1").innerText = team2
 }
+
