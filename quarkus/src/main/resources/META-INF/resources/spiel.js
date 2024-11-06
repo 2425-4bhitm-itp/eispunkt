@@ -37,10 +37,19 @@ function addPoint(teamNum) {
         counterBox.innerText += "9"
         pointCounter[teamNum]++
         document.getElementById(`pointCounter${teamNum}`).innerText = pointCounter[teamNum]
+        counter[teamNum] = 0;
+
+        // Reset the counterBox display for the next cycle
+        counterBox.innerText = "";
+
+
     }
+
+
 
     if (pointCounter[teamNum] === 5){
 
+        document.getElementById("winner").innerText = `Team ${teamNum} has won`
     }
 
 }
