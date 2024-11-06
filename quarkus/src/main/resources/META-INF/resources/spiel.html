@@ -11,7 +11,8 @@
 <header><h1>Game</h1></header>
 
 <div id="team1">
-    <div class="teamName"><p>Team A</p>
+    <div class="teamName">
+        <p>Team A</p>
         <p id="pointCounter1"></p>
         <p id="counter1"></p>
     </div>
@@ -21,7 +22,8 @@
     </div>
 </div>
 <div id="team2">
-    <div class="teamName"><p>Team B</p>
+    <div class="teamName">
+        <p>Team B</p>
         <p id="pointCounter2"></p>
         <p id="counter2"></p>
     </div>
@@ -30,6 +32,10 @@
         <div class="minus" onclick="deletePoint(2)">-</div>
     </div>
 </div>
+
+<h1 id="winner"></h1>
+
+<button id="reset" onclick="reset()">reset</button>
 
 </body>
 </html>
