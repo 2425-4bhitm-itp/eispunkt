@@ -15,7 +15,7 @@
         <div class="player_box" id="player_box_team1">
             <div class="add-btn" onclick="addInputTeam1()">+</div>
             <div class="input-group" id="input-group_team1">
-                <input class="input_players" placeholder="Player 1">
+                <input onfocusout="savePlayer(1)" class="input_players" placeholder="Player 1">
             </div>
         </div>
     </div>
@@ -25,7 +25,7 @@
         <div class="player_box" id="player_box_team2">
             <div class="add-btn" onclick="addInputTeam2()">+</div>
             <div class="input-group" id="input-group_team2">
-                <input class="input_players" placeholder="Player 1">
+                <input onfocusout="savePlayer(2)" class="input_players" placeholder="Player 1">
             </div>
         </div>
     </div>
