@@ -78,3 +78,12 @@ function deletePoint(teamNum){
 
 }
 
+
+function reset(){
+    counter = {}
+    document.getElementById(`pointCounter1`).innerText = ""
+    document.getElementById(`pointCounter2`).innerText = ""
+    document.getElementById(`counter1`).innerText = ""
+    document.getElementById(`counter2`).innerText = ""
+
+}

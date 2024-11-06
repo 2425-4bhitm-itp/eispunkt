@@ -56,8 +56,22 @@ header{
 
 #pointCounter1{
     font-weight: bold;
+    margin-top: 2%;
 }
 
 #pointCounter2{
     font-weight: bold;
+    margin-top: 2%;
+}
+
+#reset{
+    padding: 5%;
+    width: 40%;
+    font-size: 300%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    margin-left:27% ;
+    margin-top: 80%;
 }
