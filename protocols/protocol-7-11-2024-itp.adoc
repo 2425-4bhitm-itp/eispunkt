@@ -1,0 +1,77 @@
+= Besprechungsprotokoll ITP 24.10.2024
+firstname lastname
+1.0, {docdate}: Some notes
+ifndef::imagesdir[:imagesdir: images]
+:icons: font
+//:sectnums:    // Nummerierung der Überschriften / section numbering
+//:toc: left
+
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+// https://fontawesome.com/v4.7.0/icons/
+icon:file-text-o[link=https://raw.githubusercontent.com/htl-leonding-college/asciidoctor-docker-template/master/asciidocs/{docname}.adoc] ‏ ‏ ‎
+icon:github-square[link=https://github.com/htl-leonding-college/asciidoctor-docker-template] ‏ ‏ ‎
+icon:home[link=https://htl-leonding.github.io/]
+endif::backend-html5[]
+
+
+.Teilnehmer
+|===
+|anwesend
+
+|Vorname Nachname
+
+|Prof. Aberger
+
+|Prof. Stuetz
+
+|M. Anderson
+
+|F. Hayer (Protokollführer)
+
+|A. Simsek
+
+|V. Catic
+|===
+
+.Ort und Zeit
+[cols=2*]
+|===
+|Ort
+|HTL Leonding - Raum E58-2
+
+|von-bis
+|Do. 7.11.2024, 5. EH
+|Dauer
+|20 min
+|===
+
+
+
+== Besprochene Themen
+
+* Sprint 3
+
+== Vereinbarungen und Entscheidungen
+
+.Was wurde vereinbart?
+[%autowidth]
+|===
+|wer |macht was |bis wann
+
+| Eispunkt
+a|
+** Ein Spiel aussuchen
+** Regelwerk von einem Spiel Recherche
+** Vergleich mit Obelix
+** Wie setzen wir es um? (Demo)
+** (Figma-Prototyp)
+** Persistenz via. Datenbank
+*** Teams
+*** Spieler
+*** Spielstand
+
+| 28.11.2024
+
+|===
