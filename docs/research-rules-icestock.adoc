@@ -9,6 +9,7 @@
 
 * Mannschaften
 ** 2 Teams
+** 4 Spieler pro Team
 * Spielablauf
 ** 3 Durchgänge
 ** 6 Kehren
@@ -18,7 +19,6 @@
 ** Gleiche Stockpunktzahl
 *** Beide 1 Punkt
 * Gewinner
-** meisten Stockpunkte
 ** 4 Punkte
 ** Gleichstand
 *** Ringschießen
