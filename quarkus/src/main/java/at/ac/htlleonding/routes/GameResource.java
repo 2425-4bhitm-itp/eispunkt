@@ -1,14 +1,16 @@
-package at.ac.htlleonding.routes;
+/*package at.ac.htlleonding.routes;
 
 
 import at.ac.htlleonding.model.Game;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.time.LocalDate;
 
-@Path("/game")
+//@Path("/game")
 public class GameResource {
+
     public static Game currentGame = new Game(LocalDate.now());
 
     @Path("/startGame")
@@ -55,3 +57,4 @@ public class GameResource {
         return Response.ok(currentGame).build();
     }
 }
+*/
