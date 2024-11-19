@@ -12,7 +12,7 @@ public class Score {
     @ManyToOne
     public Team team;
     @ManyToOne
-    public Stage stage;
+    public Turn turn;
     public int score;
 
 }

@@ -13,6 +13,5 @@ public class Stage {
     public long stageId;
     @OneToMany
     @JoinColumn
-    private final List<Score> scores = new LinkedList<>();
-
+    private final List<Turn> turn = new LinkedList<>();
 }

@@ -14,5 +14,6 @@ public class Turn {
     @OneToMany
     @JoinColumn
     private final List<Score> scores = new LinkedList<>();
-
+    @ManyToOne
+    private Stage stage;
 }
