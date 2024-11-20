@@ -1,4 +1,4 @@
-= Besprechungsprotokoll ITP 24.10.2024
+= Besprechungsprotokoll ITP 7.11.2024
 firstname lastname
 1.0, {docdate}: Some notes
 ifndef::imagesdir[:imagesdir: images]
