@@ -3,33 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Eispunkt</title>
-    <script src="script.js" defer></script>
+    <script src="script.ts" defer></script>
     <link href="startPage.css" rel="stylesheet">
 </head>
 <body id="main">
-<h1 id="title">Eispunkt</h1>
-<div id="team_outer_box">
-    <div class="team_box">
-        <h2>Team 1</h2>
-        <input onfocusout="addTeam(1)" id="team1" placeholder="Team 1">
-        <div class="player_box" id="player_box_team1">
-            <div class="add-btn" onclick="addInputTeam1()">+</div>
-            <div class="input-group" id="input-group_team1">
-                <input onfocusout="savePlayer(1)" class="input_players" placeholder="Player 1">
-            </div>
-        </div>
-    </div>
-    <div class="team_box">
-        <h2>Team 2</h2>
-        <input onfocusout="addTeam(2)" id="team2" placeholder="Team 2">
-        <div class="player_box" id="player_box_team2">
-            <div class="add-btn" onclick="addInputTeam2()">+</div>
-            <div class="input-group" id="input-group_team2">
-                <input onfocusout="savePlayer(2)" class="input_players" placeholder="Player 1">
-            </div>
-        </div>
-    </div>
+<div class="circle">
+    <h1>Willkommen bei<br><span>Eispunkt</span></h1>
 </div>
-<a id="next_button" href="spiel.html">PLAY</a>
+
 </body>
 </html>
