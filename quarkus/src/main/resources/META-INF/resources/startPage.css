@@ -1,20 +1,23 @@
 /* styles.css */
 body {
     margin: 0;
+
 }
 
 .circle {
     position: relative;
-    margin-top: -30%; /* Kreis schiebt sich nach oben (relativ zur Kreisgröße) */
+
     left: 30%;
     transform: translateX(-50%);
-    width: 170vw; /* Kreis deckt breiteren Bereich ab */
-    height: 100vw; /* Der Kreis bleibt proportional */
-    background-color: #42c2a8; /* Türkis-Farbton */
-    border-radius: 50%; /* Rundform */
+    width: 140vw;
+    height: 80vw;
+    background-color: #45CAAC;
+    border-radius: 0 0 80% 50%;
     display: flex;
     justify-content: center;
     align-items: center;
+
+
 }
 
 .circle h1 {
@@ -23,11 +26,69 @@ body {
     text-align: center;
     line-height: 1.4;
     margin-left: 10%;
-    margin-top: 15%;
+    margin-top: 8%;
 }
 
 .circle h1 span {
     font-weight: bold;
-    font-size: 150px;
+    font-size: 170px;
+    margin-left: 3.5%;
 }
+
+
+.dropdown-container {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+
+.dropdown-label {
+    font-size: 250%;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+    margin-top: 10%;
+    margin-left: 5%;
+    margin-bottom: 2%;
+
+}
+
+
+.dropdown {
+    width: 90%;
+    padding: 4%;
+    margin-left: 5%;
+    font-size: 160%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
+
+.dropdown:focus {
+    border-color: rgba(69, 202, 172, 0.33) ;
+    outline: none;
+    box-shadow: 0 0 5px rgba(69, 202, 172, 0.33);
+}
+
+#startButton{
+    width: 50%;
+    padding: 4%;
+    margin-top: 60%;
+    margin-left: 24%;
+    font-size: 300%;
+    border-radius: 20px;
+    border: none;
+    background-color: #7FC8EE;
+    color: white;
+}
+
+
+#startButton a{
+   text-decoration: none;
+    color: white;
+}
+
 
