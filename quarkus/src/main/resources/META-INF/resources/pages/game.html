@@ -7,16 +7,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
-    <script defer src="game.ts"></script>
+    <script defer src="../dist/game.js"></script>
 </head>
 <body>
     <div id="game">
         <h1>Eispunkt</h1>
     </div>
+    <div id="scoreHeader">
+        <h2>Round: 1</h2>
+        <h2 id="superScoreCounter"> 0-0</h2>
+        <h2 id="turnCounter">Turn: 1</h2>
+    </div>
     <div class="team_outer_box">
         <div class="team_inner_box">
             <h1>Team 1</h1>
-            <h2>Turnscore: 3</h2>
+            <h2 id="t1SubScoreText">Turnscore: 0</h2>
         </div>
         <div class="points_buttons_outer_box">
             <div onclick="addPoint(1)" class="points_button">+</div>
@@ -26,7 +31,7 @@
     <div class="team_outer_box">
         <div class="team_inner_box">
             <h1>Team 2</h1>
-            <h2>Turnscore: 3</h2>
+            <h2 id="t2SubScoreText">Turnscore: 0</h2>
         </div>
         <div class="points_buttons_outer_box">
             <div onclick="addPoint(2)" class="points_button">+</div>
@@ -34,7 +39,7 @@
         </div>
     </div>
     <div class="next_button_box">
-        <div class="next_button">Next Turn</div>
+        <!--<div class="next_button">Next Turn</div>-->
     </div>
 
 

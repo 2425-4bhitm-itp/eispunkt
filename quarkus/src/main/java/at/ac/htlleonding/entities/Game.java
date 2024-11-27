@@ -1,9 +1,11 @@
 package at.ac.htlleonding.entities;
 
+import jakarta.enterprise.inject.Default;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,16 +13,21 @@ import java.util.List;
 public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long gameId;
+    public Long gameId;
     @NotNull
-    LocalDate date;
+    public LocalDate date;
     @OneToMany
     @JoinColumn
-    List<Team> teams = new LinkedList<>();
+    public List<Team> teams = new LinkedList<>();
     @OneToMany
     @JoinColumn
-    List<Stage> stages = new LinkedList<>();
+    public List<Stage> stages = new LinkedList<>();
 
     public Game() {
+        date = LocalDate.now();
+    }
+
+    public Game(LocalDate date) {
+        this.date = date;
     }
 }

@@ -1,60 +1,47 @@
-/*package at.ac.htlleonding.routes;
+package at.ac.htlleonding.routes;
 
 
-import at.ac.htlleonding.model.Game;
+import at.ac.htlleonding.entities.Game;
+import at.ac.htlleonding.entities.Stage;
+import at.ac.htlleonding.entities.Team;
+import at.ac.htlleonding.repositories.GameRepository;
+import at.ac.htlleonding.repositories.TeamRepository;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-import java.time.LocalDate;
-
-//@Path("/game")
+@Path("api/games")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class GameResource {
 
-    public static Game currentGame = new Game(LocalDate.now());
+    @Inject
+    GameRepository gameRepository;
 
-    @Path("/startGame")
-    @POST
-    public Response startGame(){
-        currentGame.getTeams().stream().forEach(team -> team.resetScore());
-        return Response.ok("reset Score for all Teams").build();
-    }
+    @Inject
+    TeamRepository teamRepository;
 
-    @Path("/resetGame")
-    @POST
-    public Response resetGame(){
-        currentGame = new Game(LocalDate.now());
-        return Response.ok("created new Game").build();
-    }
-
-    @Path("/modifyScore")
-    @POST
-    public Response incrementScore(
-            @QueryParam("team") String teamName,
-            @QueryParam("type") String type){
-        if(type == "+"){
-            currentGame.getTeams().stream().
-                    filter(team-> team.getName().equalsIgnoreCase(teamName)).
-                    findFirst()
-                    .ifPresent(team -> team.addScore(1));
-        }else if(type == "-"){
-            currentGame.getTeams().stream().
-                    filter(team-> team.getName().equalsIgnoreCase(teamName)).
-                    findFirst().
-                    ifPresent(team -> team.addScore(-1));
-        }else{
-            return Response.noContent().build();
-        }
-
-        return Response.ok().build();
+    @Path("/createGame")
+    @GET
+    @Transactional
+    public Response startGame(@QueryParam("team1Id") int team1Id, @QueryParam("team2Name") int team2Id) {
+        Game newGame = new Game();
+        Team team1 = teamRepository.findById((long) team1Id);
+        Team team2 = teamRepository.findById((long) team2Id);
+        newGame.teams.add(team1);
+        newGame.teams.add(team2);
+        newGame.stages.add(new Stage());
+        return Response.ok(newGame.gameId).build();
     }
 
 
     @Path("/getGameInfo")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getInfo(){
-        return Response.ok(currentGame).build();
+    public Response getInfo(@QueryParam("gameId") int gameId){
+        return Response.ok(gameRepository.findById((long) gameId)).build();
     }
+
 }
-*/

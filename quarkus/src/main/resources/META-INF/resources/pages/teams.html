@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="teams.ts" defer></script>
+    <script src="../dist/teams.js" defer></script>
     <link href="teams.css" rel="stylesheet">
 </head>
 <body>
 <header id="header">Eispunkt</header>
 <h1 id="h1">Team 1</h1>
 
-<input id="teamName1" placeholder="Teamname">
+<input id="teamName" placeholder="Teamname">
 
 <label  id="lblPlayer">Spieler</label>
 <div id="inputBox">
@@ -24,7 +24,7 @@
 
 </div>
 <div id="buttonBox">
-    <button id="nextButton"><a onclick="nextTeam()" href="#">Weiter</a></button>
+    <button id="nextButton"><a onclick="savePlayers(1)" href="#">Weiter</a></button>
 
 </div>
 

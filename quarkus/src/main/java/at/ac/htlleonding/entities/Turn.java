@@ -13,7 +13,7 @@ public class Turn {
     public long turnId;
     @OneToMany
     @JoinColumn
-    private final List<Score> scores = new LinkedList<>();
+    public final List<Score> scores = new LinkedList<>();
     @ManyToOne
     private Stage stage;
 }
