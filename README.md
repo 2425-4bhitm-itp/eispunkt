@@ -1,12 +1,13 @@
 # Eispunkt
 
-[Eispunkt](https://github.com/2425-4bhitm-itp/eispunkt) is a mobile application, that allows ice-stock sport clubs to manage and play tournaments.
+[Eispunkt](https://github.com/2425-4bhitm-itp/eispunkt)
+is a mobile application, that allows ice-stock sport clubs to manage and play tournaments.
 
 # Features
-- Two teams have to be created
+- Two teams have to be created and filled with 4 players each
 - A Game with 3 Round and 6 Turns can be played
 - The winner of the game is determined by the points of the teams
-- 2 Points are awarded to the team with the biggest sum of points of the turns.
+- 2 Points are awarded to the team with the biggest sum of points from all turns.
 - 1 Point is awarded to the teams if it is a draw.
 - The team who won the most points in all 3 rounds wins the game.
 
@@ -16,9 +17,16 @@
 - Vanesa Catic
 - Atilla Simsek
 
+## How to contribute
+As this is a school project, we are currently not looking for contributors. 
+But if you have any suggestions or improvements, feel free to make a pull request or contact us.
+
 ## Launch
 
 - Clone the repository
 - docker-compose -f ./docker/docker-compose.yml up
 - cd quarkus
 - mvn quarkus:dev --clean
+- Open the browser and go to http://localhost:8080
+- (Only for desktop) Inspect page and go into mobile view
+- Enjoy the app
