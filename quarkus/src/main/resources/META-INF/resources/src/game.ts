@@ -4,28 +4,28 @@ let t1SuperScore = 0;
 let t2SubScore = 0;
 let t2SuperScore = 0;
 
-function loadGame(){
-    fetch(`http://localhost:8080/api/games/createGame?team1Id=${sessionStorage.getItem("team1Id")}&team2Id=${sessionStorage.getItem("team2Id")}`)
-        .then((response) => response.text())
-        .then((data) =>{
-            sessionStorage.setItem('currentGameId', data);
-        })
-        .catch((error) =>{
-            console.error("Error:", error)
-        })
+async function loadGame(){
+    try {
+        // create game and store ID
+        let response1 = await fetch(`http://localhost:8080/api/games/createGame?team1Id=${sessionStorage.getItem("team1Id")}&team2Id=${sessionStorage.getItem("team2Id")}`);
+        let gameId = await response1.text();
+        sessionStorage.setItem('currentGameId', gameId);
+        console.log(sessionStorage.getItem('currentGameId'))
 
-    fetch(`http://localhost:8080/api/games/getGameInfo?gameId=${sessionStorage.getItem("currentGameId")}`)
-        .then((response) =>response.text())
-        .then((data =>{
-            console.log(data);
-        }))
+        // get info (debugging)
+        let response2 = await fetch(`http://localhost:8080/api/games/getGameInfo?gameId=${sessionStorage.getItem("currentGameId")}`);
+        let gameInfo = await response2.text();
+        console.log(gameInfo);
 
-    fetch(`http://localhost:8080/api/turns/newTurn?gameId=${sessionStorage.getItem('currentGameId')}`)
-        .then((response) => response.text())
-        .then((data)=>{
-            sessionStorage.setItem('currentTurn', data);
-        })
+        // creates a turn using GameId
+        let response3 = await fetch(`http://localhost:8080/api/turns/newTurn?gameId=${sessionStorage.getItem('currentGameId')}`);
+        let turnData = await response3.text();
+        sessionStorage.setItem('currentTurn', turnData);
+        console.log(turnData)
 
+    } catch (error) {
+        console.error("Error:", error);
+    }
 }
 
 function addPoint(teamId: number) {

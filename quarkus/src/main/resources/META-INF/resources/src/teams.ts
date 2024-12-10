@@ -9,11 +9,11 @@ function nextTeam(teamNum: number) {
 
     document.getElementById("inputBox").innerHTML = '<input id="player1" placeholder=\"Teamname\"><br><input id="player2" placeholder=\"Teamname\"> <br><input id=\"player3\" placeholder=\"Teamname\"><br><input id=\"player4\" placeholder=\"Teamname\">'
 
-    document.getElementById("buttonBox").innerHTML = `<button id="playButton"><a onclick="savePlayers(${++teamNum})" href="#">Play</a></button>`;
+    document.getElementById("buttonBox").innerHTML = `<button id="playButton"><a onclick="savePlayers(${teamNum})" href="#">Play</a></button>`;
 
 }
 
-function savePlayers(teamNum: number) {
+async function savePlayers(teamNum: number) {
     //AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh
 
     let player1 = document.getElementById("player1") as HTMLInputElement
@@ -28,9 +28,8 @@ function savePlayers(teamNum: number) {
     players.push(player3.value);
     players.push(player4.value);
 
-    console.log(players)
 
-    fetch(`http://localhost:8080/api/team/createTeam?teamName=${teamName}`)
+    await fetch(`http://localhost:8080/api/team/createTeam?teamName=${teamName}`)
         .then((response) => response.text())
         .then((data) => {
             console.log("TeamId: " + data);
@@ -40,28 +39,36 @@ function savePlayers(teamNum: number) {
             console.error('Error:', error)
         })
 
+    let playerData = await Promise.all(players.map(name => createPlayer(name)));
 
     for (let i = 0; i < 4; i++) {
-        fetch(`http://localhost:8080/api/players/createPlayer?name=${players[i]}`)
-            .then((response) => response.text())
-            .then((playerData) => {
-                fetch(`http://localhost:8080/api/team/addPlayer?teamId=${sessionStorage.getItem(`team${teamNum}Id`)}&playerId=${playerData}`)
-                    .then((response) => response.text())
-                    .then((data) =>{
-                        console.log(data);
-                    })
-                    .catch((error) =>{
-                        console.error('Error:', error)
-                    })
-            }).catch((error) =>{
-                console.error('Error:', error)
-        })
+            await addPlayerToTeam(parseInt(sessionStorage.getItem(`team${teamNum}Id`)),parseInt(playerData[i]));
     }
 
+
     if(teamNum < MAX_TEAMS){
-        nextTeam(teamNum++);
+        nextTeam(++teamNum);
     }else{
         window.location.href = "../pages/game.html"
     }
 
+}
+
+async function createPlayer(playerName: String){
+    try {
+        const response = await fetch(`http://localhost:8080/api/players/createPlayer?name=${playerName}`);
+        const playerData = await response.text();
+        return playerData;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+async function addPlayerToTeam(teamId: Number, playerId: Number){
+    try{
+        const response = await fetch(`http://localhost:8080/api/team/addPlayer?teamId=${teamId}&playerId=${playerId}`)
+        console.log(await response.text());
+    }catch (error){
+        console.error('Error:', error);
+    }
 }

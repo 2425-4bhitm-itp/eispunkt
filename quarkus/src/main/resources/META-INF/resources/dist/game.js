@@ -1,25 +1,37 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 let t1SubScore = 0;
 let t1SuperScore = 0;
 let t2SubScore = 0;
 let t2SuperScore = 0;
 function loadGame() {
-    fetch(`http://localhost:8080/api/games/createGame?team1Id=${sessionStorage.getItem("team1Id")}&team2Id=${sessionStorage.getItem("team2Id")}`)
-        .then((response) => response.text())
-        .then((data) => {
-        sessionStorage.setItem('currentGameId', data);
-    })
-        .catch((error) => {
-        console.error("Error:", error);
-    });
-    fetch(`http://localhost:8080/api/games/getGameInfo?gameId=${sessionStorage.getItem("currentGameId")}`)
-        .then((response) => response.text())
-        .then((data => {
-        console.log(data);
-    }));
-    fetch(`http://localhost:8080/api/turns/newTurn?gameId=${sessionStorage.getItem('currentGameId')}`)
-        .then((response) => response.text())
-        .then((data) => {
-        sessionStorage.setItem('currentTurn', data);
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // create game and store ID
+            let response1 = yield fetch(`http://localhost:8080/api/games/createGame?team1Id=${sessionStorage.getItem("team1Id")}&team2Id=${sessionStorage.getItem("team2Id")}`);
+            let gameId = yield response1.text();
+            sessionStorage.setItem('currentGameId', gameId);
+            console.log(sessionStorage.getItem('currentGameId'));
+            // get info (debugging)
+            let response2 = yield fetch(`http://localhost:8080/api/games/getGameInfo?gameId=${sessionStorage.getItem("currentGameId")}`);
+            let gameInfo = yield response2.text();
+            console.log(gameInfo);
+            // creates a turn using GameId
+            let response3 = yield fetch(`http://localhost:8080/api/turns/newTurn?gameId=${sessionStorage.getItem('currentGameId')}`);
+            let turnData = yield response3.text();
+            sessionStorage.setItem('currentTurn', turnData);
+            console.log(turnData);
+        }
+        catch (error) {
+            console.error("Error:", error);
+        }
     });
 }
 function addPoint(teamId) {

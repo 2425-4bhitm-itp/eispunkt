@@ -26,10 +26,10 @@ public class GameResource {
     @Path("/createGame")
     @GET
     @Transactional
-    public Response startGame(@QueryParam("team1Id") int team1Id, @QueryParam("team2Name") int team2Id) {
+    public Response startGame(@QueryParam("team1Id") long team1Id, @QueryParam("team2Id") long team2Id) {
         Game newGame = new Game();
-        Team team1 = teamRepository.findById((long) team1Id);
-        Team team2 = teamRepository.findById((long) team2Id);
+        Team team1 = teamRepository.findById(team1Id);
+        Team team2 = teamRepository.findById(team2Id);
         newGame.teams.add(team1);
         newGame.teams.add(team2);
         newGame.stages.add(new Stage());
@@ -43,5 +43,6 @@ public class GameResource {
     public Response getInfo(@QueryParam("gameId") int gameId){
         return Response.ok(gameRepository.findById((long) gameId)).build();
     }
+
 
 }

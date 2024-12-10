@@ -16,4 +16,13 @@ public class Team {
     @JoinColumn
     public List<Player> players = new LinkedList<>();
 
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "teamId=" + teamId +
+                ", name='" + name + '\'' +
+                ", players=" + players +
+                '}';
+    }
 }
