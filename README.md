@@ -38,7 +38,7 @@ But if you have any suggestions or improvements, feel free to make a pull reques
 ## How to launch the application
 
 - Clone the repository
-- docker-compose -f ./docker/docker-compose.yml up
+- docker compose -f ./docker/docker-compose.yaml up
 - cd quarkus
 - mvn quarkus:dev --clean
 - Open the browser and go to http://localhost:8080
