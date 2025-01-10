@@ -1,0 +1,111 @@
+*{
+    margin: 0;
+}
+
+#header{
+    background-color: #45CAAC;
+    padding: 3%;
+    text-align: center;
+    color: white;
+    font-size: 700%;
+    font-weight: bold;
+}
+
+h1{
+    text-align: center;
+    font-size: 550%;
+    margin-top: 5%;
+}
+
+#selectBox{
+    display: block;
+}
+
+#firstTeam{
+    width: 90%;
+    padding: 4%;
+    margin-left: 5%;
+    font-size: 160%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 15%;
+
+}
+
+
+#firstTeam:focus {
+    border-color: rgba(69, 202, 172, 0.33) ;
+    outline: none;
+    box-shadow: 0 0 5px rgba(69, 202, 172, 0.33);
+}
+
+
+#secTeam{
+    width: 90%;
+    padding: 4%;
+    margin-left: 5%;
+    font-size: 160%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20%;
+
+}
+
+
+#secTeam:focus {
+    border-color: rgba(69, 202, 172, 0.33) ;
+    outline: none;
+    box-shadow: 0 0 5px rgba(69, 202, 172, 0.33);
+}
+
+#createTeam{
+    display: flex;
+    width: 100%;
+    margin-top: 15%;
+    justify-content: center;
+}
+
+#addButton{
+    width: 15%;
+    padding: 2%;
+    margin-left: 23%;
+    font-size: 300%;
+    border-radius: 25px;
+    border: none;
+    background-color: #7FC8EE;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+}
+
+#createTeam h2{
+    font-size: 300%;
+    margin-top: 2%;
+}
+
+#nextButton{
+
+        width: 45%;
+        padding: 4%;
+        margin-top: 60%;
+        margin-left: 23%;
+        font-size: 300%;
+        border-radius: 20px;
+        border: none;
+        background-color: #7FC8EE;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        text-align: center;
+        font-weight: bold;
+}

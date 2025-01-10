@@ -4,9 +4,9 @@ body {
 
 }
 
+
 .circle {
     position: relative;
-
     left: 30%;
     transform: translateX(-50%);
     width: 140vw;
@@ -22,17 +22,18 @@ body {
 
 .circle h1 {
     color: white;
-    font-size: 90px;
+    font-size: 94px;
     text-align: center;
     line-height: 1.4;
-    margin-left: 10%;
-    margin-top: 8%;
+    margin-left: 14%;
+    margin-top: 1%;
+    font-weight: lighter;
 }
 
 .circle h1 span {
     font-weight: bold;
-    font-size: 170px;
-    margin-left: 3.5%;
+    font-size: 175px;
+
 }
 
 
@@ -74,21 +75,24 @@ body {
 }
 
 #startButton{
-    width: 50%;
+    width: 45%;
     padding: 4%;
     margin-top: 60%;
-    margin-left: 24%;
+    margin-left: 23%;
     font-size: 300%;
     border-radius: 20px;
     border: none;
     background-color: #7FC8EE;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
 }
 
 
-#startButton a{
-   text-decoration: none;
-    color: white;
-}
+
 
 
