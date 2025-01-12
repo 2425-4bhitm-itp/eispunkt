@@ -1,0 +1,111 @@
+*{
+    margin: 0;
+}
+
+#header{
+    background-color: #45CAAC;
+    padding: 3%;
+    text-align: center;
+    color: white;
+    font-size: 700%;
+    font-weight: bold;
+}
+
+h1{
+    text-align: center;
+    font-size: 550%;
+    margin-top: 1%;
+}
+
+#teamName{
+    width: 75%;
+    padding: 4%;
+    margin-left: 9%;
+    margin-top: 3%;
+    font-size: 160%;
+    border: 1px solid #ccc;
+    border-radius:20px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#lblPlayer{
+    font-size: 250%;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+    margin-top: 10%;
+    margin-left: 10%;
+    margin-bottom: 1%;
+}
+
+#lblTeam{
+    font-size: 250%;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+    margin-top: 10%;
+    margin-left: 10%;
+
+}
+
+#inputBox{
+    display: block;
+}
+
+
+#inputBox input{
+    width: 75%;
+    padding: 4%;
+    margin-left: 9%;
+    margin-top: 6%;
+    font-size: 160%;
+    border: 1px solid #ccc;
+    border-radius:20px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#nextButton{
+    width: 50%;
+    padding: 4%;
+    margin-top: 40%;
+    margin-left: 24%;
+    font-size: 300%;
+    border-radius: 20px;
+    border: none;
+    background-color: #7FC8EE;
+    color: white;
+}
+
+#nextButton a{
+    text-decoration: none;
+    color: white;
+}
+
+#playButton{
+    width: 50%;
+    padding: 4%;
+    margin-top: 40%;
+    margin-left: 24%;
+    font-size: 300%;
+    border-radius: 20px;
+    border: none;
+    background-color: #7FC8EE;
+    color: white;
+}
+
+#playButton a{
+    text-decoration: none;
+    color: white;
+}
+
+
+#exit{
+    font-size: 380%;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 3%;
+    margin-top: 5%;
+    color: black;
+}

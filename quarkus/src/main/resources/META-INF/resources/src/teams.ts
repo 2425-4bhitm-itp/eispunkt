@@ -1,17 +1,17 @@
 const MAX_TEAMS = 2;
 
-function nextTeam(teamNum: number) {
-
-    document.getElementById("h1").innerText = `Team ${teamNum}`
-
-    let teamInput = document.getElementById("teamName") as HTMLInputElement
-    teamInput.value = "";
-
-    document.getElementById("inputBox").innerHTML = '<input id="player1" placeholder=\"Teamname\"><br><input id="player2" placeholder=\"Teamname\"> <br><input id=\"player3\" placeholder=\"Teamname\"><br><input id=\"player4\" placeholder=\"Teamname\">'
-
-    document.getElementById("buttonBox").innerHTML = `<button id="playButton"><a onclick="savePlayers(${teamNum})" href="#">Play</a></button>`;
-
-}
+// function nextTeam(teamNum: number) {
+//
+//     document.getElementById("h1").innerText = `Team ${teamNum}`
+//
+//     let teamInput = document.getElementById("teamName") as HTMLInputElement
+//     teamInput.value = "";
+//
+//     document.getElementById("inputBox").innerHTML = '<input id="player1" placeholder=\"Teamname\"><br><input id="player2" placeholder=\"Teamname\"> <br><input id=\"player3\" placeholder=\"Teamname\"><br><input id=\"player4\" placeholder=\"Teamname\">'
+//
+//     document.getElementById("buttonBox").innerHTML = `<button id="playButton"><a onclick="savePlayers(${teamNum})" href="#">Play</a></button>`;
+//
+// }
 
 async function savePlayers(teamNum: number) {
     //AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh
@@ -46,11 +46,11 @@ async function savePlayers(teamNum: number) {
     }
 
 
-    if(teamNum < MAX_TEAMS){
-        nextTeam(++teamNum);
-    }else{
-        window.location.href = "../pages/game.html"
-    }
+    // if(teamNum < MAX_TEAMS){
+    //     nextTeam(++teamNum);
+    // }else{
+    //     window.location.href = "../pages/game.html"
+    // }
 
 }
 
