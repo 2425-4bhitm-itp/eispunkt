@@ -16,7 +16,7 @@ public class Game {
     public Long gameId;
     @NotNull
     public LocalDate date;
-    @OneToMany
+    @ManyToMany
     @JoinColumn
     public List<Team> teams = new LinkedList<>();
     @OneToMany
