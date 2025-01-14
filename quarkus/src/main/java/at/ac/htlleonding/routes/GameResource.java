@@ -32,7 +32,7 @@ public class GameResource {
         Team team2 = teamRepository.findById(team2Id);
         newGame.teams.add(team1);
         newGame.teams.add(team2);
-        newGame.stages.add(new Stage());
+        gameRepository.persist(newGame);
         return Response.ok(newGame.gameId).build();
     }
 
