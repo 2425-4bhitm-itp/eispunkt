@@ -6,4 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class StageRepository implements PanacheRepository<Stage> {
+    public Stage findById(long id) {
+        return find("id", id).firstResult();
+    }
 }

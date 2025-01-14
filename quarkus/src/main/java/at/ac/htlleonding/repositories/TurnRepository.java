@@ -6,4 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class TurnRepository implements PanacheRepository<Turn> {
+    public Turn findById(long id) {
+        return find("id", id).firstResult();
+    }
 }

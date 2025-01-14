@@ -6,4 +6,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class ScoreRepository implements PanacheRepository<Score>{
+    public Score findById(long id) {
+        return find("id", id).firstResult();
+    }
 }
