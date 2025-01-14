@@ -46,4 +46,23 @@ public class TeamResource {
             return Response.ok("Player added Successfully").build();
         }
     }
+
+    @Path("/findTeamId")
+    @GET
+    public Response findTeamById(@QueryParam("teamId") long teamId){
+        System.out.println(teamId);
+        return Response.ok(teamRepository.findById(teamId)).build();
+    }
+
+    @Path("/findTeam")
+    @GET
+    public Response findTeamByName(@QueryParam("teamName") String teamName){
+        return Response.ok(teamRepository.find("name", teamName).firstResult()).build();
+    }
+
+    @Path("/getAllTeams")
+    @GET
+    public Response getAllTeams(){
+        return Response.ok(teamRepository.listAll()).build();
+    }
 }
