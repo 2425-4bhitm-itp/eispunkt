@@ -135,6 +135,7 @@ body {
 
 
 #nextButton{
+    text-decoration: none;
     width: 45%;
     padding: 4%;
     font-size: 300%;
@@ -146,7 +147,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    text-decoration: none;
     text-align: center;
     font-weight: bold;
     box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.38);
