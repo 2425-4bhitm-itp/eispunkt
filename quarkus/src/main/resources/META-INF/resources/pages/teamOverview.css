@@ -17,8 +17,8 @@ h1{
     margin-top: 1%;
 }
 #exit{
-    font-size: 380%;
-    font-weight: bold;
+    font-size: 100px;
+    font-weight: bolder;
     text-decoration: none;
     margin-left: 3%;
     margin-top: 5%;
@@ -59,7 +59,7 @@ h2{
 #playButton{
     width: 45%;
     padding: 4%;
-    margin-top: 30%;
+    margin-top: 45%;
     margin-left: 23%;
     font-size: 300%;
     border-radius: 20px;
