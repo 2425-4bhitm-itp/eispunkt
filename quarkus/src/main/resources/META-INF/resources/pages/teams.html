@@ -8,25 +8,36 @@
 </head>
 <body>
 <header id="header">Eispunkt</header>
-<h1 id="h1">Team 1</h1>
-
-<input id="teamName" placeholder="Teamname">
-
-<label  id="lblPlayer">Spieler</label>
-<div id="inputBox">
-    <input id="player1" placeholder="Teamname">
-    <br>
-    <input id="player2" placeholder="Teamname">
-    <br>
-    <input id="player3" placeholder="Teamname">
-    <br>
-    <input id="player4" placeholder="Teamname">
-
+<div id="outer_form_box">
+<div class="form">
+    <div class="title">Team erstellen!</div>
+    <div class="input-container ic1">
+        <input id="teamname" class="input" type="text" placeholder=" " />
+        <div class="cut cut-long"></div>
+        <label for="teamname" class="placeholder">Team name</label>
+    </div>
+    <div class="input-container ic2">
+        <input id="player1" class="input" type="text" placeholder=" " />
+        <div class="cut"></div>
+        <label for="player1" class="placeholder">Player 1</label>
+    </div>
+    <div class="input-container ic2">
+        <input id="player2" class="input" type="text" placeholder=" " />
+        <div class="cut"></div>
+        <label for="player2" class="placeholder">Player 2</label>
+    </div>
+    <div class="input-container ic2">
+        <input id="player3" class="input" type="text" placeholder=" " />
+        <div class="cut"></div>
+        <label for="player3" class="placeholder">Player 3</label>
+    </div>
+    <div class="input-container ic2">
+        <input id="player4" class="input" type="text" placeholder=" " />
+        <div class="cut"></div>
+        <label for="player4" class="placeholder">Player 4</label>
+    </div>
+    <button type="text" class="submit">submit</button>
 </div>
-<div id="buttonBox">
-    <button id="nextButton"><a onclick="savePlayers(1)" href="#">Weiter</a></button>
-
 </div>
-
 </body>
 </html>

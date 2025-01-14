@@ -44,6 +44,7 @@ body {
 }
 
 .team_outer_box {
+    padding: 2%;
     height: 30vh;
     display: flex;
     flex-direction: column;
