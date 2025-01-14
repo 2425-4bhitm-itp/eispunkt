@@ -67,21 +67,25 @@ h1{
 }
 
 #nextButton{
-    width: 50%;
+    width: 45%;
     padding: 4%;
-    margin-top: 40%;
-    margin-left: 24%;
+    margin-top: 30%;
+    margin-left: 23%;
     font-size: 300%;
     border-radius: 20px;
     border: none;
     background-color: #7FC8EE;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.38);
 }
 
-#nextButton a{
-    text-decoration: none;
-    color: white;
-}
+
 
 #playButton{
     width: 50%;
