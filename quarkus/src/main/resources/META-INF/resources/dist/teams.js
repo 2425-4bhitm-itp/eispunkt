@@ -20,7 +20,7 @@ const MAX_TEAMS = 2;
 //     document.getElementById("buttonBox").innerHTML = `<button id="playButton"><a onclick="savePlayers(${teamNum})" href="#">Play</a></button>`;
 //
 // }
-function savePlayers(teamNum) {
+function savePlayers() {
     return __awaiter(this, void 0, void 0, function* () {
         //AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh
         let player1 = document.getElementById("player1");
@@ -37,20 +37,21 @@ function savePlayers(teamNum) {
             .then((response) => response.text())
             .then((data) => {
             console.log("TeamId: " + data);
-            sessionStorage.setItem(`team${teamNum}Id`, data);
+            sessionStorage.setItem(`team${teamName}Id`, data);
         })
             .catch((error) => {
             console.error('Error:', error);
         });
         let playerData = yield Promise.all(players.map(name => createPlayer(name)));
         for (let i = 0; i < 4; i++) {
-            yield addPlayerToTeam(parseInt(sessionStorage.getItem(`team${teamNum}Id`)), parseInt(playerData[i]));
+            yield addPlayerToTeam(parseInt(sessionStorage.getItem(`team${teamName}Id`)), parseInt(playerData[i]));
         }
         // if(teamNum < MAX_TEAMS){
         //     nextTeam(++teamNum);
         // }else{
         //     window.location.href = "../pages/game.html"
         // }
+        window.location.href = "../pages/chooseTeam.html";
     });
 }
 function createPlayer(playerName) {

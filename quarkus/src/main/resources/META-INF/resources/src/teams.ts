@@ -13,7 +13,7 @@ const MAX_TEAMS = 2;
 //
 // }
 
-async function savePlayers(teamNum: number) {
+async function savePlayers() {
     //AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh
 
     let player1 = document.getElementById("player1") as HTMLInputElement
@@ -33,7 +33,7 @@ async function savePlayers(teamNum: number) {
         .then((response) => response.text())
         .then((data) => {
             console.log("TeamId: " + data);
-            sessionStorage.setItem(`team${teamNum}Id`, data)
+            sessionStorage.setItem(`team${teamName}Id`, data)
         })
         .catch((error) => {
             console.error('Error:', error)
@@ -42,7 +42,7 @@ async function savePlayers(teamNum: number) {
     let playerData = await Promise.all(players.map(name => createPlayer(name)));
 
     for (let i = 0; i < 4; i++) {
-            await addPlayerToTeam(parseInt(sessionStorage.getItem(`team${teamNum}Id`)),parseInt(playerData[i]));
+        await addPlayerToTeam(parseInt(sessionStorage.getItem(`team${teamName}Id`)),parseInt(playerData[i]));
     }
 
 
@@ -51,6 +51,8 @@ async function savePlayers(teamNum: number) {
     // }else{
     //     window.location.href = "../pages/game.html"
     // }
+
+    window.location.href = "../pages/chooseTeam.html"
 
 }
 
