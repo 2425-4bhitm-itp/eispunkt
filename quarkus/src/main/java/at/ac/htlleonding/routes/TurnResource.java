@@ -4,10 +4,7 @@ import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.entities.Score;
 import at.ac.htlleonding.entities.Stage;
 import at.ac.htlleonding.entities.Turn;
-import at.ac.htlleonding.repositories.GameRepository;
-import at.ac.htlleonding.repositories.StageRepository;
-import at.ac.htlleonding.repositories.TeamRepository;
-import at.ac.htlleonding.repositories.TurnRepository;
+import at.ac.htlleonding.repositories.*;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Path;
@@ -29,12 +26,14 @@ public class TurnResource {
     @Inject
     GameRepository gameRepository;
 
+    @Inject
+    ScoreRepository scoreRepository;
+
     @Path("/newTurn")
     @Transactional
     public Response newTurn(@QueryParam("gameId") long gameId) {
         Turn turn = new Turn();
-        Game game = gameRepository.findById(gameId);
-        Stage stage = game.stages.get(0);
+        Stage stage = gameRepository.findById(gameId).stages.get(0);
         stage.turn.add(turn);
         return Response.ok(turn.turnId).build();
     }
@@ -48,10 +47,13 @@ public class TurnResource {
         score1.team = teamRepository.findById(team1Id);
         score1.turn = turnRepository.findById(turnId);
         score1.score = team1Score;
+        scoreRepository.persist(score1);
+
         Score score2 = new Score();
         score2.team = teamRepository.findById(team2Id);
         score2.turn = turnRepository.findById(turnId);
         score2.score = team2Score;
+        scoreRepository.persist(score2);
 
         Turn turn = turnRepository.findById(turnId);
         turn.scores.add(score1);
