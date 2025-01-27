@@ -27,12 +27,7 @@ public class GameResource {
     @GET
     @Transactional
     public Response startGame(@QueryParam("team1Id") long team1Id, @QueryParam("team2Id") long team2Id) {
-        Game newGame = new Game();
-        Team team1 = teamRepository.findById(team1Id);
-        Team team2 = teamRepository.findById(team2Id);
-        newGame.teams.add(team1);
-        newGame.teams.add(team2);
-        gameRepository.persist(newGame);
+        Game newGame = gameRepository.createGameWithTeams(team1Id,team2Id);
         return Response.ok(newGame.gameId).build();
     }
 
@@ -40,8 +35,8 @@ public class GameResource {
     @Path("/getGameInfo")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getInfo(@QueryParam("gameId") int gameId){
-        return Response.ok(gameRepository.findById((long) gameId)).build();
+    public Response getInfo(@QueryParam("gameId") long gameId){
+        return Response.ok(gameRepository.findById(gameId)).build();
     }
 
 
