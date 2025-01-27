@@ -8,13 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const MAX_TEAMS = 2;
-function nextTeam(teamNum) {
-    document.getElementById("h1").innerText = `Team ${teamNum}`;
-    let teamInput = document.getElementById("teamName");
-    teamInput.value = "";
-    document.getElementById("inputBox").innerHTML = '<input id="player1" placeholder=\"Teamname\"><br><input id="player2" placeholder=\"Teamname\"> <br><input id=\"player3\" placeholder=\"Teamname\"><br><input id=\"player4\" placeholder=\"Teamname\">';
-    document.getElementById("buttonBox").innerHTML = `<button id="playButton"><a onclick="savePlayers(${teamNum})" href="#">Play</a></button>`;
-}
+// function nextTeam(teamNum: number) {
+//
+//     document.getElementById("h1").innerText = `Team ${teamNum}`
+//
+//     let teamInput = document.getElementById("teamName") as HTMLInputElement
+//     teamInput.value = "";
+//
+//     document.getElementById("inputBox").innerHTML = '<input id="player1" placeholder=\"Teamname\"><br><input id="player2" placeholder=\"Teamname\"> <br><input id=\"player3\" placeholder=\"Teamname\"><br><input id=\"player4\" placeholder=\"Teamname\">'
+//
+//     document.getElementById("buttonBox").innerHTML = `<button id="playButton"><a onclick="savePlayers(${teamNum})" href="#">Play</a></button>`;
+//
+// }
 function savePlayers(teamNum) {
     return __awaiter(this, void 0, void 0, function* () {
         //AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh
@@ -41,12 +46,11 @@ function savePlayers(teamNum) {
         for (let i = 0; i < 4; i++) {
             yield addPlayerToTeam(parseInt(sessionStorage.getItem(`team${teamNum}Id`)), parseInt(playerData[i]));
         }
-        if (teamNum < MAX_TEAMS) {
-            nextTeam(++teamNum);
-        }
-        else {
-            window.location.href = "../pages/game.html";
-        }
+        // if(teamNum < MAX_TEAMS){
+        //     nextTeam(++teamNum);
+        // }else{
+        //     window.location.href = "../pages/game.html"
+        // }
     });
 }
 function createPlayer(playerName) {
