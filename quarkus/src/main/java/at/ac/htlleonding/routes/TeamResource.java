@@ -27,22 +27,18 @@ public class TeamResource {
         if(teamName == null || teamName.isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }else{
-            Team newTeam = new Team();
-            newTeam.name = teamName;
-            teamRepository.persist(newTeam);
-            return Response.ok(newTeam.teamId).build();
+            return Response.ok(teamRepository.createTeam(teamName).teamId).build();
         }
     }
 
     @Path("/addPlayer")
     @GET
     @Transactional
-    public Response addPlayer(@QueryParam("teamId") int teamId, @QueryParam("playerId") int playerId) {
+    public Response addPlayer(@QueryParam("teamId") long teamId, @QueryParam("playerId") long playerId) {
         if(teamId == 0 || playerId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }else{
-            Team teamToAdd = teamRepository.findById((long) teamId);
-            teamToAdd.players.add(playerRepository.findById((long) playerId));
+            teamRepository.addPlayerToTeam(teamId, playerId);
             return Response.ok("Player added Successfully").build();
         }
     }
@@ -50,19 +46,28 @@ public class TeamResource {
     @Path("/findTeamId")
     @GET
     public Response findTeamById(@QueryParam("teamId") long teamId){
-        System.out.println(teamId);
         return Response.ok(teamRepository.findById(teamId)).build();
     }
 
     @Path("/findTeam")
     @GET
     public Response findTeamByName(@QueryParam("teamName") String teamName){
-        return Response.ok(teamRepository.find("name", teamName).firstResult()).build();
+        return Response.ok(teamRepository.findByName(teamName)).build();
     }
 
     @Path("/getAllTeams")
     @GET
     public Response getAllTeams(){
         return Response.ok(teamRepository.listAll()).build();
+    }
+
+    @Path("/createTeamWithPlayers")
+    @POST
+    @Transactional
+    public Response createTeamWithPlayers(String name, long... playerIds) {
+        if (!(name == null || name.isBlank())) {
+            return Response.ok(teamRepository.createTeamWithPlayers(name, playerIds)).build();
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 }

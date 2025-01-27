@@ -5,6 +5,8 @@ import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
+import java.util.List;
+
 @Singleton
 public class TeamRepository implements PanacheRepository<Team> {
     @Inject
@@ -40,5 +42,18 @@ public class TeamRepository implements PanacheRepository<Team> {
             return team;
         }
         return null;
+    }
+
+    public Team findByName(String name) {
+        return find("name", name).firstResult();
+    }
+
+    public List<Team> getAllTeams() {
+        return listAll();
+    }
+
+    public void addPlayerToTeam(long teamId, long playerId) {
+        Team team = findById(teamId);
+        team.players.add(playerRepository.findById(playerId));
     }
 }
