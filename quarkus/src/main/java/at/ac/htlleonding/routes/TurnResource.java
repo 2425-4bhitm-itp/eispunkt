@@ -20,15 +20,6 @@ public class TurnResource {
     @Inject
     StageRepository stageRepository;
 
-    @Inject
-    TeamRepository teamRepository;
-
-    @Inject
-    GameRepository gameRepository;
-
-    @Inject
-    ScoreRepository scoreRepository;
-
     @Path("/newTurn")
     @Transactional
     public Response newTurn(@QueryParam("stageId") long stageId) {
