@@ -12,7 +12,7 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 
 @Path("api/scores")
-public class ScoreRessource {
+public class ScoreResource {
     @Inject
     TurnRepository turnRepository;
 
