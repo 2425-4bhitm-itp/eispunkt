@@ -23,8 +23,10 @@ function loadGame() {
             let response2 = yield fetch(`http://localhost:8080/api/games/getGameInfo?gameId=${sessionStorage.getItem("currentGameId")}`);
             let gameInfo = yield response2.text();
             console.log(gameInfo);
-            // creates a turn using GameId
-            let response3 = yield fetch(`http://localhost:8080/api/turns/newTurn?gameId=${sessionStorage.getItem('currentGameId')}`);
+            // creates a turn using stageId
+            let responseStage = yield fetch(`http://localhost:8080/api/games/getCurrentStage?gameId=${sessionStorage.getItem("currentGameId")}`);
+            let stageId = yield responseStage.text();
+            let response3 = yield fetch(`http://localhost:8080/api/turns/newTurn?stageId=${sessionStorage.getItem(stageId)}`);
             let turnData = yield response3.text();
             sessionStorage.setItem('currentTurn', turnData);
             console.log(turnData);

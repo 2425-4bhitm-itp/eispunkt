@@ -27,7 +27,7 @@ function savePlayers() {
         let player2 = document.getElementById("player2");
         let player3 = document.getElementById("player3");
         let player4 = document.getElementById("player4");
-        let teamName = document.getElementById("teamName").value;
+        let teamName = document.getElementById("teamname").value;
         let players = Array();
         players.push(player1.value);
         players.push(player2.value);

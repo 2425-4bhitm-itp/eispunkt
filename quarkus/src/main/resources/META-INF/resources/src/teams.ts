@@ -20,7 +20,7 @@ async function savePlayers() {
     let player2= document.getElementById("player2") as HTMLInputElement;
     let player3 = document.getElementById("player3") as HTMLInputElement;
     let player4 = document.getElementById("player4") as HTMLInputElement;
-    let teamName = (document.getElementById("teamName") as HTMLInputElement).value;
+    let teamName = (document.getElementById("teamname") as HTMLInputElement).value;
 
     let players = Array();
     players.push(player1.value);

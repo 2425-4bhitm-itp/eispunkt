@@ -19,8 +19,8 @@ function listTeams() {
             let teamsJSON = JSON.parse(teams);
             const dropdown_team1 = document.getElementById('firstTeam');
             const dropdown_team2 = document.getElementById('secTeam');
-            dropdown_team1.innerHTML = '<option value="">Bitte wählen...</option>';
-            dropdown_team2.innerHTML = '<option value="">Bitte wählen...</option>';
+            dropdown_team1.innerHTML = '<option disabled value="">Bitte wählen...</option>';
+            dropdown_team2.innerHTML = '<option disabled value="">Bitte wählen...</option>';
             teamsJSON.forEach((team) => {
                 const option1 = document.createElement('option');
                 option1.value = team.teamId.toString();
@@ -31,6 +31,16 @@ function listTeams() {
                 option2.textContent = team.name;
                 dropdown_team2.appendChild(option2);
                 console.log(team.name);
+                dropdown_team1.addEventListener('change', () => {
+                    const selectedTeam1 = dropdown_team1.value;
+                    sessionStorage.setItem('selectedTeam1', selectedTeam1);
+                    console.log(`Ausgewähltes Team 1: ${selectedTeam1}`);
+                });
+                dropdown_team2.addEventListener('change', () => {
+                    const selectedTeam2 = dropdown_team2.value;
+                    sessionStorage.setItem('selectedTeam2', selectedTeam2);
+                    console.log(`Ausgewähltes Team 2: ${selectedTeam2}`);
+                });
             });
         }
         catch (error) {
