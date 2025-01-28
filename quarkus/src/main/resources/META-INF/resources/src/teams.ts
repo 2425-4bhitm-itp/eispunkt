@@ -32,17 +32,18 @@ async function savePlayers() {
     await fetch(`http://localhost:8080/api/team/createTeam?teamName=${teamName}`)
         .then((response) => response.text())
         .then((data) => {
-            console.log("TeamId: " + data);
-            sessionStorage.setItem(`team${teamName}Id`, data)
+            console.log("Team: " + data);
+            sessionStorage.setItem(`team${teamName}`, data)
         })
         .catch((error) => {
             console.error('Error:', error)
         })
 
+    let team = JSON.parse(sessionStorage.getItem(`team${teamName}`));
     let playerData = await Promise.all(players.map(name => createPlayer(name)));
 
     for (let i = 0; i < 4; i++) {
-        await addPlayerToTeam(parseInt(sessionStorage.getItem(`team${teamName}Id`)),parseInt(playerData[i]));
+        await addPlayerToTeam(parseInt(team.teamId),parseInt(playerData[i]));
     }
 
 
