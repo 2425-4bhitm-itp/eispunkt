@@ -17,8 +17,10 @@ async function loadGame(){
         let gameInfo = await response2.text();
         console.log(gameInfo);
 
-        // creates a turn using GameId
-        let response3 = await fetch(`http://localhost:8080/api/turns/newTurn?gameId=${sessionStorage.getItem('currentGameId')}`);
+        // creates a turn using stageId
+        let responseStage = await fetch(`http://localhost:8080/api/games/getCurrentStage?gameId=${sessionStorage.getItem("currentGameId")}`)
+        let stageId = await responseStage.text()
+        let response3 = await fetch(`http://localhost:8080/api/turns/newTurn?stageId=${sessionStorage.getItem(stageId)}`);
         let turnData = await response3.text();
         sessionStorage.setItem('currentTurn', turnData);
         console.log(turnData)

@@ -24,10 +24,7 @@ public class PlayerResource {
         if(name == null || name.isEmpty()){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }else{
-            Player newPlayer = new Player();
-            newPlayer.name = name;
-            playerRepository.persist(newPlayer);
-            return Response.ok(newPlayer.playerId).build();
+            return Response.ok(playerRepository.createPlayer(name).playerId).build();
         }
     }
 

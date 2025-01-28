@@ -39,5 +39,12 @@ public class GameResource {
         return Response.ok(gameRepository.findById(gameId)).build();
     }
 
-
+    @Path("/getCurrentStage")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response currentStage(@QueryParam("gameId") long gameId) {
+        Game game = gameRepository.findById(gameId);
+        Stage stage = gameRepository.getCurrentStage(game);
+        return Response.ok(stage.stageId).build();
+    }
 }

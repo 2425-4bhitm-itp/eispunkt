@@ -24,4 +24,8 @@ public class GameRepository implements PanacheRepository<Game> {
 
         return game;
     }
+
+    public Stage getCurrentStage(Game game) {
+        return game.stages.getLast();
+    }
 }
