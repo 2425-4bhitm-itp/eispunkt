@@ -40,7 +40,7 @@ But if you have any suggestions or improvements, feel free to make a pull reques
 - Clone the repository
 - docker compose -f ./docker/docker-compose.yaml up
 - cd quarkus
-- mvn quarkus:dev --clean
+- mvn clean quarkus:dev
 - Open the browser and go to http://localhost:8080
 - (Only for desktop) Inspect page and go into mobile view
 - Enjoy the app
