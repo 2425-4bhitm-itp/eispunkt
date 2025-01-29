@@ -16,4 +16,7 @@ public class Turn {
     public final List<Score> scores = new LinkedList<>();
     @ManyToOne
     private Stage stage;
+
+    public Turn() {
+    }
 }

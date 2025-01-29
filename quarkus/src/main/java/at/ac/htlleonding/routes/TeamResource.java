@@ -27,7 +27,7 @@ public class TeamResource {
         if(teamName == null || teamName.isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }else{
-            return Response.ok(teamRepository.createTeam(teamName).teamId).build();
+            return Response.ok(teamRepository.createTeam(teamName)).build();
         }
     }
 

@@ -26,6 +26,7 @@ public class GameResource {
     @Path("/createGame")
     @GET
     @Transactional
+    @Produces(MediaType.APPLICATION_JSON)
     public Response startGame(@QueryParam("team1Id") long team1Id, @QueryParam("team2Id") long team2Id) {
         Game newGame = gameRepository.createGameWithTeams(team1Id,team2Id);
         return Response.ok(newGame.gameId).build();

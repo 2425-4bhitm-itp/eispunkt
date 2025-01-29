@@ -1,8 +1,8 @@
-import {Score} from "./objects/score";
-import {Stage} from "./objects/stage";
-import {Team} from "./objects/team";
-import {Player} from "./objects/player";
-import {Game} from "./objects/game";
+import {Score} from "./interfaces/score";
+import {Stage} from "./interfaces/stage";
+import {Team} from "./interfaces/team";
+import {Player} from "./interfaces/player";
+import {Game} from "./interfaces/game";
 import {Observable} from "./observable";
 
 

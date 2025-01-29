@@ -3,6 +3,14 @@ body {
     margin: 0;
 
 }
+.protest-strike-regular {
+    font-family: "Protest Strike", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+
 
 
 .circle {
@@ -28,11 +36,17 @@ body {
     margin-left: 14%;
     margin-top: 1%;
     font-weight: lighter;
+    font-family: "Protest Strike", serif;
+    font-weight: 400;
+    font-style: normal
 }
 
 .circle h1 span {
     font-weight: bold;
     font-size: 175px;
+    font-family: "Protest Strike", serif;
+    font-weight: 400;
+    font-style: normal
 
 }
 
@@ -51,6 +65,9 @@ body {
     margin-top: 10%;
     margin-left: 5%;
     margin-bottom: 2%;
+    font-family: "Afacad", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 
 }
 
