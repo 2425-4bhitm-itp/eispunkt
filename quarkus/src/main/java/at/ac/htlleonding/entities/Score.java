@@ -16,8 +16,8 @@ public class Score {
     private int score;
 
     public Score(Team team, Turn turn) {
-        this.team = team;
-        this.turn = turn;
+        setTeam(team);
+        setTurn(turn);
     }
 
     public Score() {

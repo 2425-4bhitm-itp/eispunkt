@@ -31,4 +31,8 @@ public class ScoreRepository implements PanacheRepository<Score> {
     public void updateScore(Score score, int scoreValue) {
         score.setScore(scoreValue);
     }
+
+    public int getScore(Score score) {
+        return score.getScore();
+    }
 }

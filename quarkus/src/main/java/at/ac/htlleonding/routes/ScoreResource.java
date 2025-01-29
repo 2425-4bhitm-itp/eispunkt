@@ -18,7 +18,6 @@ public class ScoreResource {
     @Inject
     ScoreRepository scoreRepository;
 
-
     @Path("create")
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
@@ -28,7 +27,6 @@ public class ScoreResource {
 
         return Response.ok(score).build();
     }
-
 
     @Path("create")
     public Response createScore() {
@@ -47,5 +45,10 @@ public class ScoreResource {
         scoreRepository.updateScore(score, scoreValue);
 
         return Response.ok(score).build();
+    }
+
+    @Path("getScore")
+    public Response getScore(@QueryParam("scoreId") long scoreId) {
+        return Response.ok(scoreRepository.getScore(scoreRepository.findById(scoreId))).build();
     }
 }
