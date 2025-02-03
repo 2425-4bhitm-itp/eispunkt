@@ -17,14 +17,17 @@ public class TurnResource {
     @Inject
     TurnRepository turnRepository;
 
-    @Inject
-    StageRepository stageRepository;
-
     @Path("/newTurn")
     @Transactional
     public Response newTurn(@QueryParam("stage") Stage stage) {
         Turn turn = new Turn(stage);
         turnRepository.persist(turn);
         return Response.ok(turn).build();
+    }
+
+    @Path("/getStage")
+    public Response getStage(@QueryParam("turn") Turn turn) {
+        Stage stage = turnRepository.getStage(turn);
+        return Response.ok(stage).build();
     }
 }
