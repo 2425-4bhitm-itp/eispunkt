@@ -2,20 +2,37 @@ package at.ac.htlleonding.entities;
 
 import jakarta.persistence.*;
 
-import java.util.LinkedList;
-import java.util.List;
-
 @Entity
 public class Stage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long stageId;
-    @OneToMany
+
+    @ManyToOne
     @JoinColumn
-    public final List<Turn> turn = new LinkedList<>();
+    public Game game;
 
     public Stage() {
     }
 
+    public Stage(Game game) {
+        this.game = game;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    private void setGame(Game game) {
+        this.game = game;
+    }
+
+    public long getStageId() {
+        return stageId;
+    }
+
+    private void setStageId(long stageId) {
+        this.stageId = stageId;
+    }
 }

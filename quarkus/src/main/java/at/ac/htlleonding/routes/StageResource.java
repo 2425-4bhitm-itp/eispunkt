@@ -5,6 +5,7 @@ import at.ac.htlleonding.entities.Stage;
 import at.ac.htlleonding.repositories.GameRepository;
 import at.ac.htlleonding.repositories.StageRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -30,12 +31,19 @@ public class StageResource {
     }
 
     @POST
-    public Response createStage(@QueryParam("gameId") long gameId) {
-        if(gameRepository.findById(gameId) == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }else{
-            gameRepository.findById(gameId).stages.add(new Stage());
-            return Response.ok().build();
-        }
+    @Transactional
+    public Response createStage(@QueryParam("game") Game game) {
+        return Response.ok(stageRepository.createStage(game)).build();
     }
+
+    @GET
+    public Response getGame(@QueryParam("stage") Stage stage) {
+        return Response.ok(stageRepository.getGame(stage)).build();
+    }
+
+    @GET
+    public Response getAllStages() {
+        return Response.ok(stageRepository.getAllStages()).build();
+    }
+
 }
