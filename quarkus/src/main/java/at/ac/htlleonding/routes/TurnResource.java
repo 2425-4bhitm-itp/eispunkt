@@ -30,4 +30,9 @@ public class TurnResource {
         Stage stage = turnRepository.getStage(turn);
         return Response.ok(stage).build();
     }
+
+    @Path("/getAllTurns")
+    public Response getAllTurns() {
+        return Response.ok(turnRepository.getAllTurns()).build();
+    }
 }
