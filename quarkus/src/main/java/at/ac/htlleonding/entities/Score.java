@@ -11,8 +11,10 @@ public class Score {
 
     @ManyToOne
     private Team team;
+
     @ManyToOne
     private Turn turn;
+
     private int score;
 
     public Score(Team team, Turn turn) {

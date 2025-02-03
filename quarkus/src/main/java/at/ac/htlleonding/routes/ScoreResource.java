@@ -39,9 +39,7 @@ public class ScoreResource {
     }
 
     @Path("update")
-    public Response updateScore(@QueryParam("scoreId") long scoreId, int scoreValue) {
-        Score score = scoreRepository.findById(scoreId);
-
+    public Response updateScore(@QueryParam("score") Score score, int scoreValue) {
         scoreRepository.updateScore(score, scoreValue);
 
         return Response.ok(score).build();
@@ -50,5 +48,10 @@ public class ScoreResource {
     @Path("getScore")
     public Response getScore(@QueryParam("scoreId") long scoreId) {
         return Response.ok(scoreRepository.getScore(scoreRepository.findById(scoreId))).build();
+    }
+
+    @Path("getAllScores")
+    public Response getAllScores() {
+        return Response.ok(scoreRepository.getAllScores()).build();
     }
 }
