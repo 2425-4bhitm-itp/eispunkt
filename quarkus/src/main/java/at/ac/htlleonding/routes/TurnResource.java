@@ -22,11 +22,9 @@ public class TurnResource {
 
     @Path("/newTurn")
     @Transactional
-    public Response newTurn(@QueryParam("stageId") long stageId) {
-        Stage stage = stageRepository.findById(stageId);
-        Turn newTurn = new Turn();
-        turnRepository.persist(newTurn);
-        stage.turn.add(newTurn);
-        return Response.ok(newTurn.turnId).build();
+    public Response newTurn(@QueryParam("stage") Stage stage) {
+        Turn turn = new Turn(stage);
+        turnRepository.persist(turn);
+        return Response.ok(turn).build();
     }
 }
