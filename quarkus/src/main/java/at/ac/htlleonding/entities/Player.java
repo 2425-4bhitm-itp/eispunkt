@@ -3,6 +3,14 @@ package at.ac.htlleonding.entities;
 import jakarta.persistence.*;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "Players.getAllWithTeam",
+                query = """
+                       select p from Player p where p.team = :team
+                       """
+        )
+})
 public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

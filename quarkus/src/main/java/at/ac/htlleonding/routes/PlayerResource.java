@@ -57,4 +57,12 @@ public class PlayerResource {
     ) {
         return Response.ok(playerRepository.setTeamOfPlayer(playerRepository.findById(playerId), team)).build();
     }
+
+    @Path("/getAllPlayersWithTeam")
+    @GET
+    public Response getAllPlayersWithTeam(
+            @QueryParam("teamId") long teamId
+    ) {
+        return Response.ok(playerRepository.getAllPlayersWithTeam(teamId)).build();
+    }
 }

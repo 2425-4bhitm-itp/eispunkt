@@ -5,6 +5,8 @@ import at.ac.htlleonding.entities.Team;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.util.List;
+
 @ApplicationScoped
 public class PlayerRepository implements PanacheRepository<Player> {
     public Player findById(long id) {
@@ -34,5 +36,9 @@ public class PlayerRepository implements PanacheRepository<Player> {
     public Player setTeamOfPlayer(Player player, Team team) {
         player.setTeam(team);
         return player;
+    }
+
+    public List<Player> getAllPlayersWithTeam(long teamId){
+        return list("#Player.getAllPlayersWithTeam", teamId);
     }
 }
