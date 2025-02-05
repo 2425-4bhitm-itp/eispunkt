@@ -47,6 +47,6 @@ public class TeamResource {
     @Path("/getAllTeams")
     @GET
     public Response getAllTeams(){
-        return Response.ok(teamRepository.listAll()).build();
+        return Response.ok(teamRepository.getAllTeams()).build();
     }
 }
