@@ -20,32 +20,21 @@ public class GameResource {
     @Inject
     GameRepository gameRepository;
 
-    @Inject
-    TeamRepository teamRepository;
-
     @Path("/createGame")
     @GET
     @Transactional
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response startGame(@QueryParam("team1Id") long team1Id, @QueryParam("team2Id") long team2Id) {
-        Game newGame = gameRepository.createGameWithTeams(team1Id,team2Id);
-        return Response.ok(newGame.gameId).build();
+    public Response createGame() {
+        Game newGame = gameRepository.createGame();
+        return Response.ok(newGame).build();
     }
 
 
     @Path("/getGameInfo")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+
     public Response getInfo(@QueryParam("gameId") long gameId){
         return Response.ok(gameRepository.findById(gameId)).build();
     }
 
-    @Path("/getCurrentStage")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response currentStage(@QueryParam("gameId") long gameId) {
-        Game game = gameRepository.findById(gameId);
-        Stage stage = gameRepository.getCurrentStage(game);
-        return Response.ok(stage.stageId).build();
-    }
+
 }

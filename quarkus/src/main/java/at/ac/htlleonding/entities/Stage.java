@@ -13,10 +13,12 @@ public class Stage {
     @JoinColumn
     public Game game;
 
+    public int stageNumber;
+
     public Stage() {
     }
 
-    public Stage(Game game) {
+    public Stage(Game game, int stageNumber) {
         this.game = game;
     }
 
@@ -34,5 +36,13 @@ public class Stage {
 
     private void setStageId(long stageId) {
         this.stageId = stageId;
+    }
+
+    public int getStageNumber() {
+        return stageNumber;
+    }
+
+    public void setStageNumber(int stageNumber) {
+        this.stageNumber = stageNumber;
     }
 }

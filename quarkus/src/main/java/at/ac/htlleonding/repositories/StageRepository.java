@@ -21,8 +21,8 @@ public class StageRepository implements PanacheRepository<Stage> {
         return listAll();
     }
 
-    public Stage createStage(Game game) {
-        Stage stage = new Stage(game);
+    public Stage createStage(Game game, int stageNumber) {
+        Stage stage = new Stage(game, stageNumber);
         persist(stage);
         return stage;
     }

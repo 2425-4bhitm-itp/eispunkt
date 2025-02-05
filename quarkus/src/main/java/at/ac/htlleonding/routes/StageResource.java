@@ -32,8 +32,8 @@ public class StageResource {
 
     @POST
     @Transactional
-    public Response createStage(@QueryParam("game") Game game) {
-        return Response.ok(stageRepository.createStage(game)).build();
+    public Response createStage(@QueryParam("game") Game game, @QueryParam("stageNumber") int stageNumber) {
+        return Response.ok(stageRepository.createStage(game, stageNumber)).build();
     }
 
     @GET
