@@ -48,6 +48,8 @@ public class Player {
     }
 
     public void setTeam(Team team) {
-        this.team = team;
+        if (!(name == null || name.isBlank())) {
+            this.team = team;
+        }
     }
 }

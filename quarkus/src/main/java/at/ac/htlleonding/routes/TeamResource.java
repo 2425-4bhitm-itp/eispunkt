@@ -31,17 +31,6 @@ public class TeamResource {
         }
     }
 
-    @Path("/addPlayer")
-    @GET
-    @Transactional
-    public Response addPlayer(@QueryParam("teamId") long teamId, @QueryParam("playerId") long playerId) {
-        if(teamId == 0 || playerId == 0) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }else{
-            teamRepository.addPlayerToTeam(teamId, playerId);
-            return Response.ok("Player added Successfully").build();
-        }
-    }
 
     @Path("/findTeamId")
     @GET
@@ -59,15 +48,5 @@ public class TeamResource {
     @GET
     public Response getAllTeams(){
         return Response.ok(teamRepository.listAll()).build();
-    }
-
-    @Path("/createTeamWithPlayers")
-    @POST
-    @Transactional
-    public Response createTeamWithPlayers(String name, long... playerIds) {
-        if (!(name == null || name.isBlank())) {
-            return Response.ok(teamRepository.createTeamWithPlayers(name, playerIds)).build();
-        }
-        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 }

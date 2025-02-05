@@ -10,38 +10,18 @@ import java.util.List;
 @Singleton
 public class TeamRepository implements PanacheRepository<Team> {
     @Inject
-    PlayerRepository playerRepository;
 
     public Team findById(long id) {
         return find("id", id).firstResult();
     }
 
     public Team createTeam(String name) {
-        if (!(name == null || name.isBlank())) {
-            Team team = new Team();
-            team.name = name;
+        Team team = new Team(name);
 
-            persist(team);
+        persist(team);
 
-            return team;
-        }
-        return null;
-    }
+        return team;
 
-    public Team createTeamWithPlayers(String name, long... playerIds) {
-        if (!(name == null || name.isBlank())) {
-            Team team = new Team();
-            team.name = name;
-
-            for (long playerId : playerIds) {
-                team.players.add(playerRepository.findById(playerId));
-            }
-
-            persist(team);
-
-            return team;
-        }
-        return null;
     }
 
     public Team findByName(String name) {
@@ -50,10 +30,5 @@ public class TeamRepository implements PanacheRepository<Team> {
 
     public List<Team> getAllTeams() {
         return listAll();
-    }
-
-    public void addPlayerToTeam(long teamId, long playerId) {
-        Team team = findById(teamId);
-        team.players.add(playerRepository.findById(playerId));
     }
 }
