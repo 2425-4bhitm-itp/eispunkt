@@ -1,9 +1,6 @@
 package at.ac.htlleonding.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Player {
@@ -12,8 +9,16 @@ public class Player {
     private Long playerId;
     private String name;
 
+    @ManyToOne
+    private Team team;
+
     public Player(String name) {
         setName(name);
+    }
+
+    public Player(Team team, String name) {
+        this.team = team;
+        this.name = name;
     }
 
     public Player() {
@@ -36,6 +41,13 @@ public class Player {
         if (!(name == null || name.isBlank())) {
             this.name = name;
         }
+    }
 
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

@@ -12,17 +12,5 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long teamId;
     public String name;
-    @OneToMany
-    @JoinColumn
-    public List<Player> players = new LinkedList<>();
 
-
-    @Override
-    public String toString() {
-        return "Team{" +
-                "teamId=" + teamId +
-                ", name='" + name + '\'' +
-                ", players=" + players +
-                '}';
-    }
 }

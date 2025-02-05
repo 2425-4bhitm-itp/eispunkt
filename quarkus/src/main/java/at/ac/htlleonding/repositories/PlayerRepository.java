@@ -1,6 +1,7 @@
 package at.ac.htlleonding.repositories;
 
 import at.ac.htlleonding.entities.Player;
+import at.ac.htlleonding.entities.Team;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -15,6 +16,23 @@ public class PlayerRepository implements PanacheRepository<Player> {
 
         persist(player);
 
+        return player;
+    }
+
+    public Player createPlayerIntoTeam(Team team, String name) {
+        Player player = new Player(team, name);
+
+        persist(player);
+
+        return player;
+    }
+
+    public Team getTeamOfPlayer(Player player) {
+        return player.getTeam();
+    }
+
+    public Player setTeamOfPlayer(Player player, Team team) {
+        player.setTeam(team);
         return player;
     }
 }
