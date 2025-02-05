@@ -1,7 +1,19 @@
 package at.ac.htlleonding.entities;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.*;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "GameTeam.getGamesOfTeam",
+                query = "SELECT gt.game FROM GameTeam gt WHERE gt.team = :team"
+        ),
+        @NamedQuery(
+                name = "GameTeam.getTeamsOfGame",
+                query = "SELECT gt.team FROM GameTeam gt WHERE gt.game = :game"
+        )
+})
+
 public class GameTeam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
