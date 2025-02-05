@@ -9,10 +9,8 @@ import java.util.List;
 
 @Singleton
 public class TeamRepository implements PanacheRepository<Team> {
-    @Inject
-
-    public Team findById(long id) {
-        return find("id", id).firstResult();
+    public Team findById(long teamId) {
+        return find("id", teamId).firstResult();
     }
 
     public Team createTeam(String name) {
