@@ -56,4 +56,44 @@ function displayTeam(teamElementId: string, team: { name: string; players: { nam
     });
 }
 
+async function sendTeam(teamId:number) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/team/findTeamId?teamId=${sessionStorage.getItem(`selectedTeam${teamId}`)}`);
+        const data = await response.json();
+
+        window.location.href = `../pages/editTeam.html`;
+
+        window.addEventListener('load', () => {
+            if (data) {
+                console.log(data);
+                document.getElementById('teamname').textContent = data.name;
+                for (let i = 0; i < data.players.length; i++) {
+                    document.getElementById(`player${i + 1}`).textContent = data.players[i].name;
+                }
+            } else {
+                console.error('No team data found in sessionStorage');
+            }
+        })
+
+
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+function updateTeam(teamId:number) {
+
+
+
+    // window.location.href = `../pages/editTeam.html`;
+    //
+    // const data = JSON.parse(sessionStorage.getItem(`toEditTeam${teamId}`));
+    //
+    // console.log(data)
+    // document.getElementById('teamname').textContent = data.name;
+    // for (let i = 0; i < data.players.length; i++) {
+    //     document.getElementById(`player${i + 1}`).textContent = data.players[i].name;
+    // }
+}
+
 document.addEventListener('DOMContentLoaded', loadSelectedTeams);
