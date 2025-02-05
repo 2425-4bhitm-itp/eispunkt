@@ -11,14 +11,10 @@ public class PlayerRepository implements PanacheRepository<Player> {
     }
 
     public Player createPlayer(String name) {
-        if (!(name == null || name.isBlank())) {
-            Player player = new Player();
-            player.name = name;
+        Player player = new Player(name);
 
-            persist(player);
+        persist(player);
 
-            return player;
-        }
-        return null;
+        return player;
     }
 }

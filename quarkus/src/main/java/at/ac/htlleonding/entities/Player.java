@@ -7,10 +7,35 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Player {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long playerId;
-    public String name;
+    private Long playerId;
+    private String name;
 
+    public Player(String name) {
+        setName(name);
+    }
+
+    public Player() {
+    }
+
+    public Long getPlayerId() {
+        return playerId;
+    }
+
+    private void setPlayerId(Long playerId) {
+        this.playerId = playerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+
+    private void setName(String name) {
+        if (!(name == null || name.isBlank())) {
+            this.name = name;
+        }
+
+    }
 }
