@@ -1,7 +1,7 @@
 package at.ac.htlleonding.routes;
 
-import at.ac.htlleonding.entities.Team;
 import at.ac.htlleonding.repositories.PlayerRepository;
+import at.ac.htlleonding.repositories.TeamRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
@@ -14,6 +14,8 @@ public class PlayerResource {
 
     @Inject
     PlayerRepository playerRepository;
+    @Inject
+    TeamRepository teamRepository;
 
     @Path("/createPlayer")
     @GET
@@ -24,45 +26,36 @@ public class PlayerResource {
 
     @Path("/findById")
     @GET
-    public Response findById(
-            @QueryParam("playerId") long playerId
-    ){
+    public Response findById(@QueryParam("playerId") long playerId) {
         return Response.ok(playerRepository.findById(playerId)).build();
     }
 
     @Path("/createPlayerIntoTeam")
     @GET
     @Transactional
-    public Response createPlayerIntoTeam(
-            @QueryParam("teamId")Team team,
-            @QueryParam("name") String name
-    ){
-        return Response.ok(playerRepository.createPlayerIntoTeam(team, name)).build();
+    public Response createPlayerIntoTeam(@QueryParam("teamId") long teamId, @QueryParam("name") String name) {
+        return Response.ok(playerRepository.createPlayerIntoTeam(teamRepository.findById(teamId), name)).build();
     }
 
     @Path("/getTeamOfPlayer")
     @GET
-    public Response getTeamOfPlayer(
-            @QueryParam("playerId") long playerId
-    ) {
+    public Response getTeamOfPlayer(@QueryParam("playerId") long playerId) {
         return Response.ok(playerRepository.getTeamOfPlayer(playerRepository.findById(playerId))).build();
     }
 
     @Path("/setTeamOfPlayer")
     @GET
     @Transactional
-    public Response setTeamOfPlayer(
-            @QueryParam("playerId") long playerId,
-            @QueryParam("teamId") Team team
-    ) {
-        return Response.ok(playerRepository.setTeamOfPlayer(playerRepository.findById(playerId), team)).build();
+    public Response setTeamOfPlayer(@QueryParam("playerId") long playerId, @QueryParam("teamId") long teamId) {
+        return Response.ok(playerRepository.setTeamOfPlayer(
+                                                            playerRepository.findById(playerId),
+                                                            teamRepository.findById(teamId)
+                                                           )).build();
     }
 
     @Path("/getAllPlayersWithTeam")
     @GET
-    public Response getAllPlayersWithTeam(
-            @QueryParam("teamId") long teamId
-    ) {
+    public Response getAllPlayersWithTeam(@QueryParam("teamId") long teamId) {
         return Response.ok(playerRepository.getAllPlayersWithTeam(teamId)).build();
     }
 }

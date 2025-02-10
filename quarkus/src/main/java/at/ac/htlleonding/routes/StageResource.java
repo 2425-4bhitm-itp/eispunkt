@@ -1,7 +1,5 @@
 package at.ac.htlleonding.routes;
 
-import at.ac.htlleonding.entities.Game;
-import at.ac.htlleonding.entities.Stage;
 import at.ac.htlleonding.repositories.GameRepository;
 import at.ac.htlleonding.repositories.StageRepository;
 import jakarta.inject.Inject;
@@ -20,27 +18,34 @@ public class StageResource {
     @Inject
     GameRepository gameRepository;
 
+    @Path("/getStages")
     @GET
     public Response getStages() {
         return Response.ok(stageRepository.findAll()).build();
     }
 
+    @Path("/getStageById")
     @GET
     public Response getStageById(long id) {
         return Response.ok(stageRepository.findById(id)).build();
     }
 
+    @Path("/createStage")
     @POST
     @Transactional
-    public Response createStage(@QueryParam("game") Game game, @QueryParam("stageNumber") int stageNumber) {
-        return Response.ok(stageRepository.createStage(game, stageNumber)).build();
+    public Response createStage(@QueryParam("gameId") long gameId, @QueryParam("stageNumber") int stageNumber) {
+        return Response.ok(stageRepository.createStage(gameRepository.findById(gameId), stageNumber)).build();
     }
 
+    @Path("/getGame")
     @GET
-    public Response getGame(@QueryParam("stage") Stage stage) {
-        return Response.ok(stageRepository.getGame(stage)).build();
+    public Response getGame(
+            @QueryParam("stageId")  long stageId
+                           ) {
+        return Response.ok(stageRepository.getGame(stageRepository.findById(stageId))).build();
     }
 
+    @Path("/getAllStages")
     @GET
     public Response getAllStages() {
         return Response.ok(stageRepository.getAllStages()).build();

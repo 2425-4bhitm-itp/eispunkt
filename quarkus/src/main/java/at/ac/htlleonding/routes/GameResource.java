@@ -31,7 +31,6 @@ public class GameResource {
 
     @Path("/getGameInfo")
     @GET
-
     public Response getInfo(@QueryParam("gameId") long gameId){
         return Response.ok(gameRepository.findById(gameId)).build();
     }

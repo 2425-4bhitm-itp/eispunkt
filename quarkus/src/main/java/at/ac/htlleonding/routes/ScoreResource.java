@@ -4,6 +4,8 @@ import at.ac.htlleonding.entities.Score;
 import at.ac.htlleonding.entities.Team;
 import at.ac.htlleonding.entities.Turn;
 import at.ac.htlleonding.repositories.ScoreRepository;
+import at.ac.htlleonding.repositories.TeamRepository;
+import at.ac.htlleonding.repositories.TurnRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Consumes;
@@ -18,12 +20,17 @@ public class ScoreResource {
     @Inject
     ScoreRepository scoreRepository;
 
+    @Inject
+    TeamRepository teamRepository;
+
+    @Inject
+    TurnRepository turnRepository;
+
     @Path("create")
     @Transactional
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response createScore(@QueryParam("team") Team team, @QueryParam("turn") Turn turn) {
-        Score score = scoreRepository.create(team, turn);
+
+    public Response createScore(@QueryParam("teamId") long teamId, @QueryParam("turnId") long turnId) {
+        Score score = scoreRepository.create(teamRepository.findById(teamId), turnRepository.findById(turnId));
 
         return Response.ok(score).build();
     }
@@ -39,7 +46,8 @@ public class ScoreResource {
     }
 
     @Path("update")
-    public Response updateScore(@QueryParam("score") Score score, int scoreValue) {
+    public Response updateScore(@QueryParam("scoreId") long scoreId, int scoreValue) {
+        Score score = scoreRepository.findById(scoreId);
         scoreRepository.updateScore(score, scoreValue);
 
         return Response.ok(score).build();
