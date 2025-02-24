@@ -19,25 +19,14 @@ function loadGame() {
             let gameId = yield response1.text();
             sessionStorage.setItem('currentGameId', gameId);
             console.log(sessionStorage.getItem('currentGameId'));
-            // get info (debugging)
-            let response2 = yield fetch(`http://localhost:8080/api/games/getGameInfo?gameId=${sessionStorage.getItem("currentGameId")}`);
-            let gameInfo = yield response2.text();
-            console.log(gameInfo);
-            // creates a turn using stageId
-            let responseStage = yield fetch(`http://localhost:8080/api/games/getCurrentStage?gameId=${sessionStorage.getItem("currentGameId")}`);
-            let stageId = yield responseStage.text();
-            let response3 = yield fetch(`http://localhost:8080/api/turns/newTurn?stageId=${sessionStorage.getItem(stageId)}`);
-            let turnData = yield response3.text();
-            sessionStorage.setItem('currentTurn', turnData);
-            console.log(turnData);
         }
         catch (error) {
             console.error("Error:", error);
         }
     });
 }
-function addPoint(teamId) {
-    if (teamId == 1) {
+function addPoint(index) {
+    if (index == 1) {
         t1SubScore++;
         updateText();
         if (t1SubScore > 2) {
