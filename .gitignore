@@ -45,4 +45,4 @@ nb-configuration.xml
 .certs/
 
 # Frontend
-dist/
+/quarkus/src/main/resources/META-INF/resources/dist/
