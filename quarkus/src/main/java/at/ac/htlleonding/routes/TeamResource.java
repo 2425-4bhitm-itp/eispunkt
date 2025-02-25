@@ -70,4 +70,15 @@ public class TeamResource {
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
     }
+
+    @Path("/updateTeam")
+    @POST
+    @Transactional
+    public Response updateTeam(@QueryParam("teamId") long teamId, @QueryParam("teamName") String name) {
+        return Response.ok(teamRepository.update("""
+                                update team
+                                set name = ?1
+                                where teamid = ?2;
+                                """, name, teamId)).build();
+    }
 }

@@ -28,5 +28,19 @@ public class PlayerResource {
         }
     }
 
+    @Path("/updatePlayer")
+    @POST
+    @Transactional
+    public Response updatePlayer(@QueryParam("playerId") long playerId, @QueryParam("playerName") String name){
+        if(name == null || name.isEmpty()){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }else{
+            return Response.ok(playerRepository.update("""
+                        update player
+                        set  name = ?2
+                        where playerid = ?1
+                        """,playerId, name)).build();
+        }
+    }
 
 }
