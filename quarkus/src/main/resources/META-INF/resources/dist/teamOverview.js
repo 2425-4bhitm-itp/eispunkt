@@ -77,16 +77,19 @@ function sendTeam(teamId) {
         }
     });
 }
-function updateTeam(teamId) {
-    // window.location.href = `../pages/editTeam.html`;
-    //
-    // const data = JSON.parse(sessionStorage.getItem(`toEditTeam${teamId}`));
-    //
-    // console.log(data)
-    // document.getElementById('teamname').textContent = data.name;
-    // for (let i = 0; i < data.players.length; i++) {
-    //     document.getElementById(`player${i + 1}`).textContent = data.players[i].name;
-    // }
-}
+// function updateTeam(teamId:number) {
+//
+//
+//
+//     window.location.href = `../pages/editTeam.html`;
+//
+//     const data = JSON.parse(sessionStorage.getItem(`toEditTeam${teamId}`));
+//
+//     console.log(data)
+//     document.getElementById('teamname').textContent = data.name;
+//     for (let i = 0; i < data.players.length; i++) {
+//         document.getElementById(`player${i + 1}`).textContent = data.players[i].name;
+//     }
+// }
 document.addEventListener('DOMContentLoaded', loadSelectedTeams);
 //# sourceMappingURL=teamOverview.js.map

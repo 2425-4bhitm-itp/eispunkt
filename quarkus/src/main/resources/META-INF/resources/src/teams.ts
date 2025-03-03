@@ -76,7 +76,7 @@ async function addPlayerToTeam(teamId: Number, playerId: Number){
     }
 }
 
-async function updateTeam(teamId: Number, playerId: Number, teamName: String) {
+async function updateTeam(teamId: Number, teamName: String) {
     try {
         const response = await fetch(`http://localhost:8080/api/team/updateTeam?teamId=${teamId}&teamName=${teamName}`);
         console.log(await response.text());
@@ -85,9 +85,9 @@ async function updateTeam(teamId: Number, playerId: Number, teamName: String) {
     }
 }
 
-async function updatePlayer(teamId: Number, playerId: Number, playerName: String) {
+async function updatePlayer(playerId: Number, playerName: String) {
     try {
-        const response = await fetch(`http://localhost:8080/api/team/updateTeam?teamId=${teamId}&playerId=${playerId}&playerName=${playerName}`);
+        const response = await fetch(`http://localhost:8080/api/team/updateTeam?playerId=${playerId}&playerName=${playerName}`);
         console.log(await response.text());
     } catch (error) {
         console.error('Error:', error);

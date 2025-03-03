@@ -78,7 +78,7 @@ function addPlayerToTeam(teamId, playerId) {
         }
     });
 }
-function updateTeam(teamId, playerId, teamName) {
+function updateTeam(teamId, teamName) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const response = yield fetch(`http://localhost:8080/api/team/updateTeam?teamId=${teamId}&teamName=${teamName}`);
@@ -89,10 +89,10 @@ function updateTeam(teamId, playerId, teamName) {
         }
     });
 }
-function updatePlayer(teamId, playerId, playerName) {
+function updatePlayer(playerId, playerName) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const response = yield fetch(`http://localhost:8080/api/team/updateTeam?teamId=${teamId}&playerId=${playerId}&playerName=${playerName}`);
+            const response = yield fetch(`http://localhost:8080/api/team/updateTeam?playerId=${playerId}&playerName=${playerName}`);
             console.log(yield response.text());
         }
         catch (error) {
