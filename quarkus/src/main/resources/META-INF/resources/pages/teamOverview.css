@@ -29,6 +29,11 @@ h2{
     color: black;
 }
 
+.pencil:hover {
+    cursor: pointer;
+}
+
+
 #team1 {
     font-size: 600%;
     font-weight: bold;

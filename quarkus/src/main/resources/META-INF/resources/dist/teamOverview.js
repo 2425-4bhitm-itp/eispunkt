@@ -53,10 +53,10 @@ function displayTeam(teamElementId, team) {
         }
     });
 }
-function sendTeam(teamId) {
+function sendTeam(teamNumber) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const response = yield fetch(`http://localhost:8080/api/team/findTeamId?teamId=${sessionStorage.getItem(`selectedTeam${teamId}`)}`);
+            const response = yield fetch(`http://localhost:8080/api/team/findTeamId?teamId=${sessionStorage.getItem(`selectedTeam${teamNumber}`)}`);
             const data = yield response.json();
             window.location.href = `../pages/editTeam.html`;
             window.addEventListener('load', () => {
@@ -77,6 +77,10 @@ function sendTeam(teamId) {
         }
     });
 }
+// function saveTeamToEdit(teamId: Number) {
+//     const selectedTeamId = sessionStorage.getItem(`selectedTeam${teamId}`);
+//     sessionStorage.setItem(`teamToEdit${teamId}`, selectedTeamId.toString());
+// }
 // function updateTeam(teamId:number) {
 //
 //

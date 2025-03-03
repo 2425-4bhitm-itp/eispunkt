@@ -47,15 +47,13 @@ async function savePlayers() {
     }
 
 
-    // if(teamNum < MAX_TEAMS){
-    //     nextTeam(++teamNum);
-    // }else{
-    //     window.location.href = "../pages/game.html"
-    // }
-
     window.location.href = "../pages/chooseTeam.html"
 
 }
+
+
+
+
 
 async function createPlayer(playerName: String){
     try {
@@ -75,6 +73,8 @@ async function addPlayerToTeam(teamId: Number, playerId: Number){
         console.error('Error:', error);
     }
 }
+
+
 
 async function updateTeam(teamId: Number, teamName: String) {
     try {

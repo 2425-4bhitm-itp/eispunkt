@@ -47,11 +47,6 @@ function savePlayers() {
         for (let i = 0; i < 4; i++) {
             yield addPlayerToTeam(parseInt(team.teamId), parseInt(playerData[i]));
         }
-        // if(teamNum < MAX_TEAMS){
-        //     nextTeam(++teamNum);
-        // }else{
-        //     window.location.href = "../pages/game.html"
-        // }
         window.location.href = "../pages/chooseTeam.html";
     });
 }

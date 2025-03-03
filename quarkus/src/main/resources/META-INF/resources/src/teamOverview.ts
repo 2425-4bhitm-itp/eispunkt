@@ -56,9 +56,9 @@ function displayTeam(teamElementId: string, team: { name: string; players: { nam
     });
 }
 
-async function sendTeam(teamId:number) {
+async function sendTeam(teamNumber:number) {
     try {
-        const response = await fetch(`http://localhost:8080/api/team/findTeamId?teamId=${sessionStorage.getItem(`selectedTeam${teamId}`)}`);
+        const response = await fetch(`http://localhost:8080/api/team/findTeamId?teamId=${sessionStorage.getItem(`selectedTeam${teamNumber}`)}`);
         const data = await response.json();
 
         window.location.href = `../pages/editTeam.html`;
@@ -80,6 +80,11 @@ async function sendTeam(teamId:number) {
         console.error('Error:', error);
     }
 }
+
+// function saveTeamToEdit(teamId: Number) {
+//     const selectedTeamId = sessionStorage.getItem(`selectedTeam${teamId}`);
+//     sessionStorage.setItem(`teamToEdit${teamId}`, selectedTeamId.toString());
+// }
 
 // function updateTeam(teamId:number) {
 //
