@@ -56,30 +56,27 @@ function displayTeam(teamElementId: string, team: { name: string; players: { nam
     });
 }
 
-async function sendTeam(teamNumber:number) {
+
+
+async function sendTeam(teamNumber: number) {
     try {
         const response = await fetch(`http://localhost:8080/api/team/findTeamId?teamId=${sessionStorage.getItem(`selectedTeam${teamNumber}`)}`);
         const data = await response.json();
 
-        window.location.href = `../pages/editTeam.html`;
-
-        window.addEventListener('load', () => {
-            if (data) {
-                console.log(data);
-                document.getElementById('teamname').textContent = data.name;
-                for (let i = 0; i < data.players.length; i++) {
-                    document.getElementById(`player${i + 1}`).textContent = data.players[i].name;
-                }
-            } else {
-                console.error('No team data found in sessionStorage');
-            }
-        })
-
+        if (data) {
+            console.log('team:', data);
+            sessionStorage.setItem('teamToEdit', JSON.stringify(data));
+            window.location.href = `../pages/editTeam.html`;
+        } else {
+            console.error('No team data found in sessionStorage');
+        }
 
     } catch (error) {
         console.error('Error:', error);
     }
 }
+
+
 
 // function saveTeamToEdit(teamId: Number) {
 //     const selectedTeamId = sessionStorage.getItem(`selectedTeam${teamId}`);
