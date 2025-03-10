@@ -3,6 +3,7 @@ package at.ac.htlleonding.repositories;
 import at.ac.htlleonding.entities.Player;
 import at.ac.htlleonding.entities.Team;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.quarkus.panache.common.Parameters;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
@@ -39,6 +40,10 @@ public class PlayerRepository implements PanacheRepository<Player> {
     }
 
     public List<Player> getAllPlayersWithTeam(long teamId){
-        return list("#Player.getAllPlayersWithTeam", teamId);
+        return list("#Player.getAllPlayersWithTeam", Parameters.with("teamId", teamId));
+    }
+
+    public void renamePlayer(long playerId, String newName) {
+        update("name = ?1 where playerId = ?2", newName, playerId);
     }
 }

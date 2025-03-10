@@ -11,22 +11,16 @@ import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
 
 @Path("api/stages")
-public class StageResource {
+public class    StageResource {
     @Inject
     StageRepository stageRepository;
 
     @Inject
     GameRepository gameRepository;
 
-    @Path("/getStages")
-    @GET
-    public Response getStages() {
-        return Response.ok(stageRepository.findAll()).build();
-    }
-
     @Path("/getStageById")
     @GET
-    public Response getStageById(long id) {
+    public Response getStageById(@QueryParam("stageId") long id) {
         return Response.ok(stageRepository.findById(id)).build();
     }
 

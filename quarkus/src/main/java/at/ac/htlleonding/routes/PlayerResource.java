@@ -5,6 +5,7 @@ import at.ac.htlleonding.repositories.TeamRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
@@ -53,9 +54,17 @@ public class PlayerResource {
                                                            )).build();
     }
 
-    @Path("/getAllPlayersWithTeam")
+    @Path("/getAllPlayersOfTeam")
     @GET
-    public Response getAllPlayersWithTeam(@QueryParam("teamId") long teamId) {
+    public Response getAllPlayersOfTeam(@QueryParam("teamId") long teamId) {
         return Response.ok(playerRepository.getAllPlayersWithTeam(teamId)).build();
+    }
+
+    @Path("/renamePlayer")
+    @POST
+    @Transactional
+    public Response renamePlayer(@QueryParam("playerId") long playerId, @QueryParam("newName") String newName) {
+        playerRepository.renamePlayer(playerId, newName);
+        return Response.ok().build();
     }
 }

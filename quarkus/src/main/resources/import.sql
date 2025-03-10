@@ -10,3 +10,5 @@ insert into player (team_teamid, name) values(2, 'Prof. Stuetz');
 insert into player (team_teamid, name) values(2, 'Prof. Aberger');
 insert into player (team_teamid, name) values(2, 'Prof. Hammer');
 insert into player (team_teamid, name) values(2, 'Prof. Steiner');
+
+insert into game (date) values ('2025-03-05');

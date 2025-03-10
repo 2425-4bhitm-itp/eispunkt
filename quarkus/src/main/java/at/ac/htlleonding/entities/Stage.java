@@ -1,5 +1,7 @@
 package at.ac.htlleonding.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,7 +12,7 @@ public class Stage {
     public long stageId;
 
     @ManyToOne
-    @JoinColumn
+    @JsonbTransient
     public Game game;
 
     public int stageNumber;
@@ -19,7 +21,8 @@ public class Stage {
     }
 
     public Stage(Game game, int stageNumber) {
-        this.game = game;
+        setGame(game);
+        setStageNumber(stageNumber);
     }
 
     public Game getGame() {

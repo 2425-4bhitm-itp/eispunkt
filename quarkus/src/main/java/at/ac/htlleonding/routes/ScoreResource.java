@@ -8,10 +8,7 @@ import at.ac.htlleonding.repositories.TeamRepository;
 import at.ac.htlleonding.repositories.TurnRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
@@ -28,23 +25,25 @@ public class ScoreResource {
 
     @Path("create")
     @Transactional
-
     public Response createScore(@QueryParam("teamId") long teamId, @QueryParam("turnId") long turnId) {
         Score score = scoreRepository.create(teamRepository.findById(teamId), turnRepository.findById(turnId));
 
         return Response.ok(score).build();
     }
 
+    @PUT
     @Path("create")
     public Response createScore() {
         return Response.ok(scoreRepository.create()).build();
     }
 
+    @GET
     @Path("findById")
     public Response findById(@QueryParam("scoreId") long scoreId) {
         return Response.ok(scoreRepository.findById(scoreId)).build();
     }
 
+    @PUT
     @Path("update")
     public Response updateScore(@QueryParam("scoreId") long scoreId, int scoreValue) {
         Score score = scoreRepository.findById(scoreId);
@@ -53,11 +52,13 @@ public class ScoreResource {
         return Response.ok(score).build();
     }
 
+    @GET
     @Path("getScore")
     public Response getScore(@QueryParam("scoreId") long scoreId) {
         return Response.ok(scoreRepository.getScore(scoreRepository.findById(scoreId))).build();
     }
 
+    @GET
     @Path("getAllScores")
     public Response getAllScores() {
         return Response.ok(scoreRepository.getAllScores()).build();

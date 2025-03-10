@@ -5,9 +5,9 @@ import jakarta.persistence.*;
 @Entity
 @NamedQueries({
         @NamedQuery(
-                name = "Players.getAllWithTeam",
+                name = "Player.getAllPlayersWithTeam",
                 query = """
-                       select p from Player p where p.team = :team
+                       select p from Player p where p.team.teamId = :teamId
                        """
         )
 })
