@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        const teamIds = [4, 9, 1, 3]
+
+        fetch("http://localhost:8080/api/games/createGameplan", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(teamIds)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                document.getElementById('gameplan').innerHTML = data;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            })
+    </script>
+    <title>Gameplan</title>
+</head>
+<body>
+<div id="gameplan">
+
+</div>
+</body>
+</html>

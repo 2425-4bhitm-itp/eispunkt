@@ -16,6 +16,12 @@ public class Team {
     @JoinColumn
     public List<Player> players = new LinkedList<>();
 
+    public Team() {
+    }
+
+    public Team(String name) {
+        this.name = name;
+    }
 
     @Override
     public String toString() {

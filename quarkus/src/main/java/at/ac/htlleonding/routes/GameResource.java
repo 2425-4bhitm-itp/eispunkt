@@ -12,6 +12,8 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.List;
+
 @Path("api/games")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -47,5 +49,18 @@ public class GameResource {
         Game game = gameRepository.findById(gameId);
         Stage stage = gameRepository.getCurrentStage(game);
         return Response.ok(stage.stageId).build();
+    }
+
+    @Path("/createGameplan")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createGameplan(List<Long> teamIds) {
+        Game game = new Game();
+        for (long teamId : teamIds) {
+            game.teams.add(teamRepository.findById(teamId));
+        }
+
+        return Response.ok(game.generateGameplan()).build();
     }
 }
