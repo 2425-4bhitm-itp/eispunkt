@@ -27,20 +27,28 @@ function fillInputFields() {
 async function updateTeam() {
     try {
         const teamId = JSON.parse(sessionStorage.getItem('teamToEdit')).teamId;
+        console.log('Team ID:', teamId);
         const teamName = (document.getElementById('teamname') as HTMLInputElement).value;
+        console.log('Team Name:', teamName);
         const response = await fetch(`http://localhost:8080/api/team/updateTeam?teamId=${teamId}&teamName=${teamName}`, {
             method: "PUT"
         });
-        console.log(await response.text());
+        const data = await response.json();
+        console.log('Data:', data);
+        // console.log(await response.text());
+
+        window.location.href = 'teamOverview.html';
     } catch (error) {
         console.error('Error:', error);
     }
 }
 
-async function updatePlayer(playerId: number) {
+async function updatePlayer(playerNum: number) {
     try {
-        const playerName = (document.getElementById(`player${playerId}`) as HTMLInputElement).value;
+        const newPlayerName = (document.getElementById(`player${playerNum}`) as HTMLInputElement).value;
         const teamData = sessionStorage.getItem("teamToEdit");
+
+        const oldPlayerName = JSON.parse(sessionStorage.getItem('teamToEdit')).players[playerNum - 1].name;
 
         if (!teamData) {
             console.error("No team data found in session storage");
@@ -49,7 +57,18 @@ async function updatePlayer(playerId: number) {
 
         const teamId = JSON.parse(teamData).teamId;
 
-        const url = `http://localhost:8080/api/players/updatePlayer?playerId=${playerId}&teamId=${teamId}&playerName=${encodeURIComponent(playerName)}`;
+
+        const playerIdResponse = await fetch(`
+            http://localhost:8080/api/team/findPlayerInTeam?teamId=${teamId}&playerName=${oldPlayerName}`);
+
+        const data = await playerIdResponse.json();
+
+        console.log('Data:', data);
+        const playerId = data;
+        console.log('Player ID:', playerId);
+
+
+        const url = `http://localhost:8080/api/players/updatePlayer?playerId=${playerId}&teamId=${teamId}&playerName=${encodeURIComponent(newPlayerName)}`;
 
         const response = await fetch(url, {
             method: "PUT"

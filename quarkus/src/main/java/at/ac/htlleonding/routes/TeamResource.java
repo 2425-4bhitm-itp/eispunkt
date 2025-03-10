@@ -73,9 +73,9 @@ public class TeamResource {
     @Transactional
     public Response updateTeam(@QueryParam("teamId") long teamId, @QueryParam("teamName") String name) {
         return Response.ok(teamRepository.update("""
-                                update team
+                                update Team
                                 set name = ?1
-                                where teamid = ?2
+                                where teamId = ?2
                                 """, name, teamId)).build();
     }
 
