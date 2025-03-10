@@ -73,26 +73,4 @@ function addPlayerToTeam(teamId, playerId) {
         }
     });
 }
-function updateTeam(teamId, teamName) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const response = yield fetch(`http://localhost:8080/api/team/updateTeam?teamId=${teamId}&teamName=${teamName}`);
-            console.log(yield response.text());
-        }
-        catch (error) {
-            console.error('Error:', error);
-        }
-    });
-}
-function updatePlayer(playerId, playerName) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            const response = yield fetch(`http://localhost:8080/api/team/updateTeam?playerId=${playerId}&playerName=${playerName}`);
-            console.log(yield response.text());
-        }
-        catch (error) {
-            console.error('Error:', error);
-        }
-    });
-}
 //# sourceMappingURL=teams.js.map

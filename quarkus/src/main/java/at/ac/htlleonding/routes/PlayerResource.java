@@ -5,10 +5,8 @@ import at.ac.htlleonding.repositories.PlayerRepository;
 
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("/api/players")
@@ -29,17 +27,24 @@ public class PlayerResource {
     }
 
     @Path("/updatePlayer")
-    @POST
+    @PUT
+    @Produces(MediaType.TEXT_PLAIN)
     @Transactional
-    public Response updatePlayer(@QueryParam("playerId") long playerId, @QueryParam("playerName") String name){
-        if(name == null || name.isEmpty()){
+    public Response updatePlayer(
+            @QueryParam("playerId") long playerId,
+            @QueryParam("teamId") long teamId,
+            @QueryParam("playerName") String name)
+    {
+        if (name == null || name.isEmpty()) {
             return Response.status(Response.Status.BAD_REQUEST).build();
-        }else{
-            return Response.ok(playerRepository.update("""
-                        update player
-                        set  name = ?2
-                        where playerid = ?1
-                        """,playerId, name)).build();
+        } else {
+            return Response.ok(playerRepository.update(
+                        """
+                        update Player p
+                        set p.name = ?2
+                        where p.playerId = ?1
+                        """
+                    ,playerId , name)).build();
         }
     }
 
