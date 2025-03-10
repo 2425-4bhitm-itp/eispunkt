@@ -1,9 +1,11 @@
 package at.ac.htlleonding.repositories;
 
+import at.ac.htlleonding.entities.Player;
 import at.ac.htlleonding.entities.Team;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
@@ -50,6 +52,11 @@ public class TeamRepository implements PanacheRepository<Team> {
 
     public List<Team> getAllTeams() {
         return listAll();
+    }
+
+    public Player findPlayerInTeam(long teamId, String playerName) {
+        Team teamWithPlayer = findById(teamId);
+        return teamWithPlayer.players.stream().filter(player -> player.name.equals(playerName)).findFirst().orElse(null);
     }
 
     public void addPlayerToTeam(long teamId, long playerId) {

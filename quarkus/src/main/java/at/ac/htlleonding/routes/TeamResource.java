@@ -81,4 +81,10 @@ public class TeamResource {
                                 where teamid = ?2;
                                 """, name, teamId)).build();
     }
+
+    @Path("/findPlayerInTeam")
+    @GET
+    public Response findPlayerInTeam(@QueryParam("teamId") long teamId, @QueryParam("playerName") String playerName) {
+        return Response.ok(teamRepository.findPlayerInTeam(teamId, playerName).playerId).build();
+    }
 }
