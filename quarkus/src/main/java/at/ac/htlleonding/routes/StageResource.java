@@ -4,45 +4,41 @@ import at.ac.htlleonding.repositories.GameRepository;
 import at.ac.htlleonding.repositories.StageRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 @Path("api/stages")
-public class    StageResource {
+public class StageResource {
     @Inject
     StageRepository stageRepository;
 
     @Inject
     GameRepository gameRepository;
 
-    @Path("/getStageById")
+
     @GET
-    public Response getStageById(@QueryParam("stageId") long id) {
-        return Response.ok(stageRepository.findById(id)).build();
+    public Response getAllStages() {
+        return Response.ok(stageRepository.getAllStages()).build();
     }
 
-    @Path("/createStage")
+
+    @Path("/{id:[0-9]+}")
+    @GET
+    public Response getStageById(@PathParam("id") long stageId) {
+        return Response.ok(stageRepository.findById(stageId)).build();
+    }
+
     @POST
     @Transactional
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response createStage(@QueryParam("gameId") long gameId, @QueryParam("stageNumber") int stageNumber) {
         return Response.ok(stageRepository.createStage(gameRepository.findById(gameId), stageNumber)).build();
     }
 
     @Path("/getGame")
     @GET
-    public Response getGame(
-            @QueryParam("stageId")  long stageId
-                           ) {
+    public Response getGame(@QueryParam("stageId") long stageId) {
         return Response.ok(stageRepository.getGame(stageRepository.findById(stageId))).build();
     }
-
-    @Path("/getAllStages")
-    @GET
-    public Response getAllStages() {
-        return Response.ok(stageRepository.getAllStages()).build();
-    }
-
 }
