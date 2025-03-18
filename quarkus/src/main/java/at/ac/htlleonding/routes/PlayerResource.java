@@ -48,10 +48,8 @@ public class PlayerResource {
     @GET
     @Transactional
     public Response setTeamOfPlayer(@QueryParam("playerId") long playerId, @QueryParam("teamId") long teamId) {
-        return Response.ok(playerRepository.setTeamOfPlayer(
-                                                            playerRepository.findById(playerId),
-                                                            teamRepository.findById(teamId)
-                                                           )).build();
+        return Response.ok(playerRepository.setTeamOfPlayer(playerRepository.findById(playerId), teamRepository.findById(teamId)))
+                       .build();
     }
 
     @Path("/getAllPlayersOfTeam")

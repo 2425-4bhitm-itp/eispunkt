@@ -57,21 +57,4 @@ public class TeamResource {
         teamRepository.renameTeam(teamId, newName);
         return Response.ok().build();
     }
-
-    @Path("/updateTeam")
-    @PUT
-    @Transactional
-    public Response updateTeam(@QueryParam("teamId") long teamId, @QueryParam("teamName") String name) {
-        return Response.ok(teamRepository.update("""
-                                update Team
-                                set name = ?1
-                                where teamId = ?2
-                                """, name, teamId)).build();
-    }
-
-    @Path("/findPlayerInTeam")
-    @GET
-    public Response findPlayerInTeam(@QueryParam("teamId") long teamId, @QueryParam("playerName") String playerName) {
-        return Response.ok(teamRepository.findPlayerInTeam(teamId, playerName).playerId).build();
-    }
 }

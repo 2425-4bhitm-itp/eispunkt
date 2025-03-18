@@ -54,7 +54,7 @@ public class GameResource {
     @POST
     @Transactional
     public Response addTeamToGame(@QueryParam("gameId") long gameId, @QueryParam("teamId") long teamId) {
-        return Response.ok( gameRepository.addTeamToGame(gameId, teamId)).build();
+        return Response.ok(gameRepository.addTeamToGame(gameId, teamId)).build();
     }
 
 }

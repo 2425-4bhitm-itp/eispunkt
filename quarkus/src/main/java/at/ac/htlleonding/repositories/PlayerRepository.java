@@ -39,7 +39,7 @@ public class PlayerRepository implements PanacheRepository<Player> {
         return player;
     }
 
-    public List<Player> getAllPlayersWithTeam(long teamId){
+    public List<Player> getAllPlayersWithTeam(long teamId) {
         return list("#Player.getAllPlayersWithTeam", Parameters.with("teamId", teamId));
     }
 

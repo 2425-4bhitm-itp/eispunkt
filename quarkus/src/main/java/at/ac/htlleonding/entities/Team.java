@@ -3,8 +3,6 @@ package at.ac.htlleonding.entities;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 

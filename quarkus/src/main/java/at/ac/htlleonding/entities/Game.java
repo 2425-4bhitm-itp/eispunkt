@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,14 +19,6 @@ public class Game {
     @ManyToMany
     private List<Team> teams = new LinkedList<>();
 
-    public List<Team> getTeams() {
-        return teams;
-    }
-
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
-    }
-
     // Constructors, getters, and setters
     public Game() {
         date = LocalDate.now();
@@ -36,6 +26,14 @@ public class Game {
 
     public Game(LocalDate date) {
         this.date = date;
+    }
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
     }
 
     public Long getGameId() {

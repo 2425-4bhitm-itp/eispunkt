@@ -1,10 +1,9 @@
 package at.ac.htlleonding.routes;
 
-import at.ac.htlleonding.entities.Score;
 import at.ac.htlleonding.entities.Stage;
-import at.ac.htlleonding.entities.Team;
 import at.ac.htlleonding.entities.Turn;
-import at.ac.htlleonding.repositories.*;
+import at.ac.htlleonding.repositories.StageRepository;
+import at.ac.htlleonding.repositories.TurnRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.Path;
