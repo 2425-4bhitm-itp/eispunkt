@@ -1,31 +1,40 @@
 package at.ac.htlleonding.repositories;
 
 import at.ac.htlleonding.entities.Game;
-import at.ac.htlleonding.entities.Stage;
+import at.ac.htlleonding.entities.Team;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
+import java.util.List;
+
 @ApplicationScoped
 public class GameRepository implements PanacheRepository<Game> {
     @Inject
-    TeamRepository teamRepository;
-
+    GameRepository gameRepository;
 
     public Game findById(long id) {
         return find("id", id).firstResult();
     }
 
-    public Game createGameWithTeams(long team1Id, long team2Id) {
-        Game game = new Game();
-
-        game.teams.add(teamRepository.findById(team1Id));
-        game.teams.add(teamRepository.findById(team2Id));
-
-        return game;
+    public Game createGame() {
+        Game newGame = new Game();
+        persist(newGame);
+        return newGame;
     }
 
-    public Stage getCurrentStage(Game game) {
-        return game.stages.getLast();
+
+    public List<Game> getAllGames() {
+        return listAll();
+    }
+
+    public List<Team> getAllTeamsOfGame(long gameId) {
+        return gameRepository.findById(gameId).getTeams();
+    }
+
+    public boolean addTeamToGame(long gameId, long teamId) {
+        Game game = gameRepository.findById(gameId);
+        Team team = gameRepository.getEntityManager().find(Team.class, teamId);
+        return game.addTeam(team);
     }
 }

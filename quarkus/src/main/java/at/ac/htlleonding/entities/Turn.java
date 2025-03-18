@@ -11,12 +11,30 @@ public class Turn {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long turnId;
-    @OneToMany
-    @JoinColumn
-    public final List<Score> scores = new LinkedList<>();
+
     @ManyToOne
     private Stage stage;
 
     public Turn() {
+    }
+
+    public Turn(Stage stage) {
+        setStage(stage);
+    }
+
+    public long getTurnId() {
+        return turnId;
+    }
+
+    private void setTurnId(long turnId) {
+        this.turnId = turnId;
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    private void setStage(Stage stage) {
+        this.stage = stage;
     }
 }

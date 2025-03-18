@@ -14,9 +14,6 @@ public class TeamResource {
     @Inject
     TeamRepository teamRepository;
 
-    @Inject
-    PlayerRepository playerRepository;
-
     @Path("/createTeam")
     @GET
     @Transactional
@@ -28,25 +25,14 @@ public class TeamResource {
         }
     }
 
-    @Path("/addPlayer")
-    @GET
-    @Transactional
-    public Response addPlayer(@QueryParam("teamId") long teamId, @QueryParam("playerId") long playerId) {
-        if(teamId == 0 || playerId == 0) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }else{
-            teamRepository.addPlayerToTeam(teamId, playerId);
-            return Response.ok("Player added Successfully").build();
-        }
-    }
 
-    @Path("/findTeamId")
+    @Path("/findTeamById")
     @GET
     public Response findTeamById(@QueryParam("teamId") long teamId){
         return Response.ok(teamRepository.findById(teamId)).build();
     }
 
-    @Path("/findTeam")
+    @Path("/findTeamByName")
     @GET
     public Response findTeamByName(@QueryParam("teamName") String teamName){
         return Response.ok(teamRepository.findByName(teamName)).build();
@@ -55,17 +41,21 @@ public class TeamResource {
     @Path("/getAllTeams")
     @GET
     public Response getAllTeams(){
-        return Response.ok(teamRepository.listAll()).build();
+        return Response.ok(teamRepository.getAllTeams()).build();
     }
 
-    @Path("/createTeamWithPlayers")
+    @Path("/getAllGamesOfTeam")
+    @GET
+    public Response getAllPlayersOfTeam(@QueryParam("teamId") long teamId){
+        return Response.ok(teamRepository.getAllGamesOfTeam(teamId)).build();
+    }
+
+    @Path("/renameTeam")
     @POST
     @Transactional
-    public Response createTeamWithPlayers(String name, long... playerIds) {
-        if (!(name == null || name.isBlank())) {
-            return Response.ok(teamRepository.createTeamWithPlayers(name, playerIds)).build();
-        }
-        return Response.status(Response.Status.BAD_REQUEST).build();
+    public Response renameTeam(@QueryParam("teamId") long teamId, @QueryParam("newName") String newName){
+        teamRepository.renameTeam(teamId, newName);
+        return Response.ok().build();
     }
 
     @Path("/updateTeam")

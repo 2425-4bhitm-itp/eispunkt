@@ -1,49 +1,25 @@
 package at.ac.htlleonding.repositories;
 
-import at.ac.htlleonding.entities.Player;
+import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.entities.Team;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
-import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
 @Singleton
 public class TeamRepository implements PanacheRepository<Team> {
-    @Inject
-    PlayerRepository playerRepository;
-
-    public Team findById(long id) {
-        return find("id", id).firstResult();
+    public Team findById(long teamId) {
+        return find("id", teamId).firstResult();
     }
 
     public Team createTeam(String name) {
-        if (!(name == null || name.isBlank())) {
-            Team team = new Team();
-            team.name = name;
+        Team team = new Team(name);
 
-            persist(team);
+        persist(team);
 
-            return team;
-        }
-        return null;
-    }
+        return team;
 
-    public Team createTeamWithPlayers(String name, long... playerIds) {
-        if (!(name == null || name.isBlank())) {
-            Team team = new Team();
-            team.name = name;
-
-            for (long playerId : playerIds) {
-                team.players.add(playerRepository.findById(playerId));
-            }
-
-            persist(team);
-
-            return team;
-        }
-        return null;
     }
 
     public Team findByName(String name) {
@@ -54,13 +30,11 @@ public class TeamRepository implements PanacheRepository<Team> {
         return listAll();
     }
 
-    public Player findPlayerInTeam(long teamId, String playerName) {
-        Team teamWithPlayer = findById(teamId);
-        return teamWithPlayer.players.stream().filter(player -> player.name.equals(playerName)).findFirst().orElse(null);
+    public List<Game> getAllGamesOfTeam(long teamId) {
+        return findById(teamId).getGames();
     }
 
-    public void addPlayerToTeam(long teamId, long playerId) {
-        Team team = findById(teamId);
-        team.players.add(playerRepository.findById(playerId));
+    public void renameTeam(long teamId, String newName) {
+        update("name = ?1 where teamId = ?2", newName, teamId);
     }
 }
