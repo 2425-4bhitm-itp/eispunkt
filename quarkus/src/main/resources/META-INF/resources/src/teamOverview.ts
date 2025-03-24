@@ -40,18 +40,22 @@ async function loadSelectedTeams() {
 }
 
 
-function displayTeam(teamElementId: string, team: { name: string; players: { name: string }[] }) {
+async function displayTeam(teamElementId: string, team: { name: string; teamId: number;}) {
 
     const teamLabel = document.getElementById(teamElementId) as HTMLElement;
     if (teamLabel) {
         teamLabel.textContent = `${team.name}`;
     }
+    const response = await fetch(`http://localhost:8080/api/players/getAllPlayersOfTeam?teamId=${team.teamId}`);
+
+    const players = await response.json();
 
 
-    team.players.forEach((player, index) => {
+    players.forEach((player: { name: string }, index: number) => {
         const playerElement = document.getElementById(`${teamElementId}_player${index + 1}`) as HTMLElement;
         if (playerElement) {
             playerElement.textContent = player.name;
+            console.log('player:', player);
         }
     });
 }
@@ -60,11 +64,15 @@ function displayTeam(teamElementId: string, team: { name: string; players: { nam
 
 async function sendTeam(teamNumber: number) {
     try {
-        const response = await fetch(`http://localhost:8080/api/team/findTeamId?teamId=${sessionStorage.getItem(`selectedTeam${teamNumber}`)}`);
+
+        const response = await fetch(`http://localhost:8080/api/team/findTeamById?teamId=${sessionStorage.getItem(`selectedTeam${teamNumber}`)}`);
         const data = await response.json();
 
+        const response2 = await fetch('http://localhost:8080/api/players/getAllPlayersOfTeam?teamId=' + sessionStorage.getItem(`selectedTeam${teamNumber}`));
+        const players = await response2.json();
+
+        sessionStorage.setItem(`players`, JSON.stringify(players));
         if (data) {
-            console.log('team:', data);
             sessionStorage.setItem('teamToEdit', JSON.stringify(data));
             window.location.href = `../pages/editTeam.html`;
         } else {
@@ -75,27 +83,5 @@ async function sendTeam(teamNumber: number) {
         console.error('Error:', error);
     }
 }
-
-
-
-// function saveTeamToEdit(teamId: Number) {
-//     const selectedTeamId = sessionStorage.getItem(`selectedTeam${teamId}`);
-//     sessionStorage.setItem(`teamToEdit${teamId}`, selectedTeamId.toString());
-// }
-
-// function updateTeam(teamId:number) {
-//
-//
-//
-//     window.location.href = `../pages/editTeam.html`;
-//
-//     const data = JSON.parse(sessionStorage.getItem(`toEditTeam${teamId}`));
-//
-//     console.log(data)
-//     document.getElementById('teamname').textContent = data.name;
-//     for (let i = 0; i < data.players.length; i++) {
-//         document.getElementById(`player${i + 1}`).textContent = data.players[i].name;
-//     }
-// }
 
 document.addEventListener('DOMContentLoaded', loadSelectedTeams);

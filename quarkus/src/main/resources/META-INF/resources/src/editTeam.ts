@@ -7,14 +7,20 @@ if (document.readyState === 'loading') {
 function fillInputFields() {
     document.addEventListener('DOMContentLoaded', () => {
 
-        const data = JSON.parse(sessionStorage.getItem('teamToEdit'));
-        if (data) {
-            console.log('team to edit:', data);
+        const team = JSON.parse(sessionStorage.getItem('teamToEdit'));
+        const players = JSON.parse(sessionStorage.getItem('players'));
+
+
+
+
+        if (team) {
+            console.log('team to edit:', team);
+            console.log('players to edit:', players);
             const teamnameInput = document.getElementById('teamname') as HTMLSelectElement;
-            teamnameInput.value = data.name;
-            for (let i = 0; i < data.players.length; i++) {
+            teamnameInput.value = team.name;
+            for (let i = 0; i < players.length; i++) {
                 const playerInput = document.getElementById(`player${i + 1}`) as HTMLSelectElement;
-                playerInput.value = data.players[i].name;
+                playerInput.value = players[i].name;
             }
         } else {
             console.error('No team data found in sessionStorage');
@@ -26,16 +32,23 @@ function fillInputFields() {
 
 async function updateTeam() {
     try {
-        const teamId = JSON.parse(sessionStorage.getItem('teamToEdit')).teamId;
+        const teamData = sessionStorage.getItem('teamToEdit');
+        if (!teamData) {
+            throw new Error('No team data found in sessionStorage');
+        }
+
+        const teamId = JSON.parse(teamData).teamId;
         console.log('Team ID:', teamId);
+
         const teamName = (document.getElementById('teamname') as HTMLInputElement).value;
         console.log('Team Name:', teamName);
-        const response = await fetch(`http://localhost:8080/api/team/updateTeam?teamId=${teamId}&teamName=${teamName}`, {
-            method: "PUT"
+
+        const response = await fetch(`http://localhost:8080/api/team/renameTeam?teamId=${teamId}&teamName=${teamName}`, {
+            method: "POST"
         });
+
         const data = await response.json();
         console.log('Data:', data);
-        // console.log(await response.text());
 
         window.location.href = 'teamOverview.html';
     } catch (error) {
@@ -45,10 +58,12 @@ async function updateTeam() {
 
 async function updatePlayer(playerNum: number) {
     try {
-        const newPlayerName = (document.getElementById(`player${playerNum}`) as HTMLInputElement).value;
+        const newPlayerName =
+            (document.getElementById(`player${playerNum}`) as HTMLInputElement).value;
         const teamData = sessionStorage.getItem("teamToEdit");
 
-        const oldPlayerName = JSON.parse(sessionStorage.getItem('teamToEdit')).players[playerNum - 1].name;
+        const oldPlayerName =
+            JSON.parse(sessionStorage.getItem('players'))[playerNum - 1].name;
 
         if (!teamData) {
             console.error("No team data found in session storage");
@@ -59,22 +74,28 @@ async function updatePlayer(playerNum: number) {
 
 
         const playerIdResponse = await fetch(`
-            http://localhost:8080/api/team/findPlayerInTeam?teamId=${teamId}&playerName=${oldPlayerName}`);
+            http://localhost:8080/api/players/getAllPlayersOfTeam?teamId=${teamId}`);
 
-        const data = await playerIdResponse.json();
+        let data = await playerIdResponse.json();
+
+
+        for (let i = 0; i < data.length; i++) {
+            if (i === playerNum - 1) {
+                data = data[i].playerId;
+                break;
+            }
+        }
 
         console.log('Data:', data);
         const playerId = data;
         console.log('Player ID:', playerId);
 
 
-        const url = `http://localhost:8080/api/players/updatePlayer?playerId=${playerId}&teamId=${teamId}&playerName=${encodeURIComponent(newPlayerName)}`;
-
+        const url =
+            `http://localhost:8080/api/players/renamePlayer?playerId=${playerId}&teamId=${teamId}&playerName=${encodeURIComponent(newPlayerName)}`;
         const response = await fetch(url, {
-            method: "PUT"
+            method: "POST"
         });
-
-        console.log(await response.text());
     } catch (error) {
         console.error("Error:", error);
     }

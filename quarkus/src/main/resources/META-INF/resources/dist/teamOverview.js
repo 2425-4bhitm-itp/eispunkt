@@ -42,24 +42,31 @@ function loadSelectedTeams() {
     });
 }
 function displayTeam(teamElementId, team) {
-    const teamLabel = document.getElementById(teamElementId);
-    if (teamLabel) {
-        teamLabel.textContent = `${team.name}`;
-    }
-    team.players.forEach((player, index) => {
-        const playerElement = document.getElementById(`${teamElementId}_player${index + 1}`);
-        if (playerElement) {
-            playerElement.textContent = player.name;
+    return __awaiter(this, void 0, void 0, function* () {
+        const teamLabel = document.getElementById(teamElementId);
+        if (teamLabel) {
+            teamLabel.textContent = `${team.name}`;
         }
+        const response = yield fetch(`http://localhost:8080/api/players/getAllPlayersOfTeam?teamId=${team.teamId}`);
+        const players = yield response.json();
+        players.forEach((player, index) => {
+            const playerElement = document.getElementById(`${teamElementId}_player${index + 1}`);
+            if (playerElement) {
+                playerElement.textContent = player.name;
+                console.log('player:', player);
+            }
+        });
     });
 }
 function sendTeam(teamNumber) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const response = yield fetch(`http://localhost:8080/api/team/findTeamId?teamId=${sessionStorage.getItem(`selectedTeam${teamNumber}`)}`);
+            const response = yield fetch(`http://localhost:8080/api/team/findTeamById?teamId=${sessionStorage.getItem(`selectedTeam${teamNumber}`)}`);
             const data = yield response.json();
+            const response2 = yield fetch('http://localhost:8080/api/players/getAllPlayersOfTeam?teamId=' + sessionStorage.getItem(`selectedTeam${teamNumber}`));
+            const players = yield response2.json();
+            sessionStorage.setItem(`players`, JSON.stringify(players));
             if (data) {
-                console.log('team:', data);
                 sessionStorage.setItem('teamToEdit', JSON.stringify(data));
                 window.location.href = `../pages/editTeam.html`;
             }
@@ -72,23 +79,5 @@ function sendTeam(teamNumber) {
         }
     });
 }
-// function saveTeamToEdit(teamId: Number) {
-//     const selectedTeamId = sessionStorage.getItem(`selectedTeam${teamId}`);
-//     sessionStorage.setItem(`teamToEdit${teamId}`, selectedTeamId.toString());
-// }
-// function updateTeam(teamId:number) {
-//
-//
-//
-//     window.location.href = `../pages/editTeam.html`;
-//
-//     const data = JSON.parse(sessionStorage.getItem(`toEditTeam${teamId}`));
-//
-//     console.log(data)
-//     document.getElementById('teamname').textContent = data.name;
-//     for (let i = 0; i < data.players.length; i++) {
-//         document.getElementById(`player${i + 1}`).textContent = data.players[i].name;
-//     }
-// }
 document.addEventListener('DOMContentLoaded', loadSelectedTeams);
 //# sourceMappingURL=teamOverview.js.map

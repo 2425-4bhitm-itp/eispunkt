@@ -35,6 +35,8 @@
         score[NUMBER]
     }
 
+
+
     Team||--o{playedGames
     Game||--o{playedGames
     Stage}|-||Game

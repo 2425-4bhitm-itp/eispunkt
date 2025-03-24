@@ -7,19 +7,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-const MAX_TEAMS = 2;
-// function nextTeam(teamNum: number) {
-//
-//     document.getElementById("h1").innerText = `Team ${teamNum}`
-//
-//     let teamInput = document.getElementById("teamName") as HTMLInputElement
-//     teamInput.value = "";
-//
-//     document.getElementById("inputBox").innerHTML = '<input id="player1" placeholder=\"Teamname\"><br><input id="player2" placeholder=\"Teamname\"> <br><input id=\"player3\" placeholder=\"Teamname\"><br><input id=\"player4\" placeholder=\"Teamname\">'
-//
-//     document.getElementById("buttonBox").innerHTML = `<button id="playButton"><a onclick="savePlayers(${teamNum})" href="#">Play</a></button>`;
-//
-// }
 function savePlayers() {
     return __awaiter(this, void 0, void 0, function* () {
         //AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh
@@ -45,7 +32,7 @@ function savePlayers() {
         let team = JSON.parse(sessionStorage.getItem(`team${teamName}`));
         let playerData = yield Promise.all(players.map(name => createPlayer(name)));
         for (let i = 0; i < 4; i++) {
-            yield addPlayerToTeam(parseInt(team.teamId), parseInt(playerData[i]));
+            yield addPlayerToTeam(parseInt(team.teamId), players[i]);
         }
         window.location.href = "../pages/chooseTeam.html";
     });
@@ -62,10 +49,10 @@ function createPlayer(playerName) {
         }
     });
 }
-function addPlayerToTeam(teamId, playerId) {
+function addPlayerToTeam(teamId, playerName) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const response = yield fetch(`http://localhost:8080/api/team/addPlayer?teamId=${teamId}&playerId=${playerId}`);
+            const response = yield fetch(`http://localhost:8080/api/players/createPlayerIntoTeam?teamId=${teamId}&name=${playerName}`);
             console.log(yield response.text());
         }
         catch (error) {

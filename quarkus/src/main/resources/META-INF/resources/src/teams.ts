@@ -1,18 +1,3 @@
-const MAX_TEAMS = 2;
-
-// function nextTeam(teamNum: number) {
-//
-//     document.getElementById("h1").innerText = `Team ${teamNum}`
-//
-//     let teamInput = document.getElementById("teamName") as HTMLInputElement
-//     teamInput.value = "";
-//
-//     document.getElementById("inputBox").innerHTML = '<input id="player1" placeholder=\"Teamname\"><br><input id="player2" placeholder=\"Teamname\"> <br><input id=\"player3\" placeholder=\"Teamname\"><br><input id=\"player4\" placeholder=\"Teamname\">'
-//
-//     document.getElementById("buttonBox").innerHTML = `<button id="playButton"><a onclick="savePlayers(${teamNum})" href="#">Play</a></button>`;
-//
-// }
-
 async function savePlayers() {
     //AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHh
 
@@ -43,7 +28,7 @@ async function savePlayers() {
     let playerData = await Promise.all(players.map(name => createPlayer(name)));
 
     for (let i = 0; i < 4; i++) {
-        await addPlayerToTeam(parseInt(team.teamId),parseInt(playerData[i]));
+        await addPlayerToTeam(parseInt(team.teamId), players[i]);
     }
 
 
@@ -65,9 +50,9 @@ async function createPlayer(playerName: String){
     }
 }
 
-async function addPlayerToTeam(teamId: Number, playerId: Number){
+async function addPlayerToTeam(teamId: Number, playerName: String){
     try{
-        const response = await fetch(`http://localhost:8080/api/team/addPlayer?teamId=${teamId}&playerId=${playerId}`)
+        const response = await fetch(`http://localhost:8080/api/players/createPlayerIntoTeam?teamId=${teamId}&name=${playerName}`)
         console.log(await response.text());
     }catch (error){
         console.error('Error:', error);
