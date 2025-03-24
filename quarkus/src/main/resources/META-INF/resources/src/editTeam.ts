@@ -43,12 +43,12 @@ async function updateTeam() {
         const teamName = (document.getElementById('teamname') as HTMLInputElement).value;
         console.log('Team Name:', teamName);
 
-        const response = await fetch(`http://localhost:8080/api/team/renameTeam?teamId=${teamId}&teamName=${teamName}`, {
+        const response = await fetch(`http://localhost:8080/api/team/renameTeam?teamId=${teamId}&newName=${teamName}`, {
             method: "POST"
         });
-
-        const data = await response.json();
-        console.log('Data:', data);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
 
         window.location.href = 'teamOverview.html';
     } catch (error) {
@@ -77,6 +77,7 @@ async function updatePlayer(playerNum: number) {
             http://localhost:8080/api/players/getAllPlayersOfTeam?teamId=${teamId}`);
 
         let data = await playerIdResponse.json();
+        console.log('Data:', data);
 
 
         for (let i = 0; i < data.length; i++) {
@@ -86,13 +87,12 @@ async function updatePlayer(playerNum: number) {
             }
         }
 
-        console.log('Data:', data);
         const playerId = data;
         console.log('Player ID:', playerId);
 
 
         const url =
-            `http://localhost:8080/api/players/renamePlayer?playerId=${playerId}&teamId=${teamId}&playerName=${encodeURIComponent(newPlayerName)}`;
+            `http://localhost:8080/api/players/renamePlayer?playerId=${playerId}&teamId=${teamId}&newName=${encodeURIComponent(newPlayerName)}`;
         const response = await fetch(url, {
             method: "POST"
         });
