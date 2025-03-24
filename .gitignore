@@ -45,4 +45,5 @@ nb-configuration.xml
 .certs/
 
 # Frontend
-/quarkus/src/main/resources/META-INF/resources/dist/
+/frontend/dist/
+/backend/src/main/resources/META-INF/resources/*
