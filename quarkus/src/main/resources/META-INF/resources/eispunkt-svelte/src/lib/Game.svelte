@@ -1,3 +1,103 @@
+<script lang="ts">
+
+    let t1SubScore = 0;
+    let t1SuperScore = 0;
+    let t2SubScore = 0;
+    let t2SuperScore = 0;
+
+    async function loadGame(){
+        try {
+            // create game and store ID
+            let response1 = await fetch(`http://localhost:8080/api/games/createGame?team1Id=${sessionStorage.getItem("team1Id")}&team2Id=${sessionStorage.getItem("team2Id")}`);
+            let gameId = await response1.text();
+            sessionStorage.setItem('currentGameId', gameId);
+            console.log(sessionStorage.getItem('currentGameId'))
+
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
+
+
+    function addPoint(index: number) {
+        if(index == 1){
+            t1SubScore++;
+            updateText()
+            if(t1SubScore > 2){
+                t1SuperScore += 2;
+                checkWin()
+                resetSub()
+            }else if(t1SubScore == 2 && t2SubScore == 2){
+                t1SuperScore += 1;
+                t2SuperScore += 1;
+                checkWin()
+                resetSub()
+            }
+        }else{
+            t2SubScore++;
+            updateText()
+            if(t2SubScore > 2){
+                t2SuperScore += 2;
+                checkWin()
+                resetSub()
+            }else if(t2SubScore == 2 && t1SubScore == 2){
+                t2SuperScore += 1;
+                t1SuperScore += 1;
+                checkWin()
+                resetSub()
+            }
+        }
+    }
+
+    function deletePoint(teamId:number){
+        if(teamId == 1){
+            t1SubScore--;
+        }else{
+            t2SubScore--;
+        }
+    }
+
+    function resetSub(){
+        t1SubScore=0;
+        t2SubScore=0;
+        updateText();
+    }
+
+    function updateText(){
+        document.getElementById('t1SubScoreText').innerText = `Turnscore: ${t1SubScore}`
+        document.getElementById('t2SubScoreText').innerText = `Turnscore: ${t2SubScore}`
+        document.getElementById('superScoreCounter').innerText = `${t1SuperScore}-${t2SuperScore}`
+    }
+
+
+    function checkWin(){
+        if(t1SuperScore >= 12){
+            document.getElementById('game').innerHTML = `<h1>Team 1 Wins</h2>`
+            setTimeout(()=>{
+                t1SuperScore = 0;
+                t2SuperScore = 0;
+                resetSub();
+                document.getElementById('game').innerHTML = `<h1>Eispunkt</h2>`
+            },5000)
+        }else if(t2SuperScore >= 12){
+            document.getElementById('game').innerHTML = `<h1>Team 2 Wins</h2>`
+            setTimeout(()=>{
+                t1SuperScore = 0;
+                t2SuperScore = 0;
+                resetSub();
+                document.getElementById('game').innerHTML = `<h1>Eispunkt</h2>`
+            },5000)
+        }else{
+            return;
+        }
+    }
+
+
+
+    loadGame();
+</script>
+
+
 <div id="game">
     <h1>Eispunkt</h1>
 </div>
@@ -12,8 +112,8 @@
         <h2 id="t1SubScoreText">Turnscore: 0</h2>
     </div>
     <div class="points_buttons_outer_box">
-        <div class="points_button">+</div>
-        <div  class="points_button">-</div>
+        <div class="points_button" onclick={() => addPoint(1)}>+</div>
+        <div  class="points_button" onclick={() => deletePoint(1)}>-</div>
     </div>
 </div>
 <div class="team_outer_box">
@@ -22,8 +122,8 @@
         <h2 id="t2SubScoreText">Turnscore: 0</h2>
     </div>
     <div class="points_buttons_outer_box">
-        <div class="points_button">+</div>
-        <div class="points_button">-</div>
+        <div class="points_button" onclick={() => addPoint(2)}>+</div>
+        <div class="points_button" onclick={() => deletePoint(2)}>-</div>
     </div>
 </div>
 
@@ -101,33 +201,8 @@
         cursor: pointer;
     }
 
-    .next_button_box {
-        width: 100%;
-        margin-top: 20%;
-        display: flex;
-        justify-content: center;
-    }
-
-    .next_button {
-        text-align: center;
-        align-items: center;
-        justify-content: center;
-        width: 40%;
-        height: 6vh;
-        background-color: #7FC8EE;
-        color: white;
-        font-size: 500%;
-        font-weight: bold;
-        border-radius: 25px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        cursor: pointer;
-        transition: background-color 0.3s ease, color 0.3s ease; /* Übergang für Hintergrund und Textfarbe */
-    }
-
-    .next_button:hover {
-        background-color: #569ac8;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-    }
-
 </style>
+
+
+
 
