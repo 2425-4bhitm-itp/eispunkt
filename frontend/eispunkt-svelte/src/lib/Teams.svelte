@@ -1,6 +1,12 @@
+<script lang="ts">
+  import Header from "./Header.svelte";
+</script>
+
 <link rel="stylesheet"
       href="../../../../eispunkt/eispunkt/quarkus/src/main/resources/META-INF/resources/pages/teams.css">
-<header id="header">Eispunkt</header>
+
+<Header></Header>
+
 <div id="outer_form_box">
     <div class="form">
         <div class="title">Team erstellen!</div>
@@ -34,15 +40,7 @@
 </div>
 
 <style>
-    #header{
-        background-color: #45CAAC;
-        padding: 3%;
-        text-align: center;
-        color: white;
-        font-size: 350%;
-        font-weight: bold;
-        height: 7.2%;
-    }
+
 
     h1{
         text-align: center;
