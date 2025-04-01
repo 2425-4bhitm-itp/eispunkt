@@ -15,10 +15,6 @@ jobs:
       - name: Build with Maven
         working-directory: backend
         run: mvn -B package
-      - name: list files
+      - name: build docker images
         working-directory: backend
-        run: |
-          pwd
-          ls -l
-          ls -l ./target
-
+        run: docker build -t "ghcr.io/marvin-anderson/eispunkt-app" .
