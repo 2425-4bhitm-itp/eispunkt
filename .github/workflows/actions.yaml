@@ -15,4 +15,9 @@ jobs:
       - name: Build with Maven
         working-directory: backend
         run: mvn -B package
+      - name: list files
+        run: |
+          pwd
+          ll
+          ll ./target
 
