@@ -3,6 +3,7 @@ package at.ac.htlleonding.entities;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -11,18 +12,48 @@ public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long groupId;
-
+    private String name;
     @ManyToMany
     private List<Team> teams = new ArrayList<>();
-
     @OneToMany
     private List<Game> games = new ArrayList<>();
 
     public Group() {
     }
 
-    public void generateGames() {
-        // TODO: Insert game generation
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<String> generateGames() {
+        List<String> gameplan = new LinkedList<>();
+
+        int numRounds = teams.size() - 1;
+
+        for (int round = 0; round < numRounds; round++) {
+            for (int i = 0; i < teams.size() / 2; i++) {
+                Team team1 = teams.get(i);
+                Team team2 = teams.get(teams.size() - 1 - i);
+
+                Game game = new Game();
+                game.addTeam(team1);
+                game.addTeam(team2);
+
+                if (team2 != null) {
+                    gameplan.add(team1.getName() + " vs " + team2.getName());
+                } else {
+                    gameplan.add(team1.getName() + " gets a break!");
+                }
+                Team lastTeam = teams.removeLast();
+
+                teams.add(1, lastTeam);
+            }
+        }
+        return gameplan;
     }
 
     public long getGroupId() {

@@ -74,5 +74,13 @@ public class GroupRessource {
         return Response.ok(groupRepository.addTeam(groupId, teamId)).build();
     }
 
+    @GET
+    @Path("/generate-games/{id:[0-9]+}")
+    public Response generateGames(@PathParam("id") long groupId) {
+        if (groupId == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.ok(groupRepository.generateGames(groupId)).build();
+    }
 
 }

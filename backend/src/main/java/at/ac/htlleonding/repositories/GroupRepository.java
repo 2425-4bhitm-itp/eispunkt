@@ -41,4 +41,8 @@ public class GroupRepository implements PanacheRepository<Group> {
     public List<Game> getAllGames(long groupId) {
         return findById(groupId).getGames();
     }
+
+    public List<String> generateGames(long groupId) {
+        return findById(groupId).generateGames();
+    }
 }
