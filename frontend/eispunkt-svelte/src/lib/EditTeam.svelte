@@ -1,4 +1,8 @@
-<header id="header">Eispunkt</header>
+<script lang="ts">
+    import Header from "./Header.svelte";
+</script>
+
+<Header></Header>
 <div id="outer_form_box">
     <h1 >Team bearbeiten</h1>
     <div class="form">
@@ -35,16 +39,6 @@
 <style>
     *{
         margin: 0;
-    }
-
-    #header{
-        background-color: #45CAAC;
-        padding: 3%;
-        text-align: center;
-        color: white;
-        font-size: 350%;
-        font-weight: bold;
-        height: 7.2%;
     }
 
 

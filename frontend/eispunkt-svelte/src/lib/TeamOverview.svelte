@@ -1,4 +1,8 @@
-<header id="header">Eispunkt</header>
+<script lang="ts">
+  import Header from "./Header.svelte";
+</script>
+
+<Header></Header>
 <h1>gewählte Teams</h1>
 
 <div id="firstTeam">
@@ -39,14 +43,6 @@
 
 
 <style>
-    #header{
-        background-color: #45CAAC;
-        padding: 3%;
-        text-align: center;
-        color: white;
-        font-size: 350%;
-        font-weight: bold;
-    }
 
     h1{
         text-align: center;
