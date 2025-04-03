@@ -1,11 +1,11 @@
 <script lang="ts">
-    let {headerText = 'eispunkt'} = $props();
+    let {headerText = 'Eispunkt'} = $props();
 
 
 </script>
 
 <div>
-    <header>{{headerText}}</header>
+    <header>{ headerText }</header>
 </div>
 
 <style>

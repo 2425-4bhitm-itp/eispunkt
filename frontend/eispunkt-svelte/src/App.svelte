@@ -1,6 +1,6 @@
 <script lang="ts">
 
-import FirstPage from "./lib/FirstPage.svelte";
+import ChooseTeam from "./lib/ChooseTeam.svelte"
 </script>
 
-<FirstPage/>
+<ChooseTeam/>
