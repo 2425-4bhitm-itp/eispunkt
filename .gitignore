@@ -46,4 +46,5 @@ nb-configuration.xml
 
 # Frontend
 /frontend/dist/
+/frontend/*/node_modules
 /backend/src/main/resources/META-INF/resources/*
