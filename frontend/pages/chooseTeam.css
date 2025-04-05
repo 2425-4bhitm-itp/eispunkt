@@ -79,7 +79,7 @@ h1{
 }
 
 #addButton{
-    width: 15%;
+    width: 10%;
     padding: 2%;
     margin-left: 23%;
     font-size: 300%;
@@ -98,6 +98,7 @@ h1{
 #createTeam h2{
     font-size: 300%;
     margin-top: 2%;
+    font-weight: lighter;
 }
 
 #nextButton{

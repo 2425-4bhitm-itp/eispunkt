@@ -112,10 +112,6 @@ body {
 
 }
 
-
-
-/* From Uiverse.io by adamgiebl */
-/* Customize the label (the container) */
 .container {
     display: block;
     position: relative;
@@ -127,7 +123,7 @@ body {
     margin-top: 10%;
 }
 
-/* Hide the browser's default checkbox */
+
 .container input {
     position: absolute;
     opacity: 0;
@@ -136,7 +132,7 @@ body {
     width: 0;
 }
 
-/* Create a custom checkbox */
+
 .checkmark {
     position: absolute;
     top: 0;
@@ -148,26 +144,23 @@ body {
     border: 3px #45CAAC solid;
 }
 
-/* When the checkbox is checked, add a blue background */
+
 .container input:checked ~ .checkmark {
     background-color: #45CAAC;
 }
 
-
-
-/* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
     content: "";
     position: absolute;
     display: none;
 }
 
-/* Show the checkmark when checked */
+
 .container input:checked ~ .checkmark:after {
     display: block;
 }
 
-/* Style the checkmark/indicator */
+
 .container .checkmark:after {
     left: 23px;
     top: 2px;
