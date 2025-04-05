@@ -75,13 +75,13 @@ h1{
     display: flex;
     width: 100%;
     margin-top: 15%;
-    justify-content: center;
+    margin-left: 6%;
 }
 
 #addButton{
     width: 10%;
-    padding: 2%;
-    margin-left: 23%;
+    padding: 1%;
+    margin-left:8%;
     font-size: 300%;
     border-radius: 25px;
     border: none;
@@ -97,7 +97,7 @@ h1{
 
 #createTeam h2{
     font-size: 300%;
-    margin-top: 2%;
+    margin-top:1%;
     font-weight: lighter;
 }
 
