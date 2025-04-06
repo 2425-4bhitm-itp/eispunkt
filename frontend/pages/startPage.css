@@ -185,3 +185,18 @@ body {
 .ausgegraut{
     border: 3px rgba(0, 0, 0, 0.43) solid;
 }
+
+.container .checkmark .ausgegraut:after {
+    left: 23px;
+    top: 2px;
+    width: 20px;
+    height: 48px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+
+}
+
+.container input:checked ~ .ausgegraut{
+    background-color: white;
+}
