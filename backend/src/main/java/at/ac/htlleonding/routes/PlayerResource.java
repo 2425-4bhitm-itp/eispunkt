@@ -1,14 +1,14 @@
 package at.ac.htlleonding.routes;
 
+import at.ac.htlleonding.entities.Player;
 import at.ac.htlleonding.repositories.PlayerRepository;
 import at.ac.htlleonding.repositories.TeamRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriBuilder;
 
 @Path("/api/players")
 public class PlayerResource {
@@ -18,51 +18,73 @@ public class PlayerResource {
     @Inject
     TeamRepository teamRepository;
 
-    @Path("/createPlayer")
-    @GET
+z    @POST
     @Transactional
-    public Response createPlayer(@QueryParam("name") String name) {
-        return Response.ok(playerRepository.createPlayer(name)).build();
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createPlayer(Player player) {
+        Response.ResponseBuilder response;
+        if (player == null) {
+            response = Response.status(Response.Status.BAD_REQUEST);
+        } else {
+            playerRepository.persistAndFlush(player);
+            var location = UriBuilder.fromResource(GroupRessource.class)
+                                     .path(String.valueOf(player.getPlayerId()))
+                                     .build();
+            response = Response.status(Response.Status.CREATED).location(location);
+        }
+        return response.build();
     }
 
-    @Path("/findById")
+    @Path("/{id:[0-9]+}")
     @GET
-    public Response findById(@QueryParam("playerId") long playerId) {
+    public Response findById(@PathParam("id") long playerId) {
+        if (playerId == 0) {
+            return Response.ok(playerRepository.getAllPlayers()).build();
+        }
         return Response.ok(playerRepository.findById(playerId)).build();
     }
 
-    @Path("/createPlayerIntoTeam")
+    @Path("/team/{id:[0-9]+}")
     @GET
-    @Transactional
-    public Response createPlayerIntoTeam(@QueryParam("teamId") long teamId, @QueryParam("name") String name) {
-        return Response.ok(playerRepository.createPlayerIntoTeam(teamRepository.findById(teamId), name)).build();
+    public Response getAllPlayersOfTeam(@PathParam("id") long teamId) {
+        return Response.ok(playerRepository.getAllPlayersWithTeam(teamId)).build();
     }
 
-    @Path("/getTeamOfPlayer")
-    @GET
-    public Response getTeamOfPlayer(@QueryParam("playerId") long playerId) {
-        return Response.ok(playerRepository.getTeamOfPlayer(playerRepository.findById(playerId))).build();
+    @PUT
+    @Transactional
+    public Response updatePlayer(Player player) {
+        if (player == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        playerRepository.updatePlayer(player);
+        return Response.ok().build();
     }
 
-    @Path("/setTeamOfPlayer")
-    @GET
+    @Path("/{id:[0-9]+}")
+    @PATCH
     @Transactional
-    public Response setTeamOfPlayer(@QueryParam("playerId") long playerId, @QueryParam("teamId") long teamId) {
+    public Response setTeamOfPlayer(@PathParam("id") long playerId, @QueryParam("teamId") long teamId) {
         return Response.ok(playerRepository.setTeamOfPlayer(playerRepository.findById(playerId), teamRepository.findById(teamId)))
                        .build();
     }
 
-    @Path("/getAllPlayersOfTeam")
-    @GET
-    public Response getAllPlayersOfTeam(@QueryParam("teamId") long teamId) {
-        return Response.ok(playerRepository.getAllPlayersWithTeam(teamId)).build();
-    }
-
-    @Path("/renamePlayer")
-    @POST
+    @Path("/{id:[0-9]+}")
+    @PATCH
     @Transactional
-    public Response renamePlayer(@QueryParam("playerId") long playerId, @QueryParam("newName") String newName) {
+    public Response renamePlayer(@PathParam("id") long playerId, @QueryParam("newName") String newName) {
         playerRepository.renamePlayer(playerId, newName);
         return Response.ok().build();
+    }
+
+    @Path("/{id:[0-9]+}")
+    @DELETE
+    @Transactional
+    public Response deletePlayer(@PathParam("id") long playerId) {
+        if (playerId == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        playerRepository.deleteById(playerId);
+        return Response.noContent().build();
     }
 }

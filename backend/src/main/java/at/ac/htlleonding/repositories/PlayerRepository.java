@@ -14,26 +14,6 @@ public class PlayerRepository implements PanacheRepository<Player> {
         return find("id", id).firstResult();
     }
 
-    public Player createPlayer(String name) {
-        Player player = new Player(name);
-
-        persist(player);
-
-        return player;
-    }
-
-    public Player createPlayerIntoTeam(Team team, String name) {
-        Player player = new Player(team, name);
-
-        persist(player);
-
-        return player;
-    }
-
-    public Team getTeamOfPlayer(Player player) {
-        return player.getTeam();
-    }
-
     public Player setTeamOfPlayer(Player player, Team team) {
         player.setTeam(team);
         return player;
@@ -45,5 +25,15 @@ public class PlayerRepository implements PanacheRepository<Player> {
 
     public void renamePlayer(long playerId, String newName) {
         update("name = ?1 where playerId = ?2", newName, playerId);
+    }
+
+    public List<Player> getAllPlayers() {
+        return listAll();
+    }
+
+    public void updatePlayer(Player player) {
+        if (player != null) {
+            update("name = ?1, team = ?2 where playerId = ?3", player.getName(), player.getTeam(), player.getPlayerId());
+        }
     }
 }
