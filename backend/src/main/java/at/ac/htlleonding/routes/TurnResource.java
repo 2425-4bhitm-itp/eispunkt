@@ -2,13 +2,13 @@ package at.ac.htlleonding.routes;
 
 import at.ac.htlleonding.entities.Stage;
 import at.ac.htlleonding.entities.Turn;
-import at.ac.htlleonding.repositories.StageRepository;
 import at.ac.htlleonding.repositories.TurnRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriBuilder;
 
 @Path("/api/turns")
 public class TurnResource {
@@ -16,16 +16,30 @@ public class TurnResource {
     @Inject
     TurnRepository turnRepository;
 
-    @Inject
-    StageRepository stageRepository;
-
-
-    @Path("/newTurn")
+    @POST
     @Transactional
-    public Response newTurn(@QueryParam("stageId") long stageId) {
-        Turn turn = new Turn(stageRepository.findById(stageId));
-        turnRepository.persist(turn);
-        return Response.ok(turn).build();
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createTurn(Turn turn) {
+        Response.ResponseBuilder response;
+        if (turn == null) {
+            response = Response.status(Response.Status.BAD_REQUEST);
+        } else {
+            turnRepository.persistAndFlush(turn);
+            var location = UriBuilder.fromResource(TurnResource.class).path(String.valueOf(turn.getTurnId())).build();
+            response = Response.status(Response.Status.CREATED).location(location);
+        }
+        return response.build();
+    }
+
+    @GET
+    @Path("{id:[0-9]+}")
+    public Response getTurn(@PathParam("id") long stageId) {
+        if (stageId == 0) {
+            return Response.ok(turnRepository.findAll()).build();
+        } else {
+            return Response.ok(turnRepository.findById(stageId)).build();
+        }
     }
 
     @Path("/getStage")
@@ -34,8 +48,24 @@ public class TurnResource {
         return Response.ok(stage).build();
     }
 
-    @Path("/getAllTurns")
-    public Response getAllTurns() {
-        return Response.ok(turnRepository.getAllTurns()).build();
+    @PUT
+    @Transactional
+    public Response updateTurn(Turn turn) {
+        if (turn == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        turnRepository.updateTurn(turn);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("/{id:[0-9]+}")
+    @Transactional
+    public Response deleteTurn(@PathParam("id") long turnId) {
+        if (turnId == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        turnRepository.deleteById(turnId);
+        return Response.noContent().build();
     }
 }
