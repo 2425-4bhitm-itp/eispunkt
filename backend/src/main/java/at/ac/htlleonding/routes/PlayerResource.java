@@ -18,7 +18,7 @@ public class PlayerResource {
     @Inject
     TeamRepository teamRepository;
 
-z    @POST
+    @POST
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
