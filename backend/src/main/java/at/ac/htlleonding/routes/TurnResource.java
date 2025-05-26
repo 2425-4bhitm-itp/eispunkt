@@ -42,12 +42,6 @@ public class TurnResource {
         }
     }
 
-    @Path("/getStage")
-    public Response getStage(@QueryParam("turnId") long turnId) {
-        Stage stage = turnRepository.getStage(turnRepository.findById(turnId));
-        return Response.ok(stage).build();
-    }
-
     @PUT
     @Transactional
     public Response updateTurn(Turn turn) {
