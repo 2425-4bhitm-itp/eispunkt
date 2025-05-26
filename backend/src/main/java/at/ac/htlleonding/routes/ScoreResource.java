@@ -1,45 +1,43 @@
 package at.ac.htlleonding.routes;
 
+import at.ac.htlleonding.entities.Group;
 import at.ac.htlleonding.entities.Score;
 import at.ac.htlleonding.repositories.ScoreRepository;
 import at.ac.htlleonding.repositories.TeamRepository;
 import at.ac.htlleonding.repositories.TurnRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.PUT;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriBuilder;
 
 @Path("api/scores")
 public class ScoreResource {
     @Inject
     ScoreRepository scoreRepository;
 
-    @Inject
-    TeamRepository teamRepository;
-
-    @Inject
-    TurnRepository turnRepository;
-
-    @Path("create")
+    @POST
     @Transactional
-    public Response createScore(@QueryParam("teamId") long teamId, @QueryParam("turnId") long turnId) {
-        Score score = scoreRepository.create(teamRepository.findById(teamId), turnRepository.findById(turnId));
-
-        return Response.ok(score).build();
-    }
-
-    @PUT
-    @Path("create")
-    public Response createScore() {
-        return Response.ok(scoreRepository.create()).build();
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createScore(Score score) {
+        Response.ResponseBuilder response;
+        if (score == null) {
+            response = Response.status(Response.Status.BAD_REQUEST);
+        } else {
+            scoreRepository.persistAndFlush(score);
+            var location = UriBuilder.fromResource(ScoreResource.class)
+                                     .path(String.valueOf(score.getScoreId()))
+                                     .build();
+            response = Response.status(Response.Status.CREATED).location(location);
+        }
+        return response.build();
     }
 
     @GET
-    @Path("findById")
-    public Response findById(@QueryParam("scoreId") long scoreId) {
+    @Path("{id:[0-9]+")
+    public Response findById(@PathParam("id") long scoreId) {
         return Response.ok(scoreRepository.findById(scoreId)).build();
     }
 
