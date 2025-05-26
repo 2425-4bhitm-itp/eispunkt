@@ -39,10 +39,22 @@ public class GroupRepository implements PanacheRepository<Group> {
     }
 
     public List<Game> getAllGames(long groupId) {
-        return findById(groupId).getGames();
+        List<Game> games = findById(groupId).getGames();
+
+        if (games == null) {
+            findById(groupId).generateGames();
+            games = findById(groupId).getGames();
+        }
+        return games;
     }
 
     public List<String> generateGames(long groupId) {
         return findById(groupId).generateGames();
+    }
+
+    public void updateGroup(Group group) {
+        if (group != null) {
+            update("name = ?1, teams = ?2 where groupId = ?3", group.getName(), group.getTeams(), group.getGroupId());
+        }
     }
 }

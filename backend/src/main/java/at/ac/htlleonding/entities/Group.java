@@ -13,7 +13,7 @@ public class Group {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long groupId;
     private String name;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Team> teams = new ArrayList<>();
     @OneToMany
     private List<Game> games = new ArrayList<>();
@@ -39,11 +39,11 @@ public class Group {
                 Team team1 = teams.get(i);
                 Team team2 = teams.get(teams.size() - 1 - i);
 
-                Game game = new Game();
-                game.addTeam(team1);
-                game.addTeam(team2);
-
                 if (team2 != null) {
+                    Game game = new Game();
+                    game.addTeam(team1);
+                    game.addTeam(team2);
+
                     gameplan.add(team1.getName() + " vs " + team2.getName());
                 } else {
                     gameplan.add(team1.getName() + " gets a break!");

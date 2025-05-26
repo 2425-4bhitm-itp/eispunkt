@@ -12,7 +12,6 @@ import jakarta.ws.rs.core.UriBuilder;
 @Path("api/groups")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-
 public class GroupRessource {
     @Inject
     GroupRepository groupRepository;
@@ -21,9 +20,7 @@ public class GroupRessource {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createGroup() {
-        // TODO: Check with Aberger why creating a game does not work with a parameter
-        Group group = new Group();
+    public Response createGroup(Group group) {
         Response.ResponseBuilder response;
         if (group == null) {
             response = Response.status(Response.Status.BAD_REQUEST);
@@ -65,22 +62,35 @@ public class GroupRessource {
         return Response.ok(groupRepository.getAllGames(groupId)).build();
     }
 
-    @GET
-    @Path("/add-team")
-    public Response addTeam(@QueryParam("groupId") long groupId, @QueryParam("teamId") long teamId) {
+    @POST
+    @Path("{groupId:[0-9]+}/{teamId:[0-9]+}")
+    public Response addTeam(@PathParam("groupId") long groupId, @PathParam("teamId") long teamId) {
         if (groupId == 0 || teamId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         return Response.ok(groupRepository.addTeam(groupId, teamId)).build();
     }
 
-    @GET
-    @Path("/generate-games/{id:[0-9]+}")
-    public Response generateGames(@PathParam("id") long groupId) {
+    @PUT
+    @Transactional
+    public Response updateGroup(Group group) {
+        if (group == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        groupRepository.updateGroup(group);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("/{id:[0-9]+}")
+    @Transactional
+    public Response deleteGroup(@PathParam("id") long groupId) {
         if (groupId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.ok(groupRepository.generateGames(groupId)).build();
+        groupRepository.deleteById(groupId);
+        return Response.noContent().build();
     }
+
 
 }
