@@ -30,8 +30,12 @@ public class ScoreRepository implements PanacheRepository<Score> {
         return find("id", id).firstResult();
     }
 
-    public void updateScore(Score score, int scoreValue) {
-        score.setScore(scoreValue);
+    public void updateScore(Score score) {
+        update("score = ?1, team = ?2, turn = ?3 where scoreId = ?4",
+                score.getScore(),
+                score.getTeam(),
+                score.getTurn(),
+                score.getScoreId());
     }
 
     public int getScore(Score score) {

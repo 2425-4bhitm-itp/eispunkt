@@ -1,10 +1,7 @@
 package at.ac.htlleonding.routes;
 
-import at.ac.htlleonding.entities.Group;
 import at.ac.htlleonding.entities.Score;
 import at.ac.htlleonding.repositories.ScoreRepository;
-import at.ac.htlleonding.repositories.TeamRepository;
-import at.ac.htlleonding.repositories.TurnRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -36,29 +33,32 @@ public class ScoreResource {
     }
 
     @GET
-    @Path("{id:[0-9]+")
+    @Path("{id:[0-9]+}")
     public Response findById(@PathParam("id") long scoreId) {
-        return Response.ok(scoreRepository.findById(scoreId)).build();
+        if (scoreId == 0) {
+            return Response.ok(scoreRepository.findAll()).build();
+        } else {
+            return Response.ok(scoreRepository.findById(scoreId)).build();
+        }
     }
 
     @PUT
-    @Path("update")
-    public Response updateScore(@QueryParam("scoreId") long scoreId, int scoreValue) {
-        Score score = scoreRepository.findById(scoreId);
-        scoreRepository.updateScore(score, scoreValue);
-
-        return Response.ok(score).build();
+    @Transactional
+    public Response updateScore(Score score) {
+        if (score == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        scoreRepository.updateScore(score);
+        return Response.ok().build();
     }
 
-    @GET
-    @Path("getScore")
-    public Response getScore(@QueryParam("scoreId") long scoreId) {
-        return Response.ok(scoreRepository.getScore(scoreRepository.findById(scoreId))).build();
-    }
-
-    @GET
-    @Path("getAllScores")
-    public Response getAllScores() {
-        return Response.ok(scoreRepository.getAllScores()).build();
+    @DELETE
+    @Path("{id:[0-9]+}")
+    public Response deleteScore(@PathParam("id") long scoreId) {
+        if (scoreId == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        scoreRepository.deleteById(scoreId);
+        return Response.noContent().build();
     }
 }
