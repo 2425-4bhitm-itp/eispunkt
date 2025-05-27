@@ -27,3 +27,28 @@ GET {{header}}games/getAllGames
 GET {{header}}games/findGameById?gameId=1
 ###
 POST {{header}}games/addTeamToGame?gameId=1&teamId=1
+###
+POST http://localhost:8080/api/groups
+Content-Type: application/json
+
+{
+  "name": "Empty Team Group",
+  "teams": [],
+  "games": []
+}
+###
+POST http://localhost:8080/api/groups
+Content-Type: application/json
+
+{
+  "name": "Spielgruppe Eispunkt",
+  "teams": [
+    {
+      "name": "ÖTSU Oepping 1"
+    },
+    {
+      "name": "ATSV Waldneukirchen Stocksport 1"
+    }
+  ],
+  "games": []
+}
