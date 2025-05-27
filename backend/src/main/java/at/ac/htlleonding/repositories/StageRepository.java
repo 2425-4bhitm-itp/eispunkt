@@ -26,4 +26,11 @@ public class StageRepository implements PanacheRepository<Stage> {
         persist(stage);
         return stage;
     }
+
+    public void updateStage(Stage stage) {
+        update("game = ?1, stageNumber = ?2 where stageId = ?3",
+                stage.getGame(),
+                stage.getStageNumber(),
+                stage.getStageId());
+    }
 }
