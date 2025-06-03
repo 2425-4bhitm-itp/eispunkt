@@ -64,4 +64,15 @@ public class TeamResource {
         teamRepository.renameTeam(teamId, newName);
         return Response.noContent().build();
     }
+
+    @Path("/{id:[0-9]+}")
+    @DELETE
+    @Transactional
+    public Response deleteTeam(@PathParam("id") long teamId) {
+        if (teamId == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        teamRepository.delete(teamRepository.findById(teamId));
+        return Response.noContent().build();
+    }
 }
