@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import Header from "./Header.svelte";
-  import { selectionState } from "./stores/selectionStore.svelte"
+  import { selectionState } from "../stores/selectionStore.svelte"
+  import { navigationState } from "../stores/navigationStore.svelte";
 
   let teams = $state<Array<{ teamId: number; name: string }>>([]);
 
@@ -21,6 +22,10 @@
       console.error("Error: ", error);
     }
   });
+
+  function changePane(pane:String){
+    navigationState.currentPane = pane;
+  }
 
   $inspect(selectionState.selectedTeam1)
   $inspect(selectionState.selectedTeam2)
@@ -48,7 +53,7 @@
 
   <div id="createTeam">
     <h2>neues Team erstellen</h2>
-    <a id="addButton" href="createTeam.html">+</a>
+    <button id="addButton" onclick={()=>changePane("createTeam")}>+</button>
   </div>
 
   <a id="nextButton" href="teamOverview.html">Weiter</a>

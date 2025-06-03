@@ -1,6 +1,3 @@
-# DEV ONLY, NOT NEEDED WHEN DEPLOYING
-export MAVEN_OPTS="-Dnet.bytebuddy.experimental=true"
-
 # Build frontend, move to resources
 rm -rf backend/src/main/resources/META-INF/resources/*
 cd frontend

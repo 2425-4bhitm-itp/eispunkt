@@ -14,7 +14,8 @@
     "allowJs": true,
     "checkJs": true,
     "isolatedModules": true,
-    "moduleDetection": "force"
+    "moduleDetection": "force",
+    "composite": true
   },
-  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte", "src/lib/*.svelte"]
+  "include": ["src/lib/**/*.svelte", "src/lib/**/*.svelte.ts"]
 }
