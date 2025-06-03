@@ -44,6 +44,8 @@ public class TurnResource {
 
     @PUT
     @Transactional
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response updateTurn(Turn turn) {
         if (turn == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
