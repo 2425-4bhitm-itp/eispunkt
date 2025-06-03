@@ -1,60 +1,67 @@
 package at.ac.htlleonding.routes;
 
-import at.ac.htlleonding.entities.Player;
 import at.ac.htlleonding.entities.Team;
-import at.ac.htlleonding.repositories.PlayerRepository;
 import at.ac.htlleonding.repositories.TeamRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriBuilder;
 
 @Path("/api/team")
 public class TeamResource {
     @Inject
     TeamRepository teamRepository;
 
-    @Path("/createTeam")
     @GET
     @Transactional
-    public Response createTeam(@QueryParam("teamName") String teamName) {
-        if(teamName == null || teamName.isEmpty()) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }else{
-            return Response.ok(teamRepository.createTeam(teamName)).build();
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response createTeam(Team team) {
+        Response.ResponseBuilder response;
+        if (team == null) {
+            response = Response.status(Response.Status.BAD_REQUEST);
+        } else {
+            teamRepository.persistAndFlush(team);
+            var location = UriBuilder.fromResource(TeamResource.class).path(String.valueOf(team.getTeamId())).build();
+            response = Response.status(Response.Status.CREATED).location(location);
         }
+        return response.build();
     }
 
 
-    @Path("/findTeamById")
+    @Path("/{id:[0-9]+}")
     @GET
-    public Response findTeamById(@QueryParam("teamId") long teamId){
+    public Response findTeamById(@PathParam("id") long teamId) {
+        if (teamId == 0) {
+            return Response.ok(teamRepository.getAllTeams()).build();
+        }
         return Response.ok(teamRepository.findById(teamId)).build();
     }
 
-    @Path("/findTeamByName")
+    @Path("/{teamName}")
     @GET
-    public Response findTeamByName(@QueryParam("teamName") String teamName){
+    public Response findTeamByName(@PathParam("teamName") String teamName) {
         return Response.ok(teamRepository.findByName(teamName)).build();
     }
 
-    @Path("/getAllTeams")
-    @GET
-    public Response getAllTeams(){
-        return Response.ok(teamRepository.getAllTeams()).build();
-    }
-
-    @Path("/getAllGamesOfTeam")
-    @GET
-    public Response getAllPlayersOfTeam(@QueryParam("teamId") long teamId){
-        return Response.ok(teamRepository.getAllGamesOfTeam(teamId)).build();
-    }
-
-    @Path("/renameTeam")
     @POST
     @Transactional
-    public Response renameTeam(@QueryParam("teamId") long teamId, @QueryParam("newName") String newName){
-        teamRepository.renameTeam(teamId, newName);
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateTeam(Team team) {
+        if (team == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        teamRepository.updateTeam(team);
         return Response.ok().build();
+    }
+
+    @Path("{id:[0-9]+}/{newName}")
+    @POST
+    @Transactional
+    public Response renameTeam(@PathParam("id") long teamId, @PathParam("newName") String newName) {
+        teamRepository.renameTeam(teamId, newName);
+        return Response.noContent().build();
     }
 }
