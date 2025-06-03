@@ -37,4 +37,8 @@ public class GameRepository implements PanacheRepository<Game> {
         Team team = gameRepository.getEntityManager().find(Team.class, teamId);
         return game.addTeam(team);
     }
+
+    public void updateGame(Game game) {
+        update("date = ?1, teams = ?2 where id = ?3", game.getDate(), game.getTeams(), game.getGameId());
+    }
 }

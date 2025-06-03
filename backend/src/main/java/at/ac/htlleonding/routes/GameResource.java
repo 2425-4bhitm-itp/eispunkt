@@ -17,44 +17,51 @@ public class GameResource {
     @Inject
     GameRepository gameRepository;
 
-    @Path("/findGameById")
-    @GET
-    public Response findGameById(@QueryParam("gameId") long gameId) {
-        return Response.ok(gameRepository.findById(gameId)).build();
-    }
-
-    @Path("/createGame")
     @GET
     @Transactional
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response createGame() {
         Game newGame = gameRepository.createGame();
         return Response.ok(newGame).build();
     }
 
-
-    @Path("/getGameInfo")
+    @Path("/{id:[0-9]+}")
     @GET
-    public Response getInfo(@QueryParam("gameId") long gameId) {
+    public Response findGameById(@PathParam("id") long gameId) {
+        if (gameId == 0) {
+            return Response.ok(gameRepository.getAllGames()).build();
+        }
         return Response.ok(gameRepository.findById(gameId)).build();
     }
 
-    @Path("/getAllTeamsOfGame")
-    @GET
-    public Response getAllTeamsOfGame(@QueryParam("gameId") long gameId) {
-        return Response.ok(gameRepository.getAllTeamsOfGame(gameId)).build();
-    }
-
-    @Path("/getAllGames")
-    @GET
-    public Response getAllGames() {
-        return Response.ok(gameRepository.getAllGames()).build();
-    }
-
-    @Path("/addTeamToGame")
+    @Path("/{gameId:[0-9]+}/{teamId:[0-9]+}")
     @POST
     @Transactional
-    public Response addTeamToGame(@QueryParam("gameId") long gameId, @QueryParam("teamId") long teamId) {
+    public Response addTeamToGame(@PathParam("gameId") long gameId, @PathParam("teamId") long teamId) {
         return Response.ok(gameRepository.addTeamToGame(gameId, teamId)).build();
     }
 
+    @POST
+    @Transactional
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateGame(Game game) {
+        if (game == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        gameRepository.updateGame(game);
+        return Response.ok().build();
+    }
+
+    @Path("/{id:[0-9]+}")
+    @DELETE
+    @Transactional
+    public Response deleteGame(@PathParam("id") long gameId) {
+        Game game = gameRepository.findById(gameId);
+        if (game == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        gameRepository.delete(game);
+        return Response.noContent().build();
+    }
 }
