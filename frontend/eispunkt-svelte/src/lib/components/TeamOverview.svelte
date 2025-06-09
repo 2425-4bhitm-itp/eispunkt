@@ -1,59 +1,159 @@
 <script lang="ts">
-  import Header from "./Header.svelte";
+    import { onMount } from "svelte";
+    import Header from "./Header.svelte";
+    import { selectionState } from "../stores/selectionStore.svelte";
+    import { navigationState } from "../stores/navigationStore.svelte";
+    import { gameState } from "../stores/gameStore.svelte";
+
+    let team1Players = $state<any[]>([]);
+    let team2Players = $state<any[]>([]);
+
+    async function loadPlayers() {
+        try {
+            const team1Response = await fetch(
+                `http://localhost:8080/api/players/team/${selectionState.selectedTeam1}`,
+                {
+                    method: "GET",
+                },
+            );
+
+            if (team1Response.ok) {
+                team1Players = await team1Response.json();
+            }
+
+            const team2Response = await fetch(
+                `http://localhost:8080/api/players/team/${selectionState.selectedTeam2}`,
+                {
+                    method: "GET",
+                },
+            );
+
+            if (team2Response.ok) {
+                team2Players = await team2Response.json();
+            }
+        } catch (error) {
+            console.error("Error loading players: ", error);
+        }
+    }
+
+    onMount(async () => {
+        await loadPlayers();
+    });
+
+    async function startGame() {
+        try {
+            const gameResponse = await fetch(
+                "http://localhost:8080/api/games",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                },
+            );
+
+            if (!gameResponse.ok) {
+                throw new Error(
+                    `Failed to create game: ${gameResponse.status}`,
+                );
+            }
+
+            const game = await gameResponse.json();
+            console.log("Game created:", game);
+            gameState.gameId = game.gameId;
+
+            const addTeam1Response = await fetch(
+                `http://localhost:8080/api/games/${game.gameId}/${selectionState.selectedTeam1}`,
+                {
+                    method: "POST",
+                },
+            );
+
+            if (!addTeam1Response.ok) {
+                throw new Error(
+                    `Failed to add team1 to game: ${addTeam1Response.status}`,
+                );
+            }
+
+            const addTeam2Response = await fetch(
+                `http://localhost:8080/api/games/${game.gameId}/${selectionState.selectedTeam2}`,
+                {
+                    method: "POST",
+                },
+            );
+
+            if (!addTeam2Response.ok) {
+                throw new Error(
+                    `Failed to add team2 to game: ${addTeam2Response.status}`,
+                );
+            }
+
+            navigationState.currentPane = "Game";
+        } catch (error) {
+            console.error("Error starting game:", error);
+        }
+    }
+
+    function editTeam(teamIndex: number) {
+        if (teamIndex === 1) {
+            selectionState.teamToEdit = selectionState.selectedTeam1;
+        } else {
+            selectionState.teamToEdit = selectionState.selectedTeam2;
+        }
+        navigationState.currentPane = "EditTeam";
+    }
 </script>
 
 <Header></Header>
 <h1>gewählte Teams</h1>
 
 <div id="firstTeam">
-    <label id="team1">Team </label>
-    <a class="editSvg" href="editTeam.html" >
-        <svg width="100" height="50" viewBox="0 0 27 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g id="Edit 2">
-                <g id="Edit 2_2">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16.0853 8.22186L6.93713 19.0642V23.7782H10.9146L20.0628 12.9359L16.0853 8.22186ZM9.18713 21.1115V20.1687L16.0853 11.9931L16.8808 12.9359L9.98263 21.1115H9.18713Z" fill="black"/>
-                    <path d="M15.0003 23.7782H20.0628V21.1115H15.0003V23.7782Z" fill="black"/>
-                </g>
-            </g>
-        </svg>
+    <label id="team1">{selectionState.selectedTeam1Name}</label>
+
+    <a class="editSvg" onclick={() => editTeam(1)}>
+        <img src="/src/assets/edit-icon.svg" alt="Edit team" />
     </a>
 
-    <h2 id="team1_player1"></h2>
-    <h2 id="team1_player2"></h2>
-    <h2 id="team1_player3"></h2>
-    <h2 id="team1_player4"></h2>
+    {#if team1Players.length > 0}
+        {#each team1Players.slice(0, 4) as player, index}
+            <h2 id="team1_player{index + 1}">
+                {player.name || player.playerName || "Player " + (index + 1)}
+            </h2>
+        {/each}
+    {/if}
 </div>
 
 <div id="secTeam">
-    <label id="team2">Team </label>
-    <a class="editSvg" href="editTeam.html" >
-        <svg width="100" height="50" viewBox="0 0 27 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M16.0853 8.22183L6.93713 19.0641V23.7782H10.9146L20.0628 12.9359L16.0853 8.22183ZM9.18713 21.1115V20.1687L16.0853 11.9931L16.8808 12.9359L9.98263 21.1115H9.18713Z" fill="black"/>
-            <path d="M15.0003 23.7781H20.0628V21.1115H15.0003V23.7781Z" fill="black"/>
-        </svg>
+    <label id="team2">{selectionState.selectedTeam2Name}</label>
+    <a class="editSvg" onclick={() => editTeam(2)}>
+        <img src="/src/assets/edit-icon.svg" alt="Edit team" />
     </a>
 
+    {#if team2Players.length > 0}
+        {#each team2Players.slice(0, 4) as player, index}
+            <h2 id="team2_player{index + 1}">
+                {player.name || player.playerName || "Player " + (index + 1)}
+            </h2>
+        {/each}
+    {/if}
 
-    <h2 id="team2_player1"></h2>
-    <h2 id="team2_player2"></h2>
-    <h2 id="team2_player3"></h2>
-    <h2 id="team2_player4"></h2>
+    <a id="playButton" onclick={startGame}>Spielen</a>
 </div>
 
-
-
 <style>
-
-    h1{
+    h1 {
         text-align: center;
         font-size: 40px;
-
+    }
+    label {
+        font-size: 125%;
+        font-weight: bold;
     }
 
-    h2{
-        font-size: 50px;
+    h2 {
+        font-size: 25px;
     }
-    #exit{
+    #exit {
         font-size: 100px;
         font-weight: bolder;
         text-decoration: none;
@@ -63,37 +163,37 @@
     }
 
     #team1 {
-        font-size: 200%;
+        font-size: 150%;
         font-weight: bold;
-
     }
 
-    #team2{
-        font-size: 200%;
+    #team2 {
+        font-size: 150%;
         font-weight: bold;
-
     }
 
-    .editSvg svg{
+    .editSvg img {
         margin-top: 2%;
+        width: 50px;
+        height: 50px;
     }
 
-    h2{
+    h2 {
         font-weight: lighter;
         margin-top: 4%;
     }
 
-    #firstTeam{
+    #firstTeam {
         margin-left: 5%;
         margin-top: 3%;
     }
 
-    #secTeam{
+    #secTeam {
         margin-left: 5%;
         margin-top: 5%;
     }
 
-    #playButton{
+    #playButton {
         width: 45%;
         padding: 4%;
         margin-top: 15%;
@@ -101,7 +201,7 @@
         font-size: 300%;
         border-radius: 20px;
         border: none;
-        background-color: #7FC8EE;
+        background-color: #7fc8ee;
         color: white;
         display: flex;
         justify-content: center;
@@ -111,5 +211,4 @@
         font-weight: bold;
         box-shadow: 1px 15px 15px 7px rgba(0, 0, 0, 0.16);
     }
-
 </style>

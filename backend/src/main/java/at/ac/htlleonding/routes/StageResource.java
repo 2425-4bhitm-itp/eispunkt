@@ -2,6 +2,7 @@ package at.ac.htlleonding.routes;
 
 import at.ac.htlleonding.entities.Stage;
 import at.ac.htlleonding.repositories.StageRepository;
+import at.ac.htlleonding.repositories.GameRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -13,6 +14,9 @@ import jakarta.ws.rs.core.UriBuilder;
 public class StageResource {
     @Inject
     StageRepository stageRepository;
+    
+    @Inject
+    GameRepository gameRepository;
 
     @Path("/{id:[0-9]+}")
     @GET
@@ -37,9 +41,29 @@ public class StageResource {
             var location = UriBuilder.fromResource(ScoreResource.class)
                                      .path(String.valueOf(stage.getStageId()))
                                      .build();
-            response = Response.status(Response.Status.CREATED).location(location);
+            response = Response.status(Response.Status.CREATED).location(location).entity(stage);
         }
         return response.build();
+    }
+
+    @POST
+    @Path("/create")
+    @Transactional
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createStageWithGameId(@QueryParam("gameId") long gameId, 
+                                          @QueryParam("stageNumber") int stageNumber) {
+        if (gameId == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        
+        var game = gameRepository.findById(gameId);
+        if (game == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        
+        Stage stage = stageRepository.createStage(game, stageNumber);
+        
+        return Response.status(Response.Status.CREATED).entity(stage).build();
     }
 
     @PUT

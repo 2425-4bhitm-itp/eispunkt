@@ -38,7 +38,7 @@ public class Team {
         return name;
     }
 
-    private void setName(String name) {
+    public void setName(String name) {
         if (!(name == null || name.isBlank())) {
             this.name = name;
         }

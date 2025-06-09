@@ -17,5 +17,9 @@
     "moduleDetection": "force",
     "composite": true
   },
-  "include": ["src/lib/**/*.svelte", "src/lib/**/*.svelte.ts"]
+  "include": [
+    "src/lib/**/*.svelte",
+    "src/lib/**/*.svelte.ts",
+    "src/lib/**/*.ts"
+  ]
 }

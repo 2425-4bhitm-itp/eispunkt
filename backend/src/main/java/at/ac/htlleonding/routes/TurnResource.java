@@ -3,6 +3,7 @@ package at.ac.htlleonding.routes;
 import at.ac.htlleonding.entities.Stage;
 import at.ac.htlleonding.entities.Turn;
 import at.ac.htlleonding.repositories.TurnRepository;
+import at.ac.htlleonding.repositories.StageRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -15,6 +16,9 @@ public class TurnResource {
 
     @Inject
     TurnRepository turnRepository;
+    
+    @Inject
+    StageRepository stageRepository;
 
     @POST
     @Transactional
@@ -27,9 +31,29 @@ public class TurnResource {
         } else {
             turnRepository.persistAndFlush(turn);
             var location = UriBuilder.fromResource(TurnResource.class).path(String.valueOf(turn.getTurnId())).build();
-            response = Response.status(Response.Status.CREATED).location(location);
+            response = Response.status(Response.Status.CREATED).location(location).entity(turn);
         }
         return response.build();
+    }
+
+    @POST
+    @Path("/create")
+    @Transactional
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createTurnWithStageId(@QueryParam("stageId") long stageId) {
+        if (stageId == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        
+        Stage stage = stageRepository.findById(stageId);
+        if (stage == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        
+        Turn turn = new Turn(stage);
+        turnRepository.persistAndFlush(turn);
+        
+        return Response.status(Response.Status.CREATED).entity(turn).build();
     }
 
     @GET

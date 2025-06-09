@@ -2,6 +2,8 @@ package at.ac.htlleonding.routes;
 
 import at.ac.htlleonding.entities.Score;
 import at.ac.htlleonding.repositories.ScoreRepository;
+import at.ac.htlleonding.repositories.TeamRepository;
+import at.ac.htlleonding.repositories.TurnRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -13,6 +15,12 @@ import jakarta.ws.rs.core.UriBuilder;
 public class ScoreResource {
     @Inject
     ScoreRepository scoreRepository;
+    
+    @Inject
+    TeamRepository teamRepository;
+    
+    @Inject
+    TurnRepository turnRepository;
 
     @POST
     @Transactional
@@ -30,6 +38,31 @@ public class ScoreResource {
             response = Response.status(Response.Status.CREATED).location(location);
         }
         return response.build();
+    }
+
+    @POST
+    @Path("/create")
+    @Transactional
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createScoreWithIds(@QueryParam("teamId") long teamId, 
+                                       @QueryParam("turnId") long turnId, 
+                                       @QueryParam("score") int scoreValue) {
+        if (teamId == 0 || turnId == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        
+        var team = teamRepository.findById(teamId);
+        var turn = turnRepository.findById(turnId);
+        
+        if (team == null || turn == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        
+        Score score = scoreRepository.create(team, turn);
+        score.setScore(scoreValue);
+        scoreRepository.persistAndFlush(score);
+        
+        return Response.status(Response.Status.CREATED).entity(score).build();
     }
 
     @GET
