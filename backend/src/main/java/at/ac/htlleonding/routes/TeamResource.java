@@ -14,7 +14,7 @@ public class TeamResource {
     @Inject
     TeamRepository teamRepository;
 
-    @GET
+    @POST
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -46,7 +46,7 @@ public class TeamResource {
         return Response.ok(teamRepository.findByName(teamName)).build();
     }
 
-    @POST
+    @PUT
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateTeam(Team team) {
@@ -58,7 +58,7 @@ public class TeamResource {
     }
 
     @Path("{id:[0-9]+}/{newName}")
-    @POST
+    @PATCH
     @Transactional
     public Response renameTeam(@PathParam("id") long teamId, @PathParam("newName") String newName) {
         teamRepository.renameTeam(teamId, newName);
