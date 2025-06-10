@@ -1,0 +1,71 @@
+= Besprechungsprotokoll ITP 10.6.2025
+firstname lastname
+1.0, {docdate}: Some notes
+ifndef::imagesdir[:imagesdir: images]
+:icons: font
+//:sectnums:    // Nummerierung der Überschriften / section numbering
+//:toc: left
+
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+// https://fontawesome.com/v4.7.0/icons/
+icon:file-text-o[link=https://raw.githubusercontent.com/htl-leonding-college/asciidoctor-docker-template/master/asciidocs/{docname}.adoc] ‏ ‏ ‎
+icon:github-square[link=https://github.com/htl-leonding-college/asciidoctor-docker-template] ‏ ‏ ‎
+icon:home[link=https://htl-leonding.github.io/]
+endif::backend-html5[]
+
+
+.Teilnehmer
+|===
+|anwesend
+
+|Vorname Nachname
+
+|Prof. Hammer
+
+|M. Anderson
+
+|F. Hayer (Protokollführer)
+
+|A. Simsek
+
+|V. Catic
+|===
+
+.Ort und Zeit
+[cols=2*]
+|===
+|Ort
+|HTL Leonding - Raum E58-2
+
+|von-bis
+|Di. 10.6.2025, 1. EH
+|Dauer
+|50 min
+|===
+
+
+
+== Besprochene Themen
+
+* Sprint 10
+
+== Vereinbarungen und Entscheidungen
+
+.Was wurde vereinbart?
+[%autowidth]
+|===
+|wer |macht was |bis wann
+
+| Eispunkt
+a|
+** Improve fonts
+** Properly implement designed pages
+** Players sort by name in team
+** Different cursor on team view
+** Working game
+** CHOOSE NEW PROJECT
+a|
+5.Klasse
+|===
