@@ -17,7 +17,7 @@ public class GameResource {
     @Inject
     GameRepository gameRepository;
 
-    @GET
+    @POST
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

@@ -28,7 +28,7 @@ public class Stage {
         return game;
     }
 
-    private void setGame(Game game) {
+    public void setGame(Game game) {
         this.game = game;
     }
 

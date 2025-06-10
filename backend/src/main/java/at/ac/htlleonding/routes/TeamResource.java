@@ -18,13 +18,14 @@ public class TeamResource {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createTeam(Team team) {
+    public Response createTeam(@QueryParam("teamName") String teamName) {
         Response.ResponseBuilder response;
-        if (team == null) {
+        if (teamName == null) {
             response = Response.status(Response.Status.BAD_REQUEST);
         } else {
-            teamRepository.persistAndFlush(team);
-            var location = UriBuilder.fromResource(TeamResource.class).path(String.valueOf(team.getTeamId())).build();
+            teamRepository.persistAndFlush(new Team(teamName));
+            var location = UriBuilder.fromResource(TeamResource.class)
+                    .path(String.valueOf(teamRepository.findByName(teamName).getTeamId())).build();
             response = Response.status(Response.Status.CREATED).location(location);
         }
         return response.build();

@@ -41,7 +41,7 @@ public class Player {
     }
 
 
-    private void setName(String name) {
+    public void setName(String name) {
         if (!(name == null || name.isBlank())) {
             this.name = name;
         }
@@ -52,8 +52,6 @@ public class Player {
     }
 
     public void setTeam(Team team) {
-        if (!(name == null || name.isBlank())) {
-            this.team = team;
-        }
+        this.team = team;
     }
 }

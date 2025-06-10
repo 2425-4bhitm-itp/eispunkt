@@ -24,14 +24,36 @@
             }
 
             const teamResponse = await fetch(
-                `http://localhost:8080/api/team/createTeam?teamName=${encodeURIComponent(teamName)}`,
+                `http://localhost:8080/api/team?teamName=${encodeURIComponent(teamName)}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                },
             );
-            const teamData = await teamResponse.text();
-            const team = JSON.parse(teamData);
+
+            if (!teamResponse.ok) {
+                throw new Error(
+                    `Failed to create team: ${teamResponse.status}`,
+                );
+            }
+
+            const teamDataResponse = await fetch(
+                `http://localhost:8080/api/team/${encodeURIComponent(teamName)}`,
+            );
+
+            if (!teamDataResponse.ok) {
+                throw new Error(
+                    `Failed to retrieve team: ${teamDataResponse.status}`,
+                );
+            }
+
+            const team = await teamDataResponse.json();
 
             await Promise.all(
                 nonEmptyPlayers.map(async (name) => {
-                    await createPlayerIntoTeam(parseInt(team.teamId), name);
+                    await createPlayerIntoTeam(team.teamId, name);
                 }),
             );
         } catch (err) {
@@ -40,15 +62,35 @@
             isLoading = false;
         }
 
-        navigationState.currentPane = "ChooseTeam"
+        navigationState.currentPane = "ChooseTeam";
     }
 
-
     async function createPlayerIntoTeam(teamId: number, playerName: string) {
-        const response = await fetch(
-            `http://localhost:8080/api/players/createPlayerIntoTeam?teamId=${teamId}&name=${encodeURIComponent(playerName)}`,
+        const playerData = {
+            name: playerName,
+            team: {
+                teamId: teamId,
+            },
+        };
+
+        const createPlayerResponse = await fetch(
+            `http://localhost:8080/api/players`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(playerData),
+            },
         );
-        console.log(await response.text());
+
+        if (!createPlayerResponse.ok) {
+            throw new Error(
+                `Failed to create player ${playerName}: ${createPlayerResponse.status}`,
+            );
+        }
+
+        console.log(`Player ${playerName} created successfully`);
     }
 </script>
 
@@ -80,7 +122,7 @@
         {/each}
     </div>
 
-    <a id="nextButton" onclick={savePlayers} href="#">Speichern</a>
+    <a id="nextButton" onclick={savePlayers}>Speichern</a>
 </div>
 
 <style>
