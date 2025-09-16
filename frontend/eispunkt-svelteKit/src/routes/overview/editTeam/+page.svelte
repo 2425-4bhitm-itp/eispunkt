@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Header from './Header.svelte';
-	import { selectionState } from '../stores/selectionStore.svelte';
-	import { navigationState } from '../stores/navigationStore.svelte';
+	import { selectionState } from '../../../stores/selectionStore.svelte';
+	import { navigationState } from '../../../stores/navigationStore.svelte';
+	import Header from '../../../components/Header.svelte';
 
 	let teamName = $state('');
 	let players = $state(['', '', '', '']);

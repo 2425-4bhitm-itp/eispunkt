@@ -44,7 +44,20 @@ nb-configuration.xml
 # TLS Certificates
 .certs/
 
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/build
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+
 # Frontend
 /frontend/dist/
 /frontend/*/node_modules
 /backend/src/main/resources/META-INF/resources/*
+/frontend/*/.svelte-kit

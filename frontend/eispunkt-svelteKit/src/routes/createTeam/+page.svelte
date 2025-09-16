@@ -1,258 +1,242 @@
 <script lang="ts">
-    import Header from "./Header.svelte";
-    import { navigationState } from "../stores/navigationStore.svelte";
+	import Header from '../../components/Header.svelte';
+	import { navigationState } from '../../stores/navigationStore.svelte';
 
-    let teamName = "";
-    let players = ["", "", "", ""];
-    let isLoading = false;
+	let teamName = '';
+	let players = ['', '', '', ''];
+	let isLoading = false;
 
-    async function savePlayers() {
-        try {
-            isLoading = true;
+	async function savePlayers() {
+		try {
+			isLoading = true;
 
-            //TODO: replace this error handling with highlighting on the input fields
-            const nonEmptyPlayers = players.filter(
-                (name) => name.trim() !== "",
-            );
+			//TODO: replace this error handling with highlighting on the input fields
+			const nonEmptyPlayers = players.filter((name) => name.trim() !== '');
 
-            if (teamName.trim() === "") {
-                throw new Error("Team name is required");
-            }
+			if (teamName.trim() === '') {
+				throw new Error('Team name is required');
+			}
 
-            if (nonEmptyPlayers.length === 0) {
-                throw new Error("At least one player is required");
-            }
+			if (nonEmptyPlayers.length === 0) {
+				throw new Error('At least one player is required');
+			}
 
-            const teamResponse = await fetch(
-                `http://localhost:8080/api/team?teamName=${encodeURIComponent(teamName)}`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                },
-            );
+			const teamResponse = await fetch(
+				`http://localhost:8080/api/team?teamName=${encodeURIComponent(teamName)}`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				}
+			);
 
-            if (!teamResponse.ok) {
-                throw new Error(
-                    `Failed to create team: ${teamResponse.status}`,
-                );
-            }
+			if (!teamResponse.ok) {
+				throw new Error(`Failed to create team: ${teamResponse.status}`);
+			}
 
-            const teamDataResponse = await fetch(
-                `http://localhost:8080/api/team/${encodeURIComponent(teamName)}`,
-            );
+			const teamDataResponse = await fetch(
+				`http://localhost:8080/api/team/${encodeURIComponent(teamName)}`
+			);
 
-            if (!teamDataResponse.ok) {
-                throw new Error(
-                    `Failed to retrieve team: ${teamDataResponse.status}`,
-                );
-            }
+			if (!teamDataResponse.ok) {
+				throw new Error(`Failed to retrieve team: ${teamDataResponse.status}`);
+			}
 
-            const team = await teamDataResponse.json();
+			const team = await teamDataResponse.json();
 
-            await Promise.all(
-                nonEmptyPlayers.map(async (name) => {
-                    await createPlayerIntoTeam(team.teamId, name);
-                }),
-            );
-        } catch (err) {
-            console.error("Error:", err);
-        } finally {
-            isLoading = false;
-        }
+			await Promise.all(
+				nonEmptyPlayers.map(async (name) => {
+					await createPlayerIntoTeam(team.teamId, name);
+				})
+			);
+		} catch (err) {
+			console.error('Error:', err);
+		} finally {
+			isLoading = false;
+		}
 
-        navigationState.currentPane = "ChooseTeam";
-    }
+		navigationState.currentPane = 'ChooseTeam';
+	}
 
-    async function createPlayerIntoTeam(teamId: number, playerName: string) {
-        const playerData = {
-            name: playerName,
-            team: {
-                teamId: teamId,
-            },
-        };
+	async function createPlayerIntoTeam(teamId: number, playerName: string) {
+		const playerData = {
+			name: playerName,
+			team: {
+				teamId: teamId
+			}
+		};
 
-        const createPlayerResponse = await fetch(
-            `http://localhost:8080/api/players`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(playerData),
-            },
-        );
+		const createPlayerResponse = await fetch(`http://localhost:8080/api/players`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(playerData)
+		});
 
-        if (!createPlayerResponse.ok) {
-            throw new Error(
-                `Failed to create player ${playerName}: ${createPlayerResponse.status}`,
-            );
-        }
+		if (!createPlayerResponse.ok) {
+			throw new Error(`Failed to create player ${playerName}: ${createPlayerResponse.status}`);
+		}
 
-        console.log(`Player ${playerName} created successfully`);
-    }
+		console.log(`Player ${playerName} created successfully`);
+	}
 </script>
 
 <Header></Header>
 
 <div id="outer_form_box">
-    <h1 class="title">Team erstellen</h1>
-    <div class="form">
-        <div class="input-container ic1">
-            <label for="teamname">Team Name:</label>
-            <input
-                id="teamname"
-                type="text"
-                bind:value={teamName}
-                placeholder="Enter team name"
-            />
-        </div>
+	<h1 class="title">Team erstellen</h1>
+	<div class="form">
+		<div class="input-container ic1">
+			<label for="teamname">Team Name:</label>
+			<input id="teamname" type="text" bind:value={teamName} placeholder="Enter team name" />
+		</div>
 
-        {#each players as _, i}
-            <div class="input-container ic2">
-                <label for="player{i + 1}">Player {i + 1}:</label>
-                <input
-                    id="player{i + 1}"
-                    type="text"
-                    bind:value={players[i]}
-                    placeholder={`Enter player ${i + 1} name`}
-                />
-            </div>
-        {/each}
-    </div>
+		{#each players as _, i}
+			<div class="input-container ic2">
+				<label for="player{i + 1}">Player {i + 1}:</label>
+				<input
+					id="player{i + 1}"
+					type="text"
+					bind:value={players[i]}
+					placeholder={`Enter player ${i + 1} name`}
+				/>
+			</div>
+		{/each}
+	</div>
 
-    <a id="nextButton" onclick={savePlayers}>Speichern</a>
+	<a id="nextButton" onclick={savePlayers}>Speichern</a>
 </div>
 
 <style>
-    body {
-        align-items: center;
-        background-color: white;
-        height: 100vh;
-        width: 100vw;
-        text-align: center;
-    }
+	body {
+		align-items: center;
+		background-color: white;
+		height: 100vh;
+		width: 100vw;
+		text-align: center;
+	}
 
-    #outer_form_box {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin-top: -10%;
-        height: 92.8%;
-        width: 100%;
-    }
+	#outer_form_box {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin-top: -10%;
+		height: 92.8%;
+		width: 100%;
+	}
 
-    .form {
-        font-size: 50px;
-        background-color: white;
-        border-radius: 20px;
-        box-sizing: border-box;
-        height: 80%;
-        padding: 20px;
-        width: 80%;
-    }
+	.form {
+		font-size: 50px;
+		background-color: white;
+		border-radius: 20px;
+		box-sizing: border-box;
+		height: 80%;
+		padding: 20px;
+		width: 80%;
+	}
 
-    h1 {
-        text-align: center;
-        font-size: 40px;
-        margin-top: 10%;
-    }
+	h1 {
+		text-align: center;
+		font-size: 40px;
+		margin-top: 10%;
+	}
 
-    .input-container {
-        height: 10%;
-        position: relative;
-        width: 100%;
-    }
+	.input-container {
+		height: 10%;
+		position: relative;
+		width: 100%;
+	}
 
-    .ic1 {
-        margin-top: 20px;
-        margin-bottom: 20%;
-    }
+	.ic1 {
+		margin-top: 20px;
+		margin-bottom: 20%;
+	}
 
-    .ic2 {
-        margin-top: 60px;
-    }
+	.ic2 {
+		margin-top: 60px;
+	}
 
-    input {
-        background-color: white;
-        border-radius: 12px;
-        border: solid 2px #dedddd;
-        box-sizing: border-box;
-        font-size: 30px;
-        color: black;
-        text-align: center;
-        height: 100%;
-        outline: 0;
-        padding: 4px 20px 0;
-        width: 100%;
-    }
+	input {
+		background-color: white;
+		border-radius: 12px;
+		border: solid 2px #dedddd;
+		box-sizing: border-box;
+		font-size: 30px;
+		color: black;
+		text-align: center;
+		height: 100%;
+		outline: 0;
+		padding: 4px 20px 0;
+		width: 100%;
+	}
 
-    .cut {
-        background-color: white;
-        border-radius: 10px;
-        height: 45px;
-        left: 20px;
-        position: absolute;
-        top: -48px;
-        transform: translateY(0);
-        transition: transform 200ms;
-        width: 160px;
-    }
+	.cut {
+		background-color: white;
+		border-radius: 10px;
+		height: 45px;
+		left: 20px;
+		position: absolute;
+		top: -48px;
+		transform: translateY(0);
+		transition: transform 200ms;
+		width: 160px;
+	}
 
-    .cut-long {
-        width: 225px;
-    }
+	.cut-long {
+		width: 225px;
+	}
 
-    input:focus ~ .cut,
-    input:not(:placeholder-shown) ~ .cut {
-        transform: translateY(24px);
-    }
+	input:focus ~ .cut,
+	input:not(:placeholder-shown) ~ .cut {
+		transform: translateY(24px);
+	}
 
-    .placeholder {
-        color: #65657b;
-        font-family: sans-serif;
-        left: 20px;
-        line-height: 14px;
-        pointer-events: none;
-        position: absolute;
-        transform-origin: 0 50%;
-        transition:
-            transform 200ms,
-            color 200ms;
-        top: 20px;
-        font-size: 20px;
-    }
+	.placeholder {
+		color: #65657b;
+		font-family: sans-serif;
+		left: 20px;
+		line-height: 14px;
+		pointer-events: none;
+		position: absolute;
+		transform-origin: 0 50%;
+		transition:
+			transform 200ms,
+			color 200ms;
+		top: 20px;
+		font-size: 20px;
+	}
 
-    input:focus ~ .placeholder,
-    input:not(:placeholder-shown) ~ .placeholder {
-        transform: translateY(-30px) translateX(10px) scale(0.75);
-    }
+	input:focus ~ .placeholder,
+	input:not(:placeholder-shown) ~ .placeholder {
+		transform: translateY(-30px) translateX(10px) scale(0.75);
+	}
 
-    input:not(:placeholder-shown) ~ .placeholder {
-        color: #808097;
-    }
+	input:not(:placeholder-shown) ~ .placeholder {
+		color: #808097;
+	}
 
-    input:focus ~ .placeholder {
-        color: #45caac;
-    }
+	input:focus ~ .placeholder {
+		color: #45caac;
+	}
 
-    #nextButton {
-        text-decoration: none;
-        width: 42%;
-        padding: 4%;
-        font-size: 100%;
-        margin-top: 5%;
-        border-radius: 10px;
-        border: none;
-        background-color: #7fc8ee;
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        font-weight: bold;
-        box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.38);
-    }
+	#nextButton {
+		text-decoration: none;
+		width: 42%;
+		padding: 4%;
+		font-size: 100%;
+		margin-top: 5%;
+		border-radius: 10px;
+		border: none;
+		background-color: #7fc8ee;
+		color: white;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		text-align: center;
+		font-weight: bold;
+		box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.38);
+	}
 </style>
