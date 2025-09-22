@@ -99,6 +99,8 @@
         text-align: center;
         font-size: 40px;
         margin-top: 5%;
+        font-family: "Afacad", sans-serif;
+
     }
 
     select {
@@ -159,6 +161,8 @@
 
     #createTeam h2 {
         font-size: 150%;
+        font-family: "Afacad", sans-serif;
+
     }
 
     #addButton {
@@ -175,6 +179,8 @@
         text-decoration: none;
         text-align: center;
         font-weight: bold;
+        font-family: "Afacad", sans-serif;
+
     }
 
     #next-button-box {
@@ -200,5 +206,7 @@
         text-align: center;
         font-weight: bold;
         box-shadow: 1px 15px 15px 7px rgba(0, 0, 0, 0.16);
+        font-family: "Afacad", sans-serif;
+
     }
 </style>

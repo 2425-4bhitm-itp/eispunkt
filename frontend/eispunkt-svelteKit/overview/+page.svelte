@@ -102,7 +102,7 @@
 	<label id="team1">{selectionState.selectedTeam1Name}</label>
 
 	<a class="editSvg" onclick={() => editTeam(1)}>
-		<img src="/src/lib/assets/edit-icon.svg" alt="Edit team" />
+		<img src="/src/assets/edit-icon.svg" alt="Edit team" />
 	</a>
 
 	{#if team1Players.length > 0}
@@ -117,7 +117,7 @@
 <div id="secTeam">
 	<label id="team2">{selectionState.selectedTeam2Name}</label>
 	<a class="editSvg" onclick={() => editTeam(2)}>
-		<img src="/src/lib/assets/edit-icon.svg" alt="Edit team" />
+		<img src="/src/assets/edit-icon.svg" alt="Edit team" />
 	</a>
 
 	{#if team2Players.length > 0}
@@ -135,21 +135,15 @@
 	h1 {
 		text-align: center;
 		font-size: 40px;
-        font-family: "Afacad", sans-serif;
-
-    }
+	}
 	label {
 		font-size: 125%;
 		font-weight: bold;
-        font-family: "Afacad", sans-serif;
-
-    }
+	}
 
 	h2 {
-		font-size: 20px;
-        font-family: "Afacad", sans-serif;
-
-    }
+		font-size: 25px;
+	}
 	#exit {
 		font-size: 100px;
 		font-weight: bolder;
@@ -183,7 +177,7 @@
 
 	#firstTeam {
 		margin-left: 5%;
-		margin-top: 1%;
+		margin-top: 3%;
 	}
 
 	#secTeam {
@@ -192,11 +186,11 @@
 	}
 
 	#playButton {
-		width: 35%;
+		width: 45%;
 		padding: 4%;
 		margin-top: 15%;
 		margin-left: 23%;
-		font-size: 100%;
+		font-size: 300%;
 		border-radius: 20px;
 		border: none;
 		background-color: #7fc8ee;
@@ -209,7 +203,5 @@
 		font-weight: bold;
 		box-shadow: 1px 15px 15px 7px rgba(0, 0, 0, 0.16);
 		cursor: pointer;
-        font-family: "Afacad", sans-serif;
-
-    }
+	}
 </style>

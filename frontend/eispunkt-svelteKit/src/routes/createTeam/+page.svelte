@@ -56,7 +56,7 @@
 			isLoading = false;
 		}
 
-		window.location.href = '/teamSelect';
+		navigationState.currentPane = 'ChooseTeam';
 	}
 
 	async function createPlayerIntoTeam(teamId: number, playerName: string) {
@@ -90,7 +90,7 @@
 	<div class="form">
 		<div class="input-container ic1">
 			<label for="teamname">Team Name:</label>
-			<input id="teamname" type="text" bind:value={teamName} placeholder="Enter team name" />
+			<input id="teamname" type="text" bind:value={teamName} placeholder="Team name" class="input-style"/>
 		</div>
 
 		{#each players as _, i}
@@ -100,7 +100,8 @@
 					id="player{i + 1}"
 					type="text"
 					bind:value={players[i]}
-					placeholder={`Enter player ${i + 1} name`}
+					placeholder={`Spieler ${i + 1} Name`}
+                    class="input-style"
 				/>
 			</div>
 		{/each}
@@ -110,12 +111,28 @@
 </div>
 
 <style>
-	body {
+
+    *{
+        margin: 0;
+    }
+
+    .input-style {
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        font-size: 16px;
+        color: #555;
+        outline: none;
+    }
+
+
+
+
+    body {
 		align-items: center;
-		background-color: white;
-		height: 100vh;
-		width: 100vw;
+        margin: 0;
 		text-align: center;
+
 	}
 
 	#outer_form_box {
@@ -124,12 +141,11 @@
 		justify-content: center;
 		align-items: center;
 		margin-top: -10%;
-		height: 92.8%;
 		width: 100%;
 	}
 
 	.form {
-		font-size: 50px;
+		font-size: 20px;
 		background-color: white;
 		border-radius: 20px;
 		box-sizing: border-box;
@@ -142,7 +158,9 @@
 		text-align: center;
 		font-size: 40px;
 		margin-top: 10%;
-	}
+        font-family: "Afacad", sans-serif;
+
+    }
 
 	.input-container {
 		height: 10%;
@@ -151,13 +169,17 @@
 	}
 
 	.ic1 {
-		margin-top: 20px;
+		margin-top: 8px;
 		margin-bottom: 20%;
-	}
+        font-family: "Afacad", sans-serif;
+
+    }
 
 	.ic2 {
-		margin-top: 60px;
-	}
+		margin-top: 40px;
+        font-family: "Afacad", sans-serif;
+
+    }
 
 	input {
 		background-color: white;
@@ -237,6 +259,6 @@
 		align-items: center;
 		text-align: center;
 		font-weight: bold;
-		box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.38);
+		box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.38);
 	}
 </style>

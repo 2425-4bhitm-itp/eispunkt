@@ -16,5 +16,7 @@
         color: white;
         font-size: 350%;
         font-weight: bold;
+        font-family: "Protest Strike", sans-serif;
+
     }
 </style>
