@@ -1,8 +1,8 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import Header from "./Header.svelte";
-    import { selectionState } from "../stores/selectionStore.svelte";
-    import { navigationState } from "../stores/navigationStore.svelte";
+    import Header from "../../components/Header.svelte";
+    import { selectionState } from "../../stores/selectionStore.svelte";
+    import { navigationState } from "../../stores/navigationStore.svelte";
 
     let teams = $state<Array<{ teamId: number; name: string }>>([]);
 
@@ -30,8 +30,7 @@
     $inspect(selectionState.selectedTeam1);
     $inspect(selectionState.selectedTeam2);
 </script>
-
-<div>
+<div id="body-div">
     <Header />
     <h1>Teams auswählen</h1>
 
@@ -77,17 +76,22 @@
 
     <div id="createTeam">
         <h2>neues Team erstellen</h2>
-        <button id="addButton" onclick={() => changePane("CreateTeam")}
-            >+</button
-        >
+        <a href="/createTeam" id="addButton">+</a>
     </div>
 
-    <button id="nextButton" onclick={() => changePane("TeamOverview")}
-        >Weiter</button
-    >
+    <a href="/overview" id="nextButton">Weiter</a>
 </div>
 
 <style>
+    #body-div {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+    }
+
     h1 {
         text-align: center;
         font-size: 40px;
@@ -105,6 +109,7 @@
     #selectBox {
         display: block;
         font-size: 10px;
+        height: 60vh;
     }
 
     #firstTeam {
@@ -143,15 +148,16 @@
 
     #createTeam {
         display: flex;
+        justify-content: space-evenly;
+        align-items: center;
         width: 100%;
+        height: 20%;
         margin-top: 15%;
-        justify-content: center;
     }
 
     #addButton {
         width: 13%;
         padding: 1%;
-        margin-left: 15%;
         font-size: 150%;
         border-radius: 25px;
         border: none;
@@ -167,7 +173,6 @@
 
     #createTeam h2 {
         font-size: 150%;
-        margin-top: 2%;
     }
 
     #nextButton {

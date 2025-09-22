@@ -56,7 +56,7 @@
 			isLoading = false;
 		}
 
-		navigationState.currentPane = 'ChooseTeam';
+		window.location.href = '/teamSelect';
 	}
 
 	async function createPlayerIntoTeam(teamId: number, playerName: string) {

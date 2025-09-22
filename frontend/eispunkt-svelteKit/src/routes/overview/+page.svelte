@@ -91,7 +91,7 @@
 		} else {
 			selectionState.teamToEdit = selectionState.selectedTeam2;
 		}
-		navigationState.currentPane = 'EditTeam';
+        window.location.href = '/overview/editTeam'
 	}
 </script>
 

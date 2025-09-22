@@ -102,7 +102,7 @@
 				selectionState.selectedTeam2Name = teamName;
 			}
 
-			navigationState.currentPane = 'TeamOverview';
+			window.location.href = '/overview';
 		} catch (error) {
 			console.error('Error saving changes:', error);
 		} finally {
