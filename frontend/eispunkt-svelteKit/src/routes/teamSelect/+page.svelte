@@ -79,7 +79,10 @@
         <a href="/createTeam" id="addButton">+</a>
     </div>
 
-    <a href="/overview" id="nextButton">Weiter</a>
+    <div id="next-button-box">
+        <a href="/overview" id="nextButton">Weiter</a>
+    </div>
+
 </div>
 
 <style>
@@ -107,20 +110,21 @@
     }
 
     #selectBox {
-        display: block;
-        font-size: 10px;
-        height: 60vh;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: column;
+        height: 30vh;
     }
 
     #firstTeam {
         width: 90%;
-        margin-left: 5%;
-        font-size: 50px;
+        font-size: 30px;
+        height: 30%;
         border: 1px solid #ccc;
         border-radius: 8px;
         background-color: white;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-top: 15%;
     }
 
     #firstTeam:focus {
@@ -131,13 +135,12 @@
 
     #secTeam {
         width: 90%;
-        margin-left: 5%;
-        font-size: 50px;
+        font-size: 30px;
+        height: 30%;
         border: 1px solid #ccc;
         border-radius: 8px;
         background-color: white;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-top: 20%;
     }
 
     #secTeam:focus {
@@ -152,7 +155,10 @@
         align-items: center;
         width: 100%;
         height: 20%;
-        margin-top: 15%;
+    }
+
+    #createTeam h2 {
+        font-size: 150%;
     }
 
     #addButton {
@@ -171,15 +177,17 @@
         font-weight: bold;
     }
 
-    #createTeam h2 {
-        font-size: 150%;
+    #next-button-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 20%;
     }
 
     #nextButton {
         width: 45%;
         padding: 3%;
-        margin-top: 50%;
-        margin-left: 23%;
         font-size: 200%;
         border-radius: 20px;
         border: none;
