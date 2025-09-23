@@ -162,7 +162,6 @@
     #createTeam h2 {
         font-size: 150%;
         font-family: "Afacad", sans-serif;
-
     }
 
     #addButton {
@@ -180,7 +179,6 @@
         text-align: center;
         font-weight: bold;
         font-family: "Afacad", sans-serif;
-
     }
 
     #next-button-box {
@@ -207,6 +205,10 @@
         font-weight: bold;
         box-shadow: 1px 15px 15px 7px rgba(0, 0, 0, 0.16);
         font-family: "Afacad", sans-serif;
-
     }
+    #nextButton:hover {
+        cursor: pointer;
+        background-color: red;
+    }
+
 </style>

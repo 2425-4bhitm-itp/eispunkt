@@ -79,7 +79,7 @@
 				throw new Error(`Failed to add team2 to game: ${addTeam2Response.status}`);
 			}
 
-			navigationState.currentPane = 'Game';
+			window.location.href = '/game'
 		} catch (error) {
 			console.error('Error starting game:', error);
 		}
@@ -99,12 +99,13 @@
 <h1>gewählte Teams</h1>
 
 <div id="firstTeam">
-	<label id="team1">{selectionState.selectedTeam1Name}</label>
+    <div class="teamHeader">
+        <label id="team1">{selectionState.selectedTeam1Name}</label>
 
-	<a class="editSvg" onclick={() => editTeam(1)}>
-		<img src="/src/lib/assets/edit-icon.svg" alt="Edit team" />
-	</a>
-
+        <a class="editSvg" onclick={() => editTeam(1)}>
+            <img src="/src/lib/assets/edit-icon.svg" alt="Edit team" />
+        </a>
+    </div>
 	{#if team1Players.length > 0}
 		{#each team1Players.slice(0, 4) as player, index}
 			<h2 id="team1_player{index + 1}">
@@ -115,10 +116,13 @@
 </div>
 
 <div id="secTeam">
-	<label id="team2">{selectionState.selectedTeam2Name}</label>
-	<a class="editSvg" onclick={() => editTeam(2)}>
-		<img src="/src/lib/assets/edit-icon.svg" alt="Edit team" />
-	</a>
+    <div class="teamHeader">
+        <label id="team1">{selectionState.selectedTeam2Name}</label>
+
+        <a class="editSvg" onclick={() => editTeam(2)}>
+            <img src="/src/lib/assets/edit-icon.svg" alt="Edit team" />
+        </a>
+    </div>
 
 	{#if team2Players.length > 0}
 		{#each team2Players.slice(0, 4) as player, index}
@@ -171,8 +175,8 @@
 
 	.editSvg img {
 		margin-top: 2%;
-		width: 50px;
-		height: 50px;
+		width: 40px;
+		height: 40px;
 		cursor: pointer;
 	}
 
