@@ -42,7 +42,7 @@ public class GameResource {
         return Response.ok(gameRepository.addTeamToGame(gameId, teamId)).build();
     }
 
-    @POST
+    @PUT
     @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateGame(Game game) {

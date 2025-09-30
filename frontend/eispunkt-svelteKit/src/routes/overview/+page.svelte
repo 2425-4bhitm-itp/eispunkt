@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { selectionState } from '../../stores/selectionStore.svelte';
-	import { navigationState } from '../../stores/navigationStore.svelte';
-	import { gameState } from '../../stores/gameStore.svelte';
+	import { selectionState } from '$lib/stores/selectionStore.svelte';
+	import { navigationState } from '$lib/stores/navigationStore.svelte';
+	import { gameState } from '$lib/stores/gameStore.svelte';
 	import Header from '../../components/Header.svelte';
 
 	let team1Players = $state<any[]>([]);
@@ -11,7 +11,7 @@
 	async function loadPlayers() {
 		try {
 			const team1Response = await fetch(
-				`http://localhost:8080/api/players/team/${selectionState.selectedTeam1}`,
+				`http://localhost:8080/api/players/team/${$selectionState.selectedTeam1}`,
 				{
 					method: 'GET'
 				}
@@ -22,7 +22,7 @@
 			}
 
 			const team2Response = await fetch(
-				`http://localhost:8080/api/players/team/${selectionState.selectedTeam2}`,
+				`http://localhost:8080/api/players/team/${$selectionState.selectedTeam2}`,
 				{
 					method: 'GET'
 				}
@@ -58,7 +58,7 @@
 			gameState.gameId = game.gameId;
 
 			const addTeam1Response = await fetch(
-				`http://localhost:8080/api/games/${game.gameId}/${selectionState.selectedTeam1}`,
+				`http://localhost:8080/api/games/${game.gameId}/${$selectionState.selectedTeam1}`,
 				{
 					method: 'POST'
 				}
@@ -69,7 +69,7 @@
 			}
 
 			const addTeam2Response = await fetch(
-				`http://localhost:8080/api/games/${game.gameId}/${selectionState.selectedTeam2}`,
+				`http://localhost:8080/api/games/${game.gameId}/${$selectionState.selectedTeam2}`,
 				{
 					method: 'POST'
 				}
@@ -78,8 +78,6 @@
 			if (!addTeam2Response.ok) {
 				throw new Error(`Failed to add team2 to game: ${addTeam2Response.status}`);
 			}
-
-			window.location.href = '/game'
 		} catch (error) {
 			console.error('Error starting game:', error);
 		}
@@ -87,11 +85,12 @@
 
 	function editTeam(teamIndex: number) {
 		if (teamIndex === 1) {
-			selectionState.teamToEdit = selectionState.selectedTeam1;
+			$selectionState.teamToEdit = $selectionState.selectedTeam1;
+			console.log($selectionState.teamToEdit);
 		} else {
-			selectionState.teamToEdit = selectionState.selectedTeam2;
+			$selectionState.teamToEdit = $selectionState.selectedTeam2;
+			console.log($selectionState.teamToEdit);
 		}
-		navigationState.currentPane = 'EditTeam';
 	}
 </script>
 
@@ -99,13 +98,13 @@
 <h1>gewählte Teams</h1>
 
 <div id="firstTeam">
-    <div class="teamHeader">
-        <label id="team1">{selectionState.selectedTeam1Name}</label>
+	<div class="teamHeader">
+		<label id="team1">{$selectionState.selectedTeam1Name}</label>
 
-        <a class="editSvg" onclick={() => editTeam(1)}>
-            <img src="/src/lib/assets/edit-icon.svg" alt="Edit team" />
-        </a>
-    </div>
+		<a class="editSvg" href="overview/editTeam" onclick={() => editTeam(1)}>
+			<img src="/src/lib/assets/edit-icon.svg" alt="Edit team" />
+		</a>
+	</div>
 	{#if team1Players.length > 0}
 		{#each team1Players.slice(0, 4) as player, index}
 			<h2 id="team1_player{index + 1}">
@@ -116,13 +115,13 @@
 </div>
 
 <div id="secTeam">
-    <div class="teamHeader">
-        <label id="team1">{selectionState.selectedTeam2Name}</label>
+	<div class="teamHeader">
+		<label id="team1">{$selectionState.selectedTeam2Name}</label>
 
-        <a class="editSvg" onclick={() => editTeam(2)}>
-            <img src="/src/lib/assets/edit-icon.svg" alt="Edit team" />
-        </a>
-    </div>
+		<a class="editSvg" href="overview/editTeam" onclick={() => editTeam(2)}>
+			<img src="/src/lib/assets/edit-icon.svg" alt="Edit team" />
+		</a>
+	</div>
 
 	{#if team2Players.length > 0}
 		{#each team2Players.slice(0, 4) as player, index}
@@ -132,28 +131,25 @@
 		{/each}
 	{/if}
 
-	<a id="playButton" onclick={startGame}>Spielen</a>
+	<a id="playButton" onclick={startGame} href="/game">Spielen</a>
 </div>
 
 <style>
 	h1 {
 		text-align: center;
 		font-size: 40px;
-        font-family: "Afacad", sans-serif;
-
-    }
+		font-family: 'Afacad', sans-serif;
+	}
 	label {
 		font-size: 125%;
 		font-weight: bold;
-        font-family: "Afacad", sans-serif;
-
-    }
+		font-family: 'Afacad', sans-serif;
+	}
 
 	h2 {
 		font-size: 20px;
-        font-family: "Afacad", sans-serif;
-
-    }
+		font-family: 'Afacad', sans-serif;
+	}
 	#exit {
 		font-size: 100px;
 		font-weight: bolder;
@@ -213,7 +209,6 @@
 		font-weight: bold;
 		box-shadow: 1px 15px 15px 7px rgba(0, 0, 0, 0.16);
 		cursor: pointer;
-        font-family: "Afacad", sans-serif;
-
-    }
+		font-family: 'Afacad', sans-serif;
+	}
 </style>

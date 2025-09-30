@@ -1,6 +1,10 @@
-FROM eclipse-temurin:21-jre-jammy
-RUN mkdir -p /opt/eispunkt
-WORKDIR /opt/eispunkt
-COPY ./target/*-runner.jar ./quarkus-run.jar
+FROM maven:3.9.6-eclipse-temurin-21 AS build
+WORKDIR /app
+COPY . .
+RUN mvn package -DskipTests -Dquarkus.package.type=uber-jar
 
-CMD ["java", "-jar","quarkus-run.jar"]
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY --from=build /app/target/*-runner.jar /app/app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]

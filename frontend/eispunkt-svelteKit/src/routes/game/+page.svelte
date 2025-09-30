@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { gameState } from '../../stores/gameStore.svelte';
-	import { selectionState } from '../../stores/selectionStore.svelte';
+	import { gameState } from '$lib/stores/gameStore.svelte';
+	import { selectionState } from '$lib/stores/selectionStore.svelte';
 	import Header from '../../components/Header.svelte';
 
 	onMount(async () => {
+		console.log($selectionState.selectedTeam1Name);
 		await createStage();
 		await createTurn();
 	});
@@ -93,8 +94,8 @@
 		gameState.isProcessingTurn = true;
 
 		try {
-			await saveScore(selectionState.selectedTeam1, gameState.team1SubScore);
-			await saveScore(selectionState.selectedTeam2, gameState.team2SubScore);
+			await saveScore($selectionState.selectedTeam1, gameState.team1SubScore);
+			await saveScore($selectionState.selectedTeam2, gameState.team2SubScore);
 			if (gameState.team1SubScore > gameState.team2SubScore) {
 				gameState.team1Score += 2;
 				gameState.turnHistory.push('team1');
@@ -159,7 +160,7 @@
 
 	const headerText = $derived(
 		gameState.gameFinished
-			? `${gameState.winner === 1 ? selectionState.selectedTeam1Name : selectionState.selectedTeam2Name} Wins!`
+			? `${gameState.winner === 1 ? $selectionState.selectedTeam1Name : $selectionState.selectedTeam2Name} Wins!`
 			: 'Eispunkt'
 	);
 </script>
@@ -179,22 +180,22 @@
 </div>
 <div class="team_outer_box">
 	<div class="team_inner_box">
-		<h1>{selectionState.selectedTeam1Name}</h1>
+		<h1>{$selectionState.selectedTeam1Name}</h1>
 	</div>
 	<div class="points_buttons_outer_box">
-		<div onclick={() => addPoint(1)} class="points_button">+</div>
-		<div id="t1SubScoreText">{gameState.team1SubScore}</div>
 		<div onclick={() => deletePoint(1)} class="points_button">-</div>
+		<div id="t1SubScoreText">{gameState.team1SubScore}</div>
+		<div onclick={() => addPoint(1)} class="points_button">+</div>
 	</div>
 </div>
 <div class="team_outer_box">
 	<div class="team_inner_box">
-		<h1>{selectionState.selectedTeam2Name}</h1>
+		<h1>{$selectionState.selectedTeam2Name}</h1>
 	</div>
 	<div class="points_buttons_outer_box">
-		<div onclick={() => addPoint(2)} class="points_button">+</div>
-		<div id="t2SubScoreText">{gameState.team2SubScore}</div>
 		<div onclick={() => deletePoint(2)} class="points_button">-</div>
+		<div id="t2SubScoreText">{gameState.team2SubScore}</div>
+		<div onclick={() => addPoint(2)} class="points_button">+</div>
 	</div>
 </div>
 

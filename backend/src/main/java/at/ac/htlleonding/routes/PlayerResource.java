@@ -69,7 +69,7 @@ public class PlayerResource {
                        .build();
     }
 
-    @Path("/{id:[0-9]+}")
+    @Path("/rename/{id:[0-9]+}")
     @PATCH
     @Transactional
     public Response renamePlayer(@PathParam("id") long playerId, @QueryParam("newName") String newName) {

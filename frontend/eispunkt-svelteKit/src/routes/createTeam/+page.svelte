@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Header from '../../components/Header.svelte';
-	import { navigationState } from '../../stores/navigationStore.svelte';
+	import { navigationState } from '$lib/stores/navigationStore.svelte';
 
 	let teamName = '';
 	let players = ['', '', '', ''];
@@ -90,7 +90,13 @@
 	<div class="form">
 		<div class="input-container ic1">
 			<label for="teamname">Team Name:</label>
-			<input id="teamname" type="text" bind:value={teamName} placeholder="Team name" class="input-style"/>
+			<input
+				id="teamname"
+				type="text"
+				bind:value={teamName}
+				placeholder="Team name"
+				class="input-style"
+			/>
 		</div>
 
 		{#each players as _, i}
@@ -101,7 +107,7 @@
 					type="text"
 					bind:value={players[i]}
 					placeholder={`Spieler ${i + 1} Name`}
-                    class="input-style"
+					class="input-style"
 				/>
 			</div>
 		{/each}
@@ -111,28 +117,23 @@
 </div>
 
 <style>
+	* {
+		margin: 0;
+	}
 
-    *{
-        margin: 0;
-    }
+	.input-style {
+		padding: 10px;
+		border: 2px solid #ccc;
+		border-radius: 10px;
+		font-size: 16px;
+		color: #555;
+		outline: none;
+	}
 
-    .input-style {
-        padding: 10px;
-        border: 2px solid #ccc;
-        border-radius: 10px;
-        font-size: 16px;
-        color: #555;
-        outline: none;
-    }
-
-
-
-
-    body {
+	body {
 		align-items: center;
-        margin: 0;
+		margin: 0;
 		text-align: center;
-
 	}
 
 	#outer_form_box {
@@ -158,9 +159,8 @@
 		text-align: center;
 		font-size: 40px;
 		margin-top: 10%;
-        font-family: "Afacad", sans-serif;
-
-    }
+		font-family: 'Afacad', sans-serif;
+	}
 
 	.input-container {
 		height: 10%;
@@ -171,15 +171,13 @@
 	.ic1 {
 		margin-top: 8px;
 		margin-bottom: 20%;
-        font-family: "Afacad", sans-serif;
-
-    }
+		font-family: 'Afacad', sans-serif;
+	}
 
 	.ic2 {
 		margin-top: 40px;
-        font-family: "Afacad", sans-serif;
-
-    }
+		font-family: 'Afacad', sans-serif;
+	}
 
 	input {
 		background-color: white;
@@ -262,7 +260,7 @@
 		box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.38);
 	}
 
-    #nextButton:hover {
-        cursor: pointer;
-    }
+	#nextButton:hover {
+		cursor: pointer;
+	}
 </style>

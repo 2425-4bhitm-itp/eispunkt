@@ -6,7 +6,7 @@
 GET http://localhost:8080/api/team/createTeam?teamName=TestTeam
 Content-Type: */*
 ###
-GET http://localhost:8080/api/team/getAllTeams
+GET http://localhost:8080/api/team/15
 ###
 GET http://localhost:8080/api/team/findTeamById?teamId=1
 ###
@@ -51,4 +51,15 @@ Content-Type: application/json
     }
   ],
   "games": []
+}
+###
+POST http://localhost:8080/api/team?teamName=test
+Content-Type: application/json
+
+###
+POST http://localhost:8080/api/games
+Content-Type: application/json
+
+{
+
 }
