@@ -5,7 +5,7 @@
         date [DATE]
     }
 
-    entity playedGames{
+    entity Game_Team{
         <<FK>> gameID[NUMBER]
         <<FK>> teamID[NUMBER]
     }
@@ -13,35 +13,41 @@
     entity Team{
         <<PK>> teamID [NUMBER]
         --
-        teamName [VARCHAR]
+        name [VARCHAR]
     }
 
     entity Player{
-        <<PK>> playerID [NUMBER]
-        <<FK>> teamID [NUMBER]
+        <<PK>> playerId [NUMBER]
+        <<FK>> teamId [NUMBER]
         --
         name [VARCHAR]
     }
 
     entity Stage{
-        <<PK>> stageID[NUMBER]
-        <<FK>> gameID[NUMBER]
+        <<PK>> stageId[NUMBER]
+        <<FK>> gameId[NUMBER]
+        --
+        stagenumber[NUMBER]
+    }
+
+    entity Turn {
+        <<PK>> turnId[NUMBER]
+        <<FK>> stageId[NUMBER]]
     }
 
     entity Score{
+        <<PK>> scoreId[NUMBER]
         <<FK>> teamId[NUMBER]
-        <<FK>> stageId[NUMBER]
+        <<FK>> turnId[NUMBER]
         --
         score[NUMBER]
     }
 
-
-
-    Team||--o{playedGames
-    Game||--o{playedGames
+    Team||--o{Game_Team
+    Game||--o{Game_Team
     Stage}|-||Game
     Team||-|{Player
-    Score}|--||Stage
     Score}|--||Team
-
+    Score}|--||Turn
+    Stage}|--||Turn
 @enduml
