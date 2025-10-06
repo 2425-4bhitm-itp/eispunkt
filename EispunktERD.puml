@@ -1,17 +1,17 @@
 @startuml
     entity Game{
-        <<PK>> gameID [NUMBER]
+        <<PK>> gameId [NUMBER]
         --
         date [DATE]
     }
 
     entity Game_Team{
-        <<FK>> gameID[NUMBER]
-        <<FK>> teamID[NUMBER]
+        <<FK>> gameId[NUMBER]
+        <<FK>> teamId[NUMBER]
     }
 
     entity Team{
-        <<PK>> teamID [NUMBER]
+        <<PK>> teamId [NUMBER]
         --
         name [VARCHAR]
     }
@@ -43,6 +43,22 @@
         score[NUMBER]
     }
 
+    entity Tournament {
+        <<PK>> groupId[NUMBER]
+        --
+        name[VARCHAR]
+    }
+
+    entity Tournament_Game {
+        <<FK>> groupId
+        <<FK>> gameId
+    }
+
+    entity Tournament_Team {
+        <<FK>> groupId
+        <<FK>> teamId
+    }
+
     Team||--o{Game_Team
     Game||--o{Game_Team
     Stage}|-||Game
@@ -50,4 +66,8 @@
     Score}|--||Team
     Score}|--||Turn
     Stage}|--||Turn
+    Tournament}--||Tournament_Team
+    Tournament}--||Tournament_Game
+    Tournament_Team}--||Team
+    Tournament_Game}--||Game
 @enduml
