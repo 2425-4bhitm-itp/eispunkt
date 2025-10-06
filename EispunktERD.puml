@@ -1,47 +1,73 @@
 @startuml
     entity Game{
-        <<PK>> gameID [NUMBER]
+        <<PK>> gameId [NUMBER]
         --
         date [DATE]
     }
 
-    entity playedGames{
-        <<FK>> gameID[NUMBER]
-        <<FK>> teamID[NUMBER]
+    entity Game_Team{
+        <<FK>> gameId[NUMBER]
+        <<FK>> teamId[NUMBER]
     }
 
     entity Team{
-        <<PK>> teamID [NUMBER]
+        <<PK>> teamId [NUMBER]
         --
-        teamName [VARCHAR]
+        name [VARCHAR]
     }
 
     entity Player{
-        <<PK>> playerID [NUMBER]
-        <<FK>> teamID [NUMBER]
+        <<PK>> playerId [NUMBER]
+        <<FK>> teamId [NUMBER]
         --
         name [VARCHAR]
     }
 
     entity Stage{
-        <<PK>> stageID[NUMBER]
-        <<FK>> gameID[NUMBER]
+        <<PK>> stageId[NUMBER]
+        <<FK>> gameId[NUMBER]
+        --
+        stagenumber[NUMBER]
+    }
+
+    entity Turn {
+        <<PK>> turnId[NUMBER]
+        <<FK>> stageId[NUMBER]]
     }
 
     entity Score{
+        <<PK>> scoreId[NUMBER]
         <<FK>> teamId[NUMBER]
-        <<FK>> stageId[NUMBER]
+        <<FK>> turnId[NUMBER]
         --
         score[NUMBER]
     }
 
+    entity Tournament {
+        <<PK>> groupId[NUMBER]
+        --
+        name[VARCHAR]
+    }
 
+    entity Tournament_Game {
+        <<FK>> groupId
+        <<FK>> gameId
+    }
 
-    Team||--o{playedGames
-    Game||--o{playedGames
+    entity Tournament_Team {
+        <<FK>> groupId
+        <<FK>> teamId
+    }
+
+    Team||--o{Game_Team
+    Game||--o{Game_Team
     Stage}|-||Game
     Team||-|{Player
-    Score}|--||Stage
     Score}|--||Team
-
+    Score}|--||Turn
+    Stage}|--||Turn
+    Tournament}--||Tournament_Team
+    Tournament}--||Tournament_Game
+    Tournament_Team}--||Team
+    Tournament_Game}--||Game
 @enduml
