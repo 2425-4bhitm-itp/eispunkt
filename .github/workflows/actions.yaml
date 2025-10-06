@@ -28,6 +28,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: build docker images
         working-directory: backend
-        run: docker build -t "ghcr.io/marvin-anderson/eispunkt-app" .
+        run: docker build -t "ghcr.io/2425-4bhitm-itp/eispunkt:latest" .
       - name: push docker images
-        run: docker push "ghcr.io/marvin-anderson/eispunkt-app"
+        run: docker push "ghcr.io/2425-4bhitm-itp/eispunkt:latest"
