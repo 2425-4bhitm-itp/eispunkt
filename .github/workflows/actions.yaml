@@ -20,14 +20,28 @@ jobs:
       - name: Build with Maven
         working-directory: backend
         run: mvn -B package
+      - uses: actions/setup-node@v5
+        with:
+          cache: "npm"
+          cache-dependency-path: frontend/eispunkt-svelteKit/package-lock.json
+      - name: Build Frontend
+        working-directory: frontend/eispunkt-svelteKit
+        run: |
+          npm ci
+          npm run build
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: build docker images
+      - name: build backend image
         working-directory: backend
         run: docker build -t "ghcr.io/2425-4bhitm-itp/eispunkt:latest" .
-      - name: push docker images
+      - name: build frontend image
+        working-directory: frontend/eispunkt-svelteKit/
+        run: docker build -t "ghcr.io/2425-4bhitm-itp/eispunkt-frontend:latest" .
+      - name: push backend image
         run: docker push "ghcr.io/2425-4bhitm-itp/eispunkt:latest"
+      - name: push frontend image
+        run: docker push "ghcr.io/2425-4bhitm-itp/eispunkt-frontend:latest"
