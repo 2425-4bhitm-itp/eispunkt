@@ -6,7 +6,8 @@ permissions:
   contents: read
 
 jobs:
-  Build-and-Deploy:
+  backend:
+    permissions: write-all
     runs-on: ubuntu-24.04
     steps:
       - name: Login to GitHub Container Registry
