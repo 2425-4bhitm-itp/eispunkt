@@ -23,4 +23,4 @@ jobs:
         working-directory: backend
         run: docker build -t "ghcr.io/marvin-anderson/eispunkt-app" .
       - name: push docker images
-        run: docker push -t "ghcr.io/marvin-anderson/eispunkt-app"
+        run: docker push "ghcr.io/marvin-anderson/eispunkt-app"
