@@ -44,18 +44,19 @@
     }
 
     entity Tournament {
-        <<PK>> groupId[NUMBER]
+        <<PK>> tournamentId[NUMBER]
         --
         name[VARCHAR]
+        location[VARCHAR]
     }
 
     entity Tournament_Game {
-        <<FK>> groupId
+        <<FK>> tournamentId
         <<FK>> gameId
     }
 
     entity Tournament_Team {
-        <<FK>> groupId
+        <<FK>> tournamentId
         <<FK>> teamId
     }
 
