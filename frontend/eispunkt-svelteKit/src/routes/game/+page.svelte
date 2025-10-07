@@ -17,7 +17,7 @@
 			}
 
 			const response = await fetch(
-				`http://localhost:8080/api/stages/create?gameId=${gameState.gameId}&stageNumber=${gameState.stageNumber}`,
+				`/api/stages/create?gameId=${gameState.gameId}&stageNumber=${gameState.stageNumber}`,
 				{
 					method: 'POST'
 				}
@@ -40,12 +40,9 @@
 				return;
 			}
 
-			const response = await fetch(
-				`http://localhost:8080/api/turns/create?stageId=${gameState.currentStageId}`,
-				{
-					method: 'POST'
-				}
-			);
+			const response = await fetch(`/api/turns/create?stageId=${gameState.currentStageId}`, {
+				method: 'POST'
+			});
 
 			if (!response.ok) {
 				throw new Error(`Failed to create turn: ${response.status}`);
@@ -65,7 +62,7 @@
 			}
 
 			const response = await fetch(
-				`http://localhost:8080/api/scores/create?teamId=${teamId}&turnId=${gameState.currentTurnId}&score=${points}`,
+				`/api/scores/create?teamId=${teamId}&turnId=${gameState.currentTurnId}&score=${points}`,
 				{
 					method: 'POST'
 				}

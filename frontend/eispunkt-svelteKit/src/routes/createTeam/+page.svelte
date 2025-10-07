@@ -21,23 +21,18 @@
 				throw new Error('At least one player is required');
 			}
 
-			const teamResponse = await fetch(
-				`http://localhost:8080/api/team?teamName=${encodeURIComponent(teamName)}`,
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					}
+			const teamResponse = await fetch(`/api/team?teamName=${encodeURIComponent(teamName)}`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
 				}
-			);
+			});
 
 			if (!teamResponse.ok) {
 				throw new Error(`Failed to create team: ${teamResponse.status}`);
 			}
 
-			const teamDataResponse = await fetch(
-				`http://localhost:8080/api/team/${encodeURIComponent(teamName)}`
-			);
+			const teamDataResponse = await fetch(`/api/team/${encodeURIComponent(teamName)}`);
 
 			if (!teamDataResponse.ok) {
 				throw new Error(`Failed to retrieve team: ${teamDataResponse.status}`);
@@ -67,7 +62,7 @@
 			}
 		};
 
-		const createPlayerResponse = await fetch(`http://localhost:8080/api/players`, {
+		const createPlayerResponse = await fetch(`/api/players`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

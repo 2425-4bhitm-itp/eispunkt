@@ -22,7 +22,7 @@
 
 	async function loadTeamData() {
 		try {
-			const response = await fetch(`http://localhost:8080/api/team/${selectionState.teamToEdit}`);
+			const response = await fetch(`/api/team/${selectionState.teamToEdit}`);
 
 			if (!response.ok) {
 				throw new Error(`Failed to load team: ${response.status}`);
@@ -37,9 +37,7 @@
 
 	async function loadPlayerData() {
 		try {
-			const response = await fetch(
-				`http://localhost:8080/api/players/team/${selectionState.teamToEdit}`
-			);
+			const response = await fetch(`/api/players/team/${selectionState.teamToEdit}`);
 
 			if (response.ok) {
 				const teamPlayers = await response.json();
@@ -66,7 +64,7 @@
 			}
 
 			const renameResponse = await fetch(
-				`http://localhost:8080/api/team/${selectionState.teamToEdit}/${encodeURIComponent(teamName)}`,
+				`/api/team/${selectionState.teamToEdit}/${encodeURIComponent(teamName)}`,
 				{
 					method: 'PATCH'
 				}
@@ -80,7 +78,7 @@
 				if (playerIds[i] !== 0 && players[i] !== originalPlayers[i] && players[i].trim() !== '') {
 					try {
 						const renamePlayerResponse = await fetch(
-							`http://localhost:8080/api/players/${playerIds[i]}?newName=${encodeURIComponent(players[i])}`,
+							`/api/players/${playerIds[i]}?newName=${encodeURIComponent(players[i])}`,
 							{
 								method: 'PATCH'
 							}
@@ -116,110 +114,98 @@
 	<h1>Team bearbeiten</h1>
 	<div class="form">
 		<div class="input-container ic1">
-            <label for="teamname">Team Name:</label>
-            <input id="teamname"  type="text" placeholder=" " bind:value={teamName} class="input-style" />
+			<label for="teamname">Team Name:</label>
+			<input id="teamname" type="text" placeholder=" " bind:value={teamName} class="input-style" />
 
-            {#each players as _, i}
-                <div class="input-container ic2">
-                    <label for="player{i + 1}">Player {i + 1}:</label>
-                    <input
-                            id="player{i + 1}"
-                            type="text"
-                            bind:value={players[i]}
-                            class="input-style"
-                    />
-                </div>
-            {/each}
+			{#each players as _, i}
+				<div class="input-container ic2">
+					<label for="player{i + 1}">Player {i + 1}:</label>
+					<input id="player{i + 1}" type="text" bind:value={players[i]} class="input-style" />
+				</div>
+			{/each}
+		</div>
 	</div>
-    </div>
 	<a id="nextButton" onclick={saveChanges}>
 		{isLoading ? 'Speichert...' : 'Speichern'}
 	</a>
 </div>
 
 <style>
-    *{
-        margin: 0;
-    }
+	* {
+		margin: 0;
+	}
 
-    .input-style {
-        padding: 10px;
-        border: 2px solid #ccc;
-        border-radius: 10px;
-        font-size: 16px;
-        color: #555;
-        outline: none;
-    }
+	.input-style {
+		padding: 10px;
+		border: 2px solid #ccc;
+		border-radius: 10px;
+		font-size: 16px;
+		color: #555;
+		outline: none;
+	}
 
+	body {
+		align-items: center;
+		margin: 0;
+		text-align: center;
+	}
 
+	#outer_form_box {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		margin-top: -10%;
+		width: 100%;
+	}
 
+	.form {
+		font-size: 20px;
+		background-color: white;
+		border-radius: 20px;
+		box-sizing: border-box;
+		height: 80%;
+		padding: 20px;
+		width: 80%;
+	}
 
-    body {
-        align-items: center;
-        margin: 0;
-        text-align: center;
+	h1 {
+		text-align: center;
+		font-size: 40px;
+		margin-top: 10%;
+		font-family: 'Afacad', sans-serif;
+	}
 
-    }
+	.input-container {
+		height: 10%;
+		position: relative;
+		width: 100%;
+	}
 
-    #outer_form_box {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin-top: -10%;
-        width: 100%;
-    }
+	.ic1 {
+		margin-top: 8px;
+		margin-bottom: 20%;
+		font-family: 'Afacad', sans-serif;
+	}
 
-    .form {
-        font-size: 20px;
-        background-color: white;
-        border-radius: 20px;
-        box-sizing: border-box;
-        height: 80%;
-        padding: 20px;
-        width: 80%;
-    }
+	.ic2 {
+		margin-top: 40px;
+		font-family: 'Afacad', sans-serif;
+	}
 
-    h1 {
-        text-align: center;
-        font-size: 40px;
-        margin-top: 10%;
-        font-family: "Afacad", sans-serif;
-
-    }
-
-    .input-container {
-        height: 10%;
-        position: relative;
-        width: 100%;
-    }
-
-    .ic1 {
-        margin-top: 8px;
-        margin-bottom: 20%;
-        font-family: "Afacad", sans-serif;
-
-    }
-
-    .ic2 {
-        margin-top: 40px;
-        font-family: "Afacad", sans-serif;
-
-    }
-
-    input {
-        background-color: white;
-        border-radius: 12px;
-        border: solid 2px #dedddd;
-        box-sizing: border-box;
-        font-size: 30px;
-        color: black;
-        text-align: center;
-        height: 100%;
-        outline: 0;
-        padding: 4px 20px 0;
-        width: 100%;
-    }
+	input {
+		background-color: white;
+		border-radius: 12px;
+		border: solid 2px #dedddd;
+		box-sizing: border-box;
+		font-size: 30px;
+		color: black;
+		text-align: center;
+		height: 100%;
+		outline: 0;
+		padding: 4px 20px 0;
+		width: 100%;
+	}
 
 	.input {
 		background-color: white;

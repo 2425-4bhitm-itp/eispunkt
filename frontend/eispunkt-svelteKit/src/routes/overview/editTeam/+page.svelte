@@ -23,7 +23,7 @@
 
 	async function loadTeamData() {
 		try {
-			const response = await fetch(`http://localhost:8080/api/team/${$selectionState.teamToEdit}`);
+			const response = await fetch(`/api/team/${$selectionState.teamToEdit}`);
 
 			if (!response.ok) {
 				throw new Error(`Failed to load team: ${response.status}`);
@@ -38,9 +38,7 @@
 
 	async function loadPlayerData() {
 		try {
-			const response = await fetch(
-				`http://localhost:8080/api/players/team/${$selectionState.teamToEdit}`
-			);
+			const response = await fetch(`/api/players/team/${$selectionState.teamToEdit}`);
 
 			if (response.ok) {
 				const teamPlayers = await response.json();
@@ -67,7 +65,7 @@
 			}
 
 			const renameResponse = await fetch(
-				`http://localhost:8080/api/team/${$selectionState.teamToEdit}/${encodeURIComponent(teamName)}`,
+				`/api/team/${$selectionState.teamToEdit}/${encodeURIComponent(teamName)}`,
 				{
 					method: 'PATCH'
 				}
@@ -81,7 +79,7 @@
 				if (playerIds[i] !== 0 && players[i] !== originalPlayers[i] && players[i].trim() !== '') {
 					try {
 						const renamePlayerResponse = await fetch(
-							`http://localhost:8080/api/players/rename/${playerIds[i]}?newName=${encodeURIComponent(players[i])}`,
+							`/api/players/rename/${playerIds[i]}?newName=${encodeURIComponent(players[i])}`,
 							{
 								method: 'PATCH'
 							}
@@ -92,7 +90,7 @@
 						}
 
 						const addPlayerBackToTeamResponse = await fetch(
-							`http://localhost:8080/api/players/${playerIds[i]}?teamId=${$selectionState.teamToEdit}}`,
+							`/api/players/${playerIds[i]}?teamId=${$selectionState.teamToEdit}}`,
 							{
 								method: 'PATCH'
 							}
