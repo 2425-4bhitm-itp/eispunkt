@@ -57,7 +57,6 @@ vite.config.ts.timestamp-*
 
 
 # Frontend
-/frontend/dist/
 /frontend/*/node_modules
-/backend/src/main/resources/META-INF/resources/*
 /frontend/*/.svelte-kit
+/frontend/*/build
