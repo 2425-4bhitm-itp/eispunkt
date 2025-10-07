@@ -1,4 +1,6 @@
 @startuml
+    title Eispunkt Datenmodell
+
     entity Game{
         <<PK>> gameId [NUMBER]
         --
@@ -71,4 +73,6 @@
     Tournament}--||Tournament_Game
     Tournament_Team}--||Team
     Tournament_Game}--||Game
+
+    right footer Florian Hayer 06.10.25 
 @enduml

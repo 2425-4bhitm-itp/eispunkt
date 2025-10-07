@@ -10,23 +10,17 @@
 
 	async function loadPlayers() {
 		try {
-			const team1Response = await fetch(
-				`http://localhost:8080/api/players/team/${$selectionState.selectedTeam1}`,
-				{
-					method: 'GET'
-				}
-			);
+			const team1Response = await fetch(`/api/players/team/${$selectionState.selectedTeam1}`, {
+				method: 'GET'
+			});
 
 			if (team1Response.ok) {
 				team1Players = await team1Response.json();
 			}
 
-			const team2Response = await fetch(
-				`http://localhost:8080/api/players/team/${$selectionState.selectedTeam2}`,
-				{
-					method: 'GET'
-				}
-			);
+			const team2Response = await fetch(`/api/players/team/${$selectionState.selectedTeam2}`, {
+				method: 'GET'
+			});
 
 			if (team2Response.ok) {
 				team2Players = await team2Response.json();
@@ -42,7 +36,7 @@
 
 	async function startGame() {
 		try {
-			const gameResponse = await fetch('http://localhost:8080/api/games', {
+			const gameResponse = await fetch('/api/games', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -58,7 +52,7 @@
 			gameState.gameId = game.gameId;
 
 			const addTeam1Response = await fetch(
-				`http://localhost:8080/api/games/${game.gameId}/${$selectionState.selectedTeam1}`,
+				`/api/games/${game.gameId}/${$selectionState.selectedTeam1}`,
 				{
 					method: 'POST'
 				}
@@ -69,7 +63,7 @@
 			}
 
 			const addTeam2Response = await fetch(
-				`http://localhost:8080/api/games/${game.gameId}/${$selectionState.selectedTeam2}`,
+				`/api/games/${game.gameId}/${$selectionState.selectedTeam2}`,
 				{
 					method: 'POST'
 				}
