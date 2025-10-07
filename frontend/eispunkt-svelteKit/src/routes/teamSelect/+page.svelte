@@ -8,7 +8,7 @@
 
 	onMount(async () => {
 		try {
-			const response = await fetch('/api/team/', {
+			const response = await fetch('/api/team/0', {
 				method: 'GET'
 			});
 
