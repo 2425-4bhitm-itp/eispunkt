@@ -1,0 +1,181 @@
+*{
+    margin: 0;
+}
+
+#header{
+    background-color: #45CAAC;
+    padding: 2%;
+    text-align: center;
+    color: white;
+    font-size: 700%;
+    font-weight: bold;
+    height: 7.2%;
+    font-family: "Afacad", sans-serif;
+
+}
+
+
+#iconBox{
+    display: flex;
+    width: 100%;
+    margin-top: 3%;
+}
+
+#teamBox{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    width: 50%;
+}
+
+
+
+
+#turnierBox{
+    width: 50%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    border-bottom: 2px solid #45CAAC;
+}
+
+#displayBox{
+    width: 100%;
+}
+
+#addButton{
+    font-size: 100px;
+    width: 14%;
+    background-color: #7FC8EE;
+    border-radius: 16px;
+    text-align: center;
+    color: white;
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.29);
+
+}
+
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    background-color: rgba(255, 255, 255, 0.4);
+    z-index: 10;
+}
+
+.overlay.active {
+    display: flex;
+}
+
+.modal {
+    position: relative;
+    background-color: #F8F8F8;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    padding:10%;
+    width: 200%;
+    animation: fadeIn 0.2s ease-out;
+    margin: 5%;  justify-content: center;
+    align-content: center;
+    margin-bottom: 25%;
+    font-family: "Afacad", sans-serif;
+
+}
+
+.modal h2 {
+    font-size: 50px;
+    font-weight: 600;
+    margin: 0 0 16px;
+    margin-bottom: 15%;
+    text-align: center;
+}
+
+.modal label {
+    display: block;
+    font-size: 40px;
+    margin-bottom: 6%;
+    text-align: left;
+}
+
+.modal input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    padding: 6px 0;
+    font-size: 40px;
+    outline: none;
+    margin-bottom: 20px;
+    background-color: #F8F8F8;
+}
+
+
+.save-btn {
+    width: 42%;
+    background-color: #7FC8EE;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 4%;
+    font-size: 50px;
+    cursor: pointer;
+    margin-top: 10%;
+    font-weight: bold;
+    border-radius: 16px;
+    margin-left: 30%;
+    font-family: "Afacad", sans-serif;
+    text-align: center;
+
+
+}
+
+
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    background: none;
+    border: none;
+    font-size: 80px;
+    cursor: pointer;
+    color: #333;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+.turnierDet{
+    width: 60%;
+    background-color: #F8F8F8;
+    padding: 8%;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    font-size: 25px;
+    margin: 10%;
+    margin-top: 14%;
+    font-family: "Afacad", sans-serif;
+    display: flex;
+
+}
+
+
+.turnierDet svg{
+    margin-left: 65%;
+    margin-top: 2%;
+}
