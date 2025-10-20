@@ -1,0 +1,43 @@
+#body-div {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+}
+
+.circle {
+    position: relative;
+    left: 30%;
+    transform: translateX(-50%);
+    width: 140vw;
+    height: 80vw;
+    background-color: #45caac;
+    border-radius: 0 0 80% 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle h1 {
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    line-height: 1.4;
+    margin-left: 5%;
+    margin-top: -5%;
+    font-weight: lighter;
+    font-family: "Protest Strike", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.circle h1 span {
+    font-weight: bold;
+    font-size: 70px;
+    font-family: "Protest Strike", serif;
+    font-weight: 400;
+    font-style: normal;
+    margin-left: 12%;
+}
