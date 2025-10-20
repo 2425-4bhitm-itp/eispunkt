@@ -7,6 +7,7 @@
     margin: 0;
 }
 
+
 .circle {
     position: relative;
     left: 30%;
@@ -22,7 +23,7 @@
 
 .circle h1 {
     color: white;
-    font-size: 30px;
+    font-size: 40px;
     text-align: center;
     line-height: 1.4;
     margin-left: 5%;
@@ -35,9 +36,39 @@
 
 .circle h1 span {
     font-weight: bold;
-    font-size: 70px;
+    font-size: 100px;
     font-family: "Protest Strike", serif;
     font-weight: 400;
     font-style: normal;
     margin-left: 12%;
+}
+
+h2{
+    font-family: 'Afacad', sans-serif;
+    font-size:60px;
+    margin-left:10vw;
+    margin-bottom:5vh;
+}
+
+.button{
+    width:80vw;
+    height:10vh;
+    background-color:#7FC8EE;
+    margin-left: 10vw;
+    margin-bottom:5vh;
+    border-radius:20px;
+    cursor:pointer;
+    text-decoration: none;
+}
+
+.button h1{
+    color:white; 
+    font-family: "Afacad", sans-serif;
+    margin-left: 5vw;
+    margin-top: 3vh;
+    font-size:50px;
+}
+
+.button:hover{
+    background-color:#7fe3ee;
 }

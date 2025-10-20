@@ -34,11 +34,14 @@ function addPoint(index) {
 }
 
 function deletePoint(teamId) {
-  if (teamId == 1) {
+  if (teamId == 1 && t1SubScore > 0) {
     t1SubScore--;
   } else {
-    t2SubScore--;
+    if (t2SubScore > 0) {
+      t2SubScore--;
+    }
   }
+  updateText();
 }
 
 function resetSub() {
@@ -48,12 +51,11 @@ function resetSub() {
 }
 
 function updateText() {
-  document.getElementById("t1SubScoreText").innerText =
-    `Turnscore: ${t1SubScore}`;
-  document.getElementById("t2SubScoreText").innerText =
-    `Turnscore: ${t2SubScore}`;
-  document.getElementById("superScoreCounter").innerText =
-    `${t1SuperScore}-${t2SuperScore}`;
+  document.getElementById("t1SubScoreText").innerText = `${t1SubScore}`;
+  document.getElementById("t2SubScoreText").innerText = `${t2SubScore}`;
+  document.getElementById(
+    "superScoreCounter"
+  ).innerText = `${t1SuperScore}-${t2SuperScore}`;
 }
 
 function checkWin() {
