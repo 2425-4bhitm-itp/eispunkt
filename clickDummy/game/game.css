@@ -83,6 +83,7 @@ body {
 }
 
 .points_button {
+    text-align: center;
     color: white;
     width: 10vh;
     height: 10vh;
@@ -101,8 +102,12 @@ body {
 
 .points_button p {
     user-select: none;
+    text-align: center;
 }
 
+.minus {
+    transform: translateY(-15px);
+}
 #progressBar {
     display: flex;
     gap: 4px;
