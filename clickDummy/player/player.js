@@ -1,6 +1,9 @@
 inputName = document.getElementById("name")
 playerDetailsBox = document.getElementById("player-details-outer-box")
 
+console.log("(GET) /api/players/team/{teamId}")
+console.log(`select * from PLAYER where TEAM_TEAMID = {teamId} order by PLAYER_ID;`)
+
 function openModal() {
     document.getElementById("overlay").classList.add("active");
 }
@@ -18,6 +21,8 @@ document.addEventListener("click", function(e) {
 
 
 function savePlayer(){
+    console.log("(POST) /api/players/{player} - Player mit name und teamId im request body")
+    console.log(`insert into PLAYER (name, team_teamid) values ('{name}', {teamId});`)
     document.getElementById("overlay").classList.remove("active");
     playerDetailsBox.innerHTML +=
         `<div class='player-details'">
@@ -34,6 +39,8 @@ function savePlayer(){
 }
 
 function deletePlayer(playerBox) {
+    console.log("(DELETE) /api/players/{playerId}")
+    console.log(`delete from PLAYER where PLAYER_ID = {playerId};`)
     document.getElementById(playerBox).remove();
 }
 

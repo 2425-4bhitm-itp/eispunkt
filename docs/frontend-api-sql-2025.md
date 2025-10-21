@@ -12,6 +12,10 @@
 - SQL: `insert into TEAM (name) values ('{name}');`
 - API: (POST) `/api/team/create/{teamName}`
 
+### Team-Löschen
+- SQL: `delete from TEAM where TEAMID = {teamId};`
+- API: (DELETE) `/api/team/{teamId}`
+
 ### Team-Spieler
 - SQL: `select * from PLAYER where TEAM_TEAMID = {teamId} order by PLAYER_ID;`
 - API: (GET) `/api/players/team/{teamId}`
@@ -39,6 +43,12 @@
 ### Turnier-Löschen
 - SQL: `delete from TOURNAMENT where TOURNAMENTID = {tournamentId};`
 - API: (DELETE) `/api/tournament/{tournamentId}`
+
+### Turnier-Details
+- SQL: `select t from tournament_team tt
+         join team t on tt.team_id = t.team_id
+         where tt.tournament_id = {tournamentId};`
+- API: (GET) `/api/tournament/{tournamnetid}/teams`
 
 ### Turnier-Team-Auswählen
 - SQL: `insert into TOURNAMENT_TEAM (tournament_tournamentid, teams_teamid) values ({tournamentId}, {teamId});`

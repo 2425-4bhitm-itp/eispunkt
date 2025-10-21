@@ -1,6 +1,9 @@
 inputName = document.getElementById("name")
 teamDetailsBox = document.getElementById("team-details-outer-box")
 
+console.log("(GET) /api/team/0")
+console.log("select * from TEAM;")
+
 function openModal() {
     document.getElementById("overlay").classList.add("active");
 }
@@ -18,6 +21,9 @@ document.addEventListener("click", function(e) {
 
 
 function saveTeam(){
+    console.log("(POST) /api/team/create/{teamName}")
+    console.log("insert into TEAM (name) values ('{name}');")
+
     document.getElementById("overlay").classList.remove("active");
     teamDetailsBox.innerHTML +=
         `<div class='team-details' id="team2">
@@ -39,9 +45,13 @@ function saveTeam(){
 }
 
 function deleteTeam(teamBox) {
+    console.log("DELETE /api/team/{teamId}")
+    console.log("delete from TEAM where TEAMID = {teamId};")
     document.getElementById(teamBox).remove();
 }
 
 function teamDetails(){
-    window.location.href = "../player/player.html";
+    console.log("(GET) `/api/players/team/{teamId}`")
+    console.log("select * from PLAYER where TEAM_TEAMID = {teamId} order by PLAYER_ID;")
+    //window.location.href = "../player/player.html";
 }
