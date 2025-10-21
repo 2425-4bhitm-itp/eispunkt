@@ -1,153 +1,173 @@
 * {
-  margin: 0;
-  font-family: Afacad;
+    margin: 0;
+    font-family: Afacad;
 }
 
 body {
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
 }
 
 .afacad-afacad {
-  font-family: "Afacad", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
+    font-family: "Afacad", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
 
 #scoreHeader {
-  height: 4vh;
-  border-bottom: 5px solid #7fc8ee;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  padding-top: 1vh;
+    height: 4vh;
+    border-bottom: 5px solid #7fc8ee;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding-top: 1vh;
 }
 
 #scoreHeader h2 {
-  width: 20vw;
-  font-size: 50px;
-  text-align: center;
+    width: 20vw;
+    font-size: 50px;
+    text-align: center;
 }
 
 #game {
-  height: 10vh;
-  background-color: #45caac;
-  text-align: center;
-  color: white;
-  font-weight: bold;
-  font-size: 400%;
-  font-family: "Protest Strike", serif;
+    height: 10vh;
+    background-color: #45caac;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 400%;
+    font-family: "Protest Strike", serif;
 }
 
 .team_outer_box {
-  padding: 2%;
-  height: 30vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  margin-top: 10%;
+    padding: 2%;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin-top: 10%;
 }
 
 .team_inner_box {
-  width: 100%;
-  height: 30%;
-  text-align: center;
+    width: 100%;
+    height: 30%;
+    text-align: center;
 }
 .team_inner_box > h1 {
-  font-size: 550%;
-  margin-bottom: 5%;
+    font-size: 550%;
+    margin-bottom: 5%;
 }
 
 .points_buttons_outer_box {
-  background-color: rgba(127, 200, 238, 0.33);
-  border-radius: 20px;
-  width: 80vw;
-  margin-left: 10vw;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+    background-color: rgba(127, 200, 238, 0.33);
+    border-radius: 45px;
+    width: 80vw;
+    margin-left: 10vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .points_buttons_outer_box h2 {
-  font-family: "Protest Strike", sans-serif;
-  font-size: 200px;
-  width: 10vw;
-  font-weight: 400;
-  color: white;
-  padding: 0 10vw;
+    font-family: "Protest Strike", sans-serif;
+    font-size: 200px;
+    width: 10vw;
+    font-weight: 400;
+    color: white;
+    padding: 0 10vw;
 }
 
 .points_button {
-  color: white;
-  width: 10vh;
-  height: 10vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #7fc8ee;
-  font-size: 1000%;
-  border-radius: 20%;
-  box-shadow: 4px 15px 6px rgba(127, 200, 238, 0.5);
-  transition: box-shadow 0.3s, transform 0.3s;
-  cursor: pointer;
+    color: white;
+    width: 10vh;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #7fc8ee;
+    font-size: 1000%;
+    border-radius: 20%;
+    box-shadow: 4px 15px 6px rgba(127, 200, 238, 0.5);
+    transition: box-shadow 0.3s, transform 0.3s;
+    cursor: pointer;
+
 }
 
 #progressBar {
-  display: flex;
-  gap: 4px;
-  margin-top: 10px;
-  width: 100%;
-  height: 3vh;
+    display: flex;
+    gap: 4px;
+    margin-top: 10px;
+    width: 100%;
+    height: 3vh;
 }
 
 .progress-segment {
-  flex: 1;
-  height: 100%;
-  background-color: #ccc;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+    flex: 1;
+    height: 100%;
+    background-color: #ccc;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
 .progress-segment.team1 {
-  background-color: #dc3545; /* Red for team 1 */
+    background-color: #dc3545; /* Red for team 1 */
 }
 
 .progress-segment.team2 {
-  background-color: #007bff; /* Blue for team 2 */
+    background-color: #007bff; /* Blue for team 2 */
 }
 
 .progress-segment.draw {
-  background-color: #28a745; /* Green for draw */
+    background-color: #28a745; /* Green for draw */
 }
 
 .next_button_box {
-  width: 100%;
-  margin-top: 20%;
-  display: flex;
-  justify-content: center;
+    width: 100%;
+    margin-top: 20%;
+    display: flex;
+    justify-content: center;
 }
 
 .next_button {
-  text-align: center;
-  align-items: center;
-  justify-content: center;
-  width: 40%;
-  height: 6vh;
-  background-color: #7fc8ee;
-  color: white;
-  font-size: 500%;
-  font-weight: bold;
-  border-radius: 25px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease; /* Übergang für Hintergrund und Textfarbe */
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 40%;
+    height: 6vh;
+    background-color: #7fc8ee;
+    color: white;
+    font-size: 500%;
+    font-weight: bold;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Übergang für Hintergrund und Textfarbe */
 }
 
 .next_button:hover {
-  background-color: #569ac8;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    background-color: #569ac8;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+}
+
+
+.points_button2{
+
+    color: white;
+    width: 10vh;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #7fc8ee;
+    font-size: 1000%;
+    border-radius: 20%;
+    box-shadow: 4px 15px 6px rgba(127, 200, 238, 0.5);
+    transition: box-shadow 0.3s, transform 0.3s;
+    cursor: pointer;
+    margin-left: 10%;
+
 }

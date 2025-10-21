@@ -18,6 +18,7 @@
         />
 
         <link rel="stylesheet" href="start.css" />
+        <script src="start.js" defer ></script>
     </head>
     <div id="body-div">
         <div class="circle">
@@ -26,11 +27,11 @@
 
         <h2>Spielmodus auswählen</h2>
 
-        <a href="../team/team.html" class="button">
+        <a onclick="openTeam()" href="../team/team.html" class="button">
             <h1>Turnier</h1>
         <a/>
 
-        <a href="../turnier/turnierDetails.html" class="button">
+        <a onclick="openTournament()" href="../turnier/turnierDetails.html" class="button">
             <h1>Manschaftsspiel</h1>
         </a>
 

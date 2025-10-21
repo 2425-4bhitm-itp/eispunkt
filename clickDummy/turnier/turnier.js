@@ -2,6 +2,9 @@ inputName = document.getElementById("name")
 display = document.getElementById("displayBox")
 body = document.getElementById("bodyBox")
 
+console.log("(GET) /api/tournament/0")
+console.log("select * from TOURNAMENT;")
+
 function openModal() {
     document.getElementById("overlay").classList.add("active");
 }
@@ -19,6 +22,8 @@ document.addEventListener("click", function(e) {
 
 
 function saveTurnier(){
+    console.log("(POST) /api/tournament/ - Turnier mit name und location im request body")
+    console.log(`insert into TOURNAMENT (name, loaction) values ('{name}', '{location}');`)
     document.getElementById("overlay").classList.remove("active");
     display.innerHTML += `<div class='turnierDet' id="2"><a href="turnierDetails.html" target="_self"><h1>${inputName.value}</h1></a>
                             <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="deleteTurnier('2')">
@@ -34,5 +39,7 @@ function saveTurnier(){
 
 
 function deleteTurnier(turnierDet) {
+    console.log("(DELETE) /api/tournament/{tournamentId}")
+    console.log(`delete from TOURNAMENT where TOURNAMENTID = {tournamentId};`)
     document.getElementById(turnierDet).remove();
 }

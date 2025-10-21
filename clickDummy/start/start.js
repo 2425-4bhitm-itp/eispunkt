@@ -1,0 +1,7 @@
+function openTeam() {
+
+}
+
+function openTournament() {
+
+}
