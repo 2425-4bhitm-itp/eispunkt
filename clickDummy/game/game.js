@@ -4,9 +4,38 @@ let t2SubScore = 0;
 let t2SuperScore = 0;
 let currentSegment = 0;
 
+console.log("(POST) /api/stage/{stage} - Stage Objekt  im request body");
+console.log(`insert into Stage (stagenumber, game_gameid)
+                 values ({stage.stagenumber}, {stage.gameId});`);
+console.log(`(POST) \`/api/turn/{turn}\` - Turn Objekt mit im request body`);
+console.log(`insert into Turn (stage_stageid) values ({turn.stage_stageid});`);
+console.log("(POST) /api/score/{score} - Score Objekt im request body");
+console.log(`insert into Score (score, team_teamid, turn_turnid) values ({score.score},
+            {score.turn_turnid}, {score.game_gameId});`);
+
+console.log("(GET) `/api/game/{gameId}/summary`");
+console.log(`select t.teamid, t.name, s.stageid, tu.turnid, sc.scoreid, sc.score
+             from GAME g
+                      join public.game_team gt on g.gameid = gt.games_gameid
+                      join public.team t on t.teamid = gt.teams_teamid
+                      join public.stage s on g.gameid = s.game_gameid
+                      join turn tu on s.stageid = tu.stage_stageid
+                      join score sc on tu.turnid = sc.turn_turnid
+             where g.gameid = 2
+             group by t.teamid, s.stageid, tu.turnid, sc.scoreid;`);
+
 let progressSegments = document.getElementsByClassName("progress-segment");
 
 function addPoint(index) {
+  console.log(
+    "(PUT) `/api/scores/{score}` - Score Objekt mit neuem Punktestand im request body",
+  );
+  console.log(`UPDATE public.score
+                 SET score       = score.score,
+                     team_teamid = score.team,
+                     turn_turnid = score.turn
+                 WHERE scoreid = score.scoreId;`);
+
   if (index == 1) {
     t1SubScore++;
     updateText();
@@ -41,6 +70,15 @@ function addPoint(index) {
 }
 
 function deletePoint(teamId) {
+  console.log(
+    "(PUT) /api/scores/{score} - Score Objekt mit neuem Punktestand im request body",
+  );
+  console.log(`UPDATE public.score
+                 SET score       = score.score,
+                     team_teamid = score.team,
+                     turn_turnid = score.turn
+                 WHERE scoreid = score.scoreId;`);
+
   if (teamId == 1 && t1SubScore > 0) {
     t1SubScore--;
   } else {
@@ -52,6 +90,17 @@ function deletePoint(teamId) {
 }
 
 function resetSub() {
+  console.log("(POST) /api/stage/{stage} - Stage Objekt  im request body");
+  console.log(`insert into Stage (stagenumber, game_gameid)
+                 values ({stage.stagenumber}, {stage.gameId});`);
+  console.log(`(POST) \`/api/turn/{turn}\` - Turn Objekt mit im request body`);
+  console.log(
+    `insert into Turn (stage_stageid) values ({turn.stage_stageid});`,
+  );
+  console.log("(POST) /api/score/{score} - Score Objekt im request body");
+  console.log(`insert into Score (score, team_teamid, turn_turnid) values ({score.score},
+            {score.turn_turnid}, {score.game_gameId});`);
+
   t1SubScore = 0;
   t2SubScore = 0;
   currentSegment++;
@@ -67,22 +116,32 @@ function updateText() {
 
 function checkWin() {
   if (t1SuperScore >= 12) {
-    document.getElementById("game").innerHTML = `<h1>Team 1 Wins</h2>`;
-    setTimeout(() => {
-      t1SuperScore = 0;
-      t2SuperScore = 0;
-      resetSub();
-      document.getElementById("game").innerHTML = `<h1>Eispunkt</h2>`;
-    }, 5000);
+    document.getElementById("winnerText").innerHTML = `<h2>Team 1 Wins</h2>`;
+    openModal();
   } else if (t2SuperScore >= 12) {
-    document.getElementById("game").innerHTML = `<h1>Team 2 Wins</h2>`;
-    setTimeout(() => {
-      t1SuperScore = 0;
-      t2SuperScore = 0;
-      resetSub();
-      document.getElementById("game").innerHTML = `<h1>Eispunkt</h2>`;
-    }, 5000);
+    document.getElementById("winnerText").innerHTML = `<h2>Team 2 Wins</h2>`;
+    openModal();
   } else {
     return;
   }
+}
+
+function resetGame() {
+  resetSub();
+  currentSegment = 0;
+  t1SuperScore = 0;
+  t2SuperScore = 0;
+  for (let i = 0; i < progressSegments.length; i++) {
+    progressSegments[i].classList.remove("team1", "team2", "draw");
+  }
+  closeModal();
+  updateText();
+}
+
+function openModal() {
+  document.getElementById("overlay").classList.add("active");
+}
+
+function closeModal() {
+  document.getElementById("overlay").classList.remove("active");
 }
