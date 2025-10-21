@@ -10,7 +10,10 @@ function deleteTeam(team) {
     console.log("(DELETE) /api/tournament/{tournamentId}/{teamId}")
 }
 
-function selectTeam() {
+function selectTeam(team) {
+    const teamDiv = document.getElementById(team);
+    teamDiv.style.display = "flex";
+
     console.log("(PUT) /api/tournament/{tournamentId}/{teamId}")
     console.log(`insert into TOURNAMENT_TEAM (tournament_tournamentid, teams_teamid) values ({tournamentId}, {teamId});`)
 }
