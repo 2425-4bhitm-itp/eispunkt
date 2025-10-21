@@ -1,64 +1,88 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Eispunkt</title>
+        <link rel="stylesheet" href="game.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap"
+            rel="stylesheet"
+        />
 
-<head>
-    <meta charset="UTF-8" />
-    <title>Eispunkt</title>
-    <link rel="stylesheet" href="game.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap"
-        rel="stylesheet" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="font.css" />
+        <script defer src="./game.js"></script>
+    </head>
 
-    <link rel="stylesheet" href="font.css" />
-    <script defer src="./game.js"></script>
-</head>
-
-<body>
-    <div id="game">
-        <h1 id="superScoreCounter">0-0</h1>
-    </div>
-
-    <div id="progressBar">
-        <div class="progress-segment"></div>
-        <div class="progress-segment"></div>
-        <div class="progress-segment"></div>
-        <div class="progress-segment"></div>
-        <div class="progress-segment"></div>
-        <div class="progress-segment"></div>
-        <div class="progress-segment"></div>
-        <div class="progress-segment"></div>
-        <div class="progress-segment"></div>
-        <div class="progress-segment"></div>
-        <div class="progress-segment"></div>
-
-    </div>
-    <div class="team_outer_box">
-        <div class="team_inner_box">
-            <h1>Eispunkt</h1>
+        <div id="progressBar">
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
         </div>
-        <div class="points_buttons_outer_box">
-            <div onclick="deletePoint(1)" class="points_button">-</div>
-            <h2 id="t1SubScoreText">0</h2>
-            <div onclick="addPoint(1)" class="points_button2">+</div>
+        <div class="team_outer_box">
+            <div class="team_inner_box">
+                <h1>Team 1</h1>
+            </div>
+            <div class="points_buttons_outer_box">
+                <div onclick="deletePoint(1)" class="points_button">
+                    <p>-</p>
+                </div>
+                <h2 id="t1SubScoreText">0</h2>
+                <div
+                    onclick="addPoint(1)"
+                    class="points_button"
+                    style="margin-left: 10%"
+                >
+                    <p>+</p>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="team_outer_box">
-        <div class="team_inner_box">
-            <h1>Eisbär</h1>
+        <div class="team_outer_box">
+            <div class="team_inner_box">
+                <h1>Team 2</h1>
+            </div>
+            <div class="points_buttons_outer_box">
+                <div onclick="deletePoint(2)" class="points_button">
+                    <p>-</p>
+                </div>
+                <h2 id="t2SubScoreText">0</h2>
+                <div
+                    onclick="addPoint(2)"
+                    class="points_button"
+                    style="margin-left: 10%"
+                >
+                    <p>+</p>
+                </div>
+            </div>
         </div>
-        <div class="points_buttons_outer_box">
-            <div onclick="deletePoint(2)" class="points_button">-</div>
-            <h2 id="t2SubScoreText">0</h2>
-            <div onclick="addPoint(2)" class="points_button2">+</div>
-        </div>
-    </div>
-    <div class="next_button_box">
-        <!--<div class="next_button">Next Turn</div>-->
-    </div>
-</body>
+        <div class="overlay" id="overlay">
+            <div class="modal">
+                <h2 id="winnerText">Team 1 wins</h2>
+                <button class="save-btn" onclick="resetGame()">
+                    Restart Game
+                </button>
 
+                <button href="../start/start.html" class="save-btn">
+                    <a href="../start/start.html">Home</a>
+                </button>
+            </div>
+        </div>
+    </body>
 </html>
