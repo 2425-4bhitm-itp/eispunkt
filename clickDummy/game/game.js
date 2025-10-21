@@ -116,10 +116,10 @@ function updateText() {
 
 function checkWin() {
   if (t1SuperScore >= 12) {
-    document.getElementById("winnerText").innerHTML = `<h2>Team 1 Wins</h2>`;
+    document.getElementById("winnerText").innerHTML = `<h2>Eispunkt Wins</h2>`;
     openModal();
   } else if (t2SuperScore >= 12) {
-    document.getElementById("winnerText").innerHTML = `<h2>Team 2 Wins</h2>`;
+    document.getElementById("winnerText").innerHTML = `<h2>Eisbär Wins</h2>`;
     openModal();
   } else {
     return;

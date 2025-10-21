@@ -75,11 +75,12 @@ body {
 .points_buttons_outer_box h2 {
     font-family: "Protest Strike", sans-serif;
     font-size: 200px;
-    width: 10vw;
+    width: 17.5vw;
     font-weight: 400;
     color: white;
     padding: 0 10vw;
     user-select: none;
+    text-align: center;
 }
 
 .points_button {
@@ -175,7 +176,7 @@ body {
 }
 
 .modal h2 {
-    font-size: 50px;
+    font-size: 5rem;
     font-weight: 600;
     margin: 0 0;
     text-align: center;
@@ -223,4 +224,11 @@ body {
         opacity: 1;
         transform: scale(1);
     }
+}
+
+#winnerText {
+    font-size: 50rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10%;
 }
