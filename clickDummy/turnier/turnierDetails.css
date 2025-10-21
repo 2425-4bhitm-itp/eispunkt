@@ -84,7 +84,8 @@ select {
 
 .teamBox{
     display: flex;
-    font-size: 40px;
+    justify-content: space-between;
+    align-items: center;
     width: 70%;
     background-color: #F8F8F8;
     padding: 4%;
@@ -93,13 +94,20 @@ select {
     font-size: 25px;
     margin: 12%;
     font-family: "Afacad", sans-serif;
-    display: flex;
-
-
 }
 
-.teamBox svg{
-    margin-left: 70%;
-    margin-top: 1%;
-
+#nextButton{
+    font-size: 100px;
+    width: 20%;
+    background-color: #7FC8EE;
+    border-radius: 16px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    position: fixed;
+    bottom: 80px;
+    right: 80px;
+    font-weight: bold;
+    font-family: "Afacad", sans-serif;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.29);
 }

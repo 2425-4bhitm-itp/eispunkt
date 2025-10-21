@@ -106,6 +106,8 @@ select {
 }
 
 .turnierDet{
+    display: flex;
+    justify-content: space-between;
     width: 60%;
     background-color: #F8F8F8;
     padding: 8%;
@@ -115,7 +117,7 @@ select {
     margin: 12%;
     margin-top: 14%;
     font-family: "Afacad", sans-serif;
-    display: flex;
+
 
 }
 

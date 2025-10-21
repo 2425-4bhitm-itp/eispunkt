@@ -36,7 +36,3 @@ function savePlayer(){
 function deletePlayer(playerBox) {
     document.getElementById(playerBox).remove();
 }
-
-function navigateToTeam() {
-    window.location.href = "../team/team.html";
-}
