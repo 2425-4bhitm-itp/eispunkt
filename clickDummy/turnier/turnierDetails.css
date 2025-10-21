@@ -111,3 +111,11 @@ select {
     font-family: "Afacad", sans-serif;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.29);
 }
+
+#team1 {
+    display: none;
+}
+
+#team2 {
+    display: none;
+}
