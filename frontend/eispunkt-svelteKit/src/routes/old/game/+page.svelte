@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { gameState } from '$lib/stores/gameStore.svelte';
-	import { selectionState } from '$lib/stores/selectionStore.svelte';
-	import Header from '../../components/Header.svelte';
+	import { gameState } from '$lib/stores/gameStore.svelte.js';
+	import { selectionState } from '$lib/stores/selectionStore.svelte.js';
+	import Header from '../../../components/Header.svelte';
 
 	onMount(async () => {
 		console.log($selectionState.selectedTeam1Name);

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { selectionState } from '$lib/stores/selectionStore.svelte';
-	import { navigationState } from '$lib/stores/navigationStore.svelte';
-	import { gameState } from '$lib/stores/gameStore.svelte';
-	import Header from '../../components/Header.svelte';
+	import { selectionState } from '$lib/stores/selectionStore.svelte.js';
+	import { navigationState } from '$lib/stores/navigationStore.svelte.js';
+	import { gameState } from '$lib/stores/gameStore.svelte.js';
+	import Header from '../../../components/Header.svelte';
 
 	let team1Players = $state<any[]>([]);
 	let team2Players = $state<any[]>([]);

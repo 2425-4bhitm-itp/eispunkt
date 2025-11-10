@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import Header from '../../components/Header.svelte';
-	import { selectionState } from '$lib/stores/selectionStore.svelte';
-	import { navigationState } from '$lib/stores/navigationStore.svelte';
+	import Header from '../../../components/Header.svelte';
+	import { selectionState } from '$lib/stores/selectionStore.svelte.js';
+	import { navigationState } from '$lib/stores/navigationStore.svelte.js';
 
 	let teams = $state<Array<{ teamId: number; name: string }>>([]);
 

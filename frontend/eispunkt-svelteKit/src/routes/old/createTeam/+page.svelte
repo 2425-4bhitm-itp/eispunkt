@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Header from '../../components/Header.svelte';
-	import { navigationState } from '$lib/stores/navigationStore.svelte';
+	import Header from '../../../components/Header.svelte';
+	import { navigationState } from '$lib/stores/navigationStore.svelte.js';
 
 	let teamName = '';
 	let players = ['', '', '', ''];
