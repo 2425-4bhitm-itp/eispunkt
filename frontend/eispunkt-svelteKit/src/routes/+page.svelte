@@ -28,7 +28,7 @@
             <h1>Mannschaftsspiel</h1>
         </a>
 
-        <a href="../game/game.html" class="button">
+        <a href="/game" class="button">
             <h1>Freundschaftsspiel</h1>
         </a>
     </div>
@@ -39,7 +39,7 @@
     @import url("https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap");
     @import url("https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap");
 
-    #body-div {
+    #body-div{
         width: 100vw;
         height: 100vh;
         display: flex;
@@ -47,6 +47,7 @@
         padding: 0;
         margin: 0;
         overflow: hidden;
+        font-family: "Afacad", sans-serif;
     }
 
     .header-box {
