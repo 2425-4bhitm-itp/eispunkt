@@ -178,13 +178,8 @@ body {
     margin-top: 14%;
     font-family: "Afacad", sans-serif;
     display: flex;
-
-}
-
-
-.turnierDet svg{
-    margin-left: 60%;
-    margin-top: 2%;
+    justify-content: space-between;
+    align-items: center;
 }
 
 
