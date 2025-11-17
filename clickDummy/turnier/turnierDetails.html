@@ -4,13 +4,12 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <script src="turnierDetails.js" defer ></script>
+    <script src="turnierDetails.js" defer></script>
     <link rel="stylesheet" href="turnierDetails.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Protest+Strike&display=swap" rel="stylesheet">
-
 </head>
 <body>
 <div id="header-box">
@@ -23,16 +22,16 @@
 </div>
 
 <label for="team-select">Team auswählen</label>
-<select id="team-select" name="team">
-    <option value="" disabled selected hidden>Bitte Team auswählen</option>
-    <option onclick="selectTeam('team1')" value="team1">Eispunkt</option>
-    <option onclick="selectTeam('team2')" value="team2">Eisbär</option>
+<select id="team-select" onchange="selectTeam()" name="team">
+    <option value="" disabled selected>Bitte Team auswählen</option>
+    <option id="team1-option" onclick="selectTeam('team1')" value="1">Eispunkt</option>
+    <option id="team2-option" onclick="selectTeam('team2')" value="2">Eisbär</option>
 </select>
 
     <div id="displayBox">
         <div class="teamBox" id="team1" >
             <h1>Eispunkt</h1>
-            <svg width="45" height="45" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="deleteTeam('team1')">
+            <svg width="45" height="45" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="deleteTeam(1)">
                 <path d="M6.01761 7L0 12.2654L1.98239 14L8 8.73459L14.0176 14L16 12.2654L9.98239 7L16 1.73459L14.0176 0L8 5.26541L1.98239 0L0 1.73459L6.01761 7Z" fill="black"/>
             </svg>
 
@@ -40,7 +39,7 @@
 
         <div class="teamBox" id="team2">
             <h1>Eisbär</h1>
-            <svg width="45" height="45" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg"  onclick="deleteTeam('team2')">
+            <svg width="45" height="45" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg"  onclick="deleteTeam(2)">
                 <path d="M6.01761 7L0 12.2654L1.98239 14L8 8.73459L14.0176 14L16 12.2654L9.98239 7L16 1.73459L14.0176 0L8 5.26541L1.98239 0L0 1.73459L6.01761 7Z" fill="black"/>
             </svg>
 
