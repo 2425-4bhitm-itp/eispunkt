@@ -32,11 +32,11 @@
 
 <div id="body-div">
     <div id="header-box">
-        <header id="header">Team</header>
+        <header id="header">Turnier</header>
     </div>
 
     <div id="icon-box">
-        <div id="team-icon-box">
+        <a id="team-icon-box" href="/team">
             <svg width="140" height="140" viewBox="0 0 40 49" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.1166 24.5H22.8833C24.4333 24.5 25.5999 22.8054 25.3499 20.9271L24.8499 17.2725C24.4499 14.3733 22.3999 12.25 19.9999 12.25C17.5999 12.25 15.5499 14.3733 15.1499 17.2929L14.6499 20.9475C14.3999 22.8054 15.5666 24.5 17.1166 24.5Z" fill="#45CAAC"/>
                 <path d="M2.76671 22.6829C2.55004 23.2137 2.46671 23.8467 2.60004 24.4796C2.86671 25.8883 3.86671 26.5825 5.15004 26.5212C5.15004 26.5212 7.63337 26.5212 8.40004 26.5212C9.78337 26.5212 10.9167 25.3371 10.9167 23.8875C10.9167 23.6017 10.8667 23.3363 10.8 23.0708C10.7834 23.0096 10.7834 22.9688 10.8167 22.9075C10.9667 22.5808 11.05 22.2133 11.05 21.8254C11.05 21.1925 10.8167 20.6004 10.45 20.1512C10.4 20.09 10.4 20.0288 10.4167 19.9471C10.5334 19.5388 10.5334 19.0692 10.4334 18.62C10.1667 17.7421 9.51671 17.15 8.78337 17.1092C8.73337 17.1092 8.70004 17.0888 8.66671 17.0479C8.38337 16.6192 7.8667 16.3333 7.28337 16.3333C6.78337 16.3333 6.33337 16.5375 6.03337 16.8642C5.98337 16.9254 5.93337 16.9254 5.88337 16.905C5.65004 16.7825 5.38337 16.7212 5.11671 16.7212C4.03337 16.7212 3.15004 17.7217 3.05004 19.0079C3.05004 19.0488 3.03337 19.0896 3.00004 19.1304C2.51671 19.6613 2.23337 20.4575 2.31671 21.2742C2.36671 21.7233 2.51671 22.1521 2.73337 22.4992C2.78337 22.54 2.78337 22.6217 2.76671 22.6829Z" fill="#45CAAC"/>
@@ -45,23 +45,19 @@
                 <path d="M37.9667 29.7675C36.55 29.0121 34.9833 28.5833 33.3333 28.5833C32.6833 28.5833 32.0667 28.665 31.45 28.7875C32.1167 30.1758 32.5 31.7683 32.5 33.4629V36.75H38.3333C39.25 36.75 40 35.8313 40 34.7083V33.5446C40 31.8908 39.2 30.4208 37.9667 29.7675Z" fill="#45CAAC"/>
                 <path d="M36.6667 22.4583V21.4375C36.6667 19.1917 35.1667 17.3542 33.3334 17.3542H30C29.3 17.3542 28.9167 18.3342 29.35 19.0079L30.5167 20.2942C30.2 20.9271 30 21.6621 30 22.4583C30 24.7042 31.5 26.5417 33.3334 26.5417C35.1667 26.5417 36.6667 24.7042 36.6667 22.4583Z" fill="#45CAAC"/>
             </svg>
-        </div>
+        </a>
 
-        <a id="tournament-icon-box" href="/tournament">
+        <a id="tournament-icon-box">
             <svg width="140" height="140" viewBox="0 0 43 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M19.35 23.85L27.7171 18.6C28.2009 18.3 28.2009 17.7 27.7171 17.4L19.35 12.15C18.7588 11.775 17.9167 12.135 17.9167 12.75V23.25C17.9167 23.865 18.7588 24.225 19.35 23.85ZM21.5 3C11.61 3 3.58337 9.72 3.58337 18C3.58337 26.28 11.61 33 21.5 33C31.39 33 39.4167 26.28 39.4167 18C39.4167 9.72 31.39 3 21.5 3ZM21.5 30C13.5988 30 7.16671 24.615 7.16671 18C7.16671 11.385 13.5988 6 21.5 6C29.4013 6 35.8334 11.385 35.8334 18C35.8334 24.615 29.4013 30 21.5 30Z" fill="#45CAAC"/>
             </svg>
         </a>
     </div>
 
-    <div id="team-details-outer-box">
-        <div class="team-details">
-            <h1>Eispunkt</h1>
+    <div id="tournament-details-outer-box">
+        <div class="tournament-details">
+            <h1>Turnier 1</h1>
             <div class="svg-box">
-                <svg on:click={teamDetails} xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20">
-                    <path fill="#7FC8EE" d="m12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4l-2.3 2.3l-4-4z"/>
-                </svg>
-
                 <svg on:click={deleteTeam} width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9C18 7.9 17.1 7 16 7H8C6.9 7 6 7.9 6
                     9V19ZM18 4H15.5L14.79 3.29C14.61 3.11 14.35 3 14.09 3H9.91C9.65 3 9.39 3.11 9.21 3.29L8.5 4H6C5.45 4 5
@@ -75,8 +71,8 @@
         <div class="overlay active">
             <div class="modal">
                 <button class="close-btn" on:click={closeModal}>×</button>
-                <h2>Neues Team erstellen</h2>
-                <label for="name">Name</label>
+                <h2>Neues Turnier erstellen</h2>
+                <label for="name">Turnier</label>
                 <input id="name" type="text" bind:value={teamName} placeholder="" />
                 <button class="save-btn" on:click={saveTeam}>Speichern</button>
             </div>
@@ -136,8 +132,6 @@
         align-items: center;
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
-        border-bottom: 4px solid #45CAAC;
-        background-color: rgba(128, 128, 128, 0.06);
     }
     #team-icon-box svg {
         height: 105%;
@@ -150,15 +144,17 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        border-bottom: 4px solid #45CAAC;
+        background-color: rgba(128, 128, 128, 0.06);
     }
     #tournament-icon-box svg {
         height: 75%;
         width: 75%;
     }
 
-    #team-details-outer-box {
+    #tournament-details-outer-box {
         width: 100%;
-        height: 82%;
+        height: 80%;
         display: flex;
         justify-content: start;
         align-items: center;
@@ -166,8 +162,8 @@
         padding-top: 5%;
     }
 
-    .team-details {
-        width: 80%;
+    .tournament-details {
+        width: 82%;
         height: 10%;
         display: flex;
         justify-content: space-between;
@@ -183,7 +179,7 @@
     .svg-box {
         width: 35%;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
     }
     .svg-box svg {
