@@ -204,30 +204,30 @@ insert into game (date)
 values ('2025-03-05');
 
 -- Group
-insert into e_group (name)
+insert into tournament (name)
 values ('Spielgruppe Eispunkt');
 
-insert into e_group_team (group_groupid, teams_teamid)
-values ((select groupid from e_group where name = 'Spielgruppe Eispunkt'),
+insert into tournament_team (tournamentId, teamid)
+values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
         (select teamid from team where name = 'ÖTSU Oepping 1'));
-insert into e_group_team (group_groupid, teams_teamid)
-values ((select groupid from e_group where name = 'Spielgruppe Eispunkt'),
+insert into tournament_team (tournamentId, teamid)
+values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
         (select teamid from team where name = 'ATSV Waldneukirchen Stocksport 1'));
-insert into e_group_team (group_groupid, teams_teamid)
-values ((select groupid from e_group where name = 'Spielgruppe Eispunkt'),
+insert into tournament_team (tournamentId, teamid)
+values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
         (select teamid from team where name = 'ÖTSU Arnreit 1'));
-insert into e_group_team (group_groupid, teams_teamid)
-values ((select groupid from e_group where name = 'Spielgruppe Eispunkt'),
+insert into tournament_team (tournamentId, teamid)
+values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
         (select teamid from team where name = 'Union Stocksport Putzleinsdorf 1'));
-insert into e_group_team (group_groupid, teams_teamid)
-values ((select groupid from e_group where name = 'Spielgruppe Eispunkt'),
+insert into tournament_team (tournamentId, teamid)
+values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
         (select teamid from team where name = 'ESV Ruprechtshofen 1'));
-insert into e_group_team (group_groupid, teams_teamid)
-values ((select groupid from e_group where name = 'Spielgruppe Eispunkt'),
+insert into tournament_team (tournamentId, teamid)
+values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
         (select teamid from team where name = 'ÖTSU Stroheim 1'));
-insert into e_group_team (group_groupid, teams_teamid)
-values ((select groupid from e_group where name = 'Spielgruppe Eispunkt'),
+insert into tournament_team (tournamentId, teamid)
+values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
         (select teamid from team where name = 'Union ESV Haag a. H. 1'));
-insert into e_group_team (group_groupid, teams_teamid)
-values ((select groupid from e_group where name = 'Spielgruppe Eispunkt'),
+insert into tournament_team (tournamentId, teamid)
+values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
         (select teamid from team where name = 'ÖTSU Oepping 2'));

@@ -1,5 +1,6 @@
 package at.ac.htlleonding.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -7,18 +8,26 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Entity
-@Table(name = "E_GROUP")
-public class Group {
+public class Tournament {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long groupId;
+    private Long tournamentId;
     private String name;
+    private String location;
+
     @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "tournament_team", joinColumns = @JoinColumn(name = "tournamentId"),
+            inverseJoinColumns = @JoinColumn(name = "teamId"))
+    @JsonIgnoreProperties({"tournaments"})
     private List<Team> teams = new ArrayList<>();
-    @OneToMany
+
+    @ManyToMany
+    @JoinTable(name = "tournament_game", joinColumns = @JoinColumn(name = "tournamentId"),
+            inverseJoinColumns = @JoinColumn(name = "gameId"))
+    @JsonIgnoreProperties({"tournaments"})
     private List<Game> games = new ArrayList<>();
 
-    public Group() {
+    public Tournament() {
     }
 
     public String getName() {
@@ -56,12 +65,12 @@ public class Group {
         return gameplan;
     }
 
-    public long getGroupId() {
-        return groupId;
+    public long getTournamentId() {
+        return tournamentId;
     }
 
-    private void setGroupId(long groupId) {
-        this.groupId = groupId;
+    public void setTournamentId(long groupId) {
+        this.tournamentId = groupId;
     }
 
     public List<Team> getTeams() {
@@ -82,5 +91,13 @@ public class Group {
 
     public boolean addTeam(Team team) {
         return teams.add(team);
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }
