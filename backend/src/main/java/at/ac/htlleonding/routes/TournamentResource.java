@@ -1,7 +1,7 @@
 package at.ac.htlleonding.routes;
 
-import at.ac.htlleonding.entities.Group;
-import at.ac.htlleonding.repositories.GroupRepository;
+import at.ac.htlleonding.entities.Tournament;
+import at.ac.htlleonding.repositories.TournamentRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -12,22 +12,22 @@ import jakarta.ws.rs.core.UriBuilder;
 @Path("api/groups")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class GroupRessource {
+public class TournamentResource {
     @Inject
-    GroupRepository groupRepository;
+    TournamentRepository tournamentRepository;
 
     @POST
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createGroup(Group group) {
+    public Response createGroup(Tournament tournament) {
         Response.ResponseBuilder response;
-        if (group == null) {
+        if (tournament == null) {
             response = Response.status(Response.Status.BAD_REQUEST);
         } else {
-            groupRepository.persistAndFlush(group);
-            var location = UriBuilder.fromResource(GroupRessource.class)
-                                     .path(String.valueOf(group.getGroupId()))
+            tournamentRepository.persistAndFlush(tournament);
+            var location = UriBuilder.fromResource(TournamentResource.class)
+                                     .path(String.valueOf(tournament.getTournamentId()))
                                      .build();
             response = Response.status(Response.Status.CREATED).location(location);
         }
@@ -38,9 +38,9 @@ public class GroupRessource {
     @Path("/{id:[0-9]+}")
     public Response getGroups(@PathParam("id") long groupId) {
         if (groupId == 0) {
-            return Response.ok(groupRepository.getAllGroups()).build();
+            return Response.ok(tournamentRepository.getAllGroups()).build();
         } else {
-            return Response.ok(groupRepository.findById(groupId)).build();
+            return Response.ok(tournamentRepository.findById(groupId)).build();
         }
     }
 
@@ -50,7 +50,7 @@ public class GroupRessource {
         if (groupId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.ok(groupRepository.getAllTeams(groupId)).build();
+        return Response.ok(tournamentRepository.getAllTeams(groupId)).build();
     }
 
     @GET
@@ -59,7 +59,7 @@ public class GroupRessource {
         if (groupId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.ok(groupRepository.getAllGames(groupId)).build();
+        return Response.ok(tournamentRepository.getAllGames(groupId)).build();
     }
 
     @POST
@@ -68,16 +68,16 @@ public class GroupRessource {
         if (groupId == 0 || teamId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.ok(groupRepository.addTeam(groupId, teamId)).build();
+        return Response.ok(tournamentRepository.addTeam(groupId, teamId)).build();
     }
 
     @PUT
     @Transactional
-    public Response updateGroup(Group group) {
-        if (group == null) {
+    public Response updateGroup(Tournament tournament) {
+        if (tournament == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        groupRepository.updateGroup(group);
+        tournamentRepository.updateGroup(tournament);
         return Response.ok().build();
     }
 
@@ -88,7 +88,7 @@ public class GroupRessource {
         if (groupId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        groupRepository.deleteById(groupId);
+        tournamentRepository.deleteById(groupId);
         return Response.noContent().build();
     }
 

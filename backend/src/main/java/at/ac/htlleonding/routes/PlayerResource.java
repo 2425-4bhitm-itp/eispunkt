@@ -28,7 +28,7 @@ public class PlayerResource {
             response = Response.status(Response.Status.BAD_REQUEST);
         } else {
             playerRepository.persistAndFlush(player);
-            var location = UriBuilder.fromResource(GroupRessource.class)
+            var location = UriBuilder.fromResource(PlayerResource.class)
                                      .path(String.valueOf(player.getPlayerId()))
                                      .build();
             response = Response.status(Response.Status.CREATED).location(location);
