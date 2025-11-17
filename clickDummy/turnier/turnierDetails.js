@@ -22,8 +22,6 @@ function selectTeam(team) {
     teamSelect.options[teamSelect.selectedIndex].hidden = true;
     teamSelect.selectedIndex = 0;
 
-    console.log("Selected team:" + team)
-
     const teamDiv = document.getElementById("team" + team);
     teamDiv.style.display = "flex";
 
