@@ -19,10 +19,6 @@
         closeModal();
     }
 
-    function teamDetails() {
-        window.location.href = "../player/player.html";
-    }
-
     function deleteTeam() {
         if (confirm("Willst du das Team wirklich löschen?")) {
             console.log("Team gelöscht!");
@@ -58,9 +54,12 @@
         <div class="team-details">
             <h1>Eispunkt</h1>
             <div class="svg-box">
-                <svg on:click={teamDetails} xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20">
-                    <path fill="#7FC8EE" d="m12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4l-2.3 2.3l-4-4z"/>
-                </svg>
+                <a href="/team/details">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20">
+                        <path fill="#7FC8EE" d="m12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4l-2.3 2.3l-4-4z"/>
+                    </svg>
+                </a>
+
 
                 <svg on:click={deleteTeam} width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9C18 7.9 17.1 7 16 7H8C6.9 7 6 7.9 6
