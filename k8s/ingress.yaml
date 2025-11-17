@@ -22,3 +22,10 @@ spec:
                 name: appsrv
                 port:
                   number: 8080
+          - path: /echo
+            pathType: Prefix
+            backend:
+              service:
+                name: echo
+                port:
+                  number: 80
