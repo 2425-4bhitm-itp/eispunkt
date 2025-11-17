@@ -5,13 +5,26 @@ console.log(`select t from tournament_team tt
 console.log("(GET) /api/tournament/{tournamnetid}/teams")
 
 function deleteTeam(team) {
-    document.getElementById(team).remove();
+    const teamBox = document.getElementById("team" + team);
+    teamBox.style.display = "none";
+
+    var teamSelectString = `team${team}-option`
+    document.getElementById(teamSelectString).hidden = false;
+
     console.log(`delete from TOURNAMENT_TEAM where TOURNAMENT_TOURNAMENTID = {tournamentId} and TEAMS_TEAMID = {teamId};`)
     console.log("(DELETE) /api/tournament/{tournamentId}/{teamId}")
 }
 
 function selectTeam(team) {
-    const teamDiv = document.getElementById(team);
+    const teamSelect = document.getElementById("team-select");
+
+    team = parseInt(teamSelect.value);
+    teamSelect.options[teamSelect.selectedIndex].hidden = true;
+    teamSelect.selectedIndex = 0;
+
+    console.log("Selected team:" + team)
+
+    const teamDiv = document.getElementById("team" + team);
     teamDiv.style.display = "flex";
 
     console.log("(PUT) /api/tournament/{tournamentId}/{teamId}")
