@@ -58,6 +58,11 @@
         <div class="tournament-details">
             <h1>Turnier 1</h1>
             <div class="svg-box">
+                <a href="/tournament/selectTeam">
+                    <svg width="40" height="40" viewBox="0 0 43 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19.35 23.85L27.7171 18.6C28.2009 18.3 28.2009 17.7 27.7171 17.4L19.35 12.15C18.7588 11.775 17.9167 12.135 17.9167 12.75V23.25C17.9167 23.865 18.7588 24.225 19.35 23.85ZM21.5 3C11.61 3 3.58337 9.72 3.58337 18C3.58337 26.28 11.61 33 21.5 33C31.39 33 39.4167 26.28 39.4167 18C39.4167 9.72 31.39 3 21.5 3ZM21.5 30C13.5988 30 7.16671 24.615 7.16671 18C7.16671 11.385 13.5988 6 21.5 6C29.4013 6 35.8334 11.385 35.8334 18C35.8334 24.615 29.4013 30 21.5 30Z" fill="#7FC8EE"/>
+                    </svg>
+                </a>
                 <svg on:click={deleteTeam} width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9C18 7.9 17.1 7 16 7H8C6.9 7 6 7.9 6
                     9V19ZM18 4H15.5L14.79 3.29C14.61 3.11 14.35 3 14.09 3H9.91C9.65 3 9.39 3.11 9.21 3.29L8.5 4H6C5.45 4 5
@@ -179,11 +184,16 @@
     .svg-box {
         width: 35%;
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
     }
     .svg-box svg {
         cursor: pointer;
+    }
+    .svg-box a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
 
