@@ -206,7 +206,7 @@
 		<button class="save-btn" on:click={resetGame}> Restart Game </button>
 
 		<button class="save-btn">
-			<a href="../start/start.html">Home</a>
+			<a href="/">Home</a>
 		</button>
 	</div>
 </div>
