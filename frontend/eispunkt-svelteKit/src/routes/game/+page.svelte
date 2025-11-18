@@ -1,10 +1,18 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
+
 	let t1SubScore = 0;
-	let t1SuperScore = 0;
+	let t1SuperScore = $state(0);
 	let t2SubScore = 0;
-	let t2SuperScore = 0;
+	let t2SuperScore = $state(0);
 	let currentSegment = 0;
+
+	let overlay: HTMLElement | null = null;
+
+	onMount(() => {
+		overlay = document.getElementById('overlay');
+	});
 
 	console.log('(POST) /api/stage/{stage} - Stage Objekt  im request body');
 	console.log(`insert into Stage (stagenumber, game_gameid)
@@ -109,21 +117,18 @@
 		if (browser) {
 			document.getElementById('t1SubScoreText')!.innerText = `${t1SubScore}`;
 			document.getElementById('t2SubScoreText')!.innerText = `${t2SubScore}`;
-			document.getElementById('superScoreCounter')!.innerText = `${t1SuperScore}-${t2SuperScore}`;
 		}
 	}
 
 	function checkWin() {
-		if (browser) {
-			if (t1SuperScore >= 12) {
-				document.getElementById('winnerText')!.innerHTML = `<h2>Eispunkt Wins</h2>`;
-				openModal();
-			} else if (t2SuperScore >= 12) {
-				document.getElementById('winnerText')!.innerHTML = `<h2>Eisbär Wins</h2>`;
-				openModal();
-			} else {
-				return;
-			}
+		if (t1SuperScore >= 12) {
+			document.getElementById('winnerText')!.innerHTML = `<h2>Eispunkt Wins</h2>`;
+			openModal();
+		} else if (t2SuperScore >= 12) {
+			document.getElementById('winnerText')!.innerHTML = `<h2>Eisbär Wins</h2>`;
+			openModal();
+		} else {
+			return;
 		}
 	}
 
@@ -140,19 +145,16 @@
 	}
 
 	function openModal() {
-		if (browser) {
-			document.getElementById('overlay')!.classList.add('active');
-		}
+		overlay?.classList.add('active');
 	}
+
 	function closeModal() {
-		if (browser) {
-			document.getElementById('overlay')!.classList.remove('active');
-		}
+		overlay?.classList.remove('active');
 	}
 </script>
 
 <div id="game">
-	<h1 id="superScoreCounter">0-0</h1>
+	<h1 id="superScoreCounter">{t1SuperScore}-{t2SuperScore}</h1>
 </div>
 <div id="progressBar">
 	<div class="progress-segment"></div>
@@ -356,7 +358,7 @@
 		justify-content: center;
 	}
 
-	.overlay {
+	:global(.overlay) {
 		position: fixed;
 		inset: 0;
 		display: none;
@@ -367,8 +369,8 @@
 		z-index: 10;
 	}
 
-	.overlay.active {
-		display: flex;
+	:global(.overlay.active) {
+		display: flex !important;
 	}
 
 	.modal {
@@ -379,7 +381,8 @@
 		border-radius: 16px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 		padding: 10%;
-		width: 200%;
+		width: 50%;
+        height:30%;
 		animation: fadeIn 0.2s ease-out;
 		justify-content: center;
 		align-content: center;
@@ -388,7 +391,7 @@
 	}
 
 	.modal h2 {
-		font-size: 5rem;
+		font-size: 20px !important;
 		font-weight: 600;
 		margin: 0 0;
 		text-align: center;
@@ -400,17 +403,17 @@
 	}
 
 	.save-btn {
-		width: 60%;
+		width: 80%;
 		background-color: #7fc8ee;
 		color: white;
 		border: none;
 		padding: 4%;
-		font-size: 50px;
+		font-size: 30px;
 		cursor: pointer;
 		font-weight: bold;
 		border-radius: 16px;
 		margin-bottom: 10%;
-		margin-left: 20%;
+		margin-left: 10%;
 		font-family: 'Afacad', sans-serif;
 		text-align: center;
 		justify-content: center;
