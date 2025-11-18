@@ -84,11 +84,11 @@ public class TournamentResource {
     @DELETE
     @Path("/{id:[0-9]+}")
     @Transactional
-    public Response deleteGroup(@PathParam("id") long groupId) {
-        if (groupId == 0) {
+    public Response deleteTournament(@PathParam("id") long tournamentId) {
+        if (tournamentId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        tournamentRepository.deleteById(groupId);
+        tournamentRepository.deleteById(tournamentId);
         return Response.noContent().build();
     }
 
