@@ -4,6 +4,7 @@ import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.entities.Tournament;
 import at.ac.htlleonding.entities.Team;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
@@ -30,8 +31,18 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
         return findById(tournamentId).getTeams();
     }
 
-    public boolean addTeam(long tournamentId, long teamId) {
-        return findById(tournamentId).addTeam(teamRepository.findById(teamId));
+    public Tournament addTeam(long tournamentId, long teamId) {
+        Tournament tournament = findById(tournamentId);
+        Team team = teamRepository.findById(teamId);
+
+        if(tournament != null && team != null && !tournament.getTeams().contains(team)) {
+            tournament.addTeam(team);
+            persist(tournament);
+
+            return tournament;
+        }
+
+        return null;
     }
 
     public void deleteTournament(long id) {
