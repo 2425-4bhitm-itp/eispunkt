@@ -1,5 +1,6 @@
 package at.ac.htlleonding.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -19,12 +20,14 @@ public class Tournament {
     @JoinTable(name = "tournament_team", joinColumns = @JoinColumn(name = "tournamentId"),
             inverseJoinColumns = @JoinColumn(name = "teamId"))
     @JsonIgnoreProperties({"tournaments"})
+    @JsonIgnore
     private List<Team> teams = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "tournament_game", joinColumns = @JoinColumn(name = "tournamentId"),
             inverseJoinColumns = @JoinColumn(name = "gameId"))
     @JsonIgnoreProperties({"tournaments"})
+    @JsonIgnore
     private List<Game> games = new ArrayList<>();
 
     public Tournament() {
@@ -89,8 +92,8 @@ public class Tournament {
         this.games = games;
     }
 
-    public boolean addTeam(Team team) {
-        return teams.add(team);
+    public void addTeam(Team team) {
+        teams.add(team);
     }
 
     public String getLocation() {
