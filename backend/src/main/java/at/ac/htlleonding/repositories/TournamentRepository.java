@@ -18,7 +18,7 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
         this.teamRepository = teamRepository;
     }
 
-    public List<Tournament> getAllGroups() {
+    public List<Tournament> getAllTournaments() {
         return listAll();
     }
 
@@ -26,35 +26,38 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
         return find("id", id).firstResult();
     }
 
-    public List<Team> getAllTeams(long groupId) {
-        return findById(groupId).getTeams();
+    public List<Team> getAllTeams(long tournamentId) {
+        return findById(tournamentId).getTeams();
     }
 
-    public boolean addTeam(long groupId, long teamId) {
-        return findById(groupId).addTeam(teamRepository.findById(teamId));
+    public boolean addTeam(long tournamentId, long teamId) {
+        return findById(tournamentId).addTeam(teamRepository.findById(teamId));
     }
 
-    public void deleteGroup(long id) {
-        delete("id", id);
+    public void deleteTournament(long id) {
+        deleteById(id);
     }
 
-    public List<Game> getAllGames(long groupId) {
-        List<Game> games = findById(groupId).getGames();
+    public List<Game> getAllGames(long tournamentId) {
+        List<Game> games = findById(tournamentId).getGames();
 
         if (games == null) {
-            findById(groupId).generateGames();
-            games = findById(groupId).getGames();
+            findById(tournamentId).generateGames();
+            games = findById(tournamentId).getGames();
         }
         return games;
     }
 
-    public List<String> generateGames(long groupId) {
-        return findById(groupId).generateGames();
+    public List<String> generateGames(long tournamentId) {
+        return findById(tournamentId).generateGames();
     }
 
-    public void updateGroup(Tournament tournament) {
+    public void updateTournament(Tournament tournament) {
         if (tournament != null) {
-            update("name = ?1, teams = ?2 where groupId = ?3", tournament.getName(), tournament.getTeams(), tournament.getTournamentId());
+            update("name = ?1, teams = ?2 where groupId = ?3",
+                   tournament.getName(),
+                   tournament.getTeams(),
+                   tournament.getTournamentId());
         }
     }
 }

@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
 
-@Path("api/groups")
+@Path("api/tournaments")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class TournamentResource {
@@ -20,7 +20,7 @@ public class TournamentResource {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createGroup(Tournament tournament) {
+    public Response createTournament(Tournament tournament) {
         Response.ResponseBuilder response;
         if (tournament == null) {
             response = Response.status(Response.Status.BAD_REQUEST);
@@ -36,48 +36,48 @@ public class TournamentResource {
 
     @GET
     @Path("/{id:[0-9]+}")
-    public Response getGroups(@PathParam("id") long groupId) {
-        if (groupId == 0) {
-            return Response.ok(tournamentRepository.getAllGroups()).build();
+    public Response getTournament(@PathParam("id") long tournamentId) {
+        if (tournamentId == 0) {
+            return Response.ok(tournamentRepository.getAllTournaments()).build();
         } else {
-            return Response.ok(tournamentRepository.findById(groupId)).build();
+            return Response.ok(tournamentRepository.findById(tournamentId)).build();
         }
     }
 
     @GET
     @Path("/team/{id:[0-9]+}")
-    public Response getAllTeams(@PathParam("id") long groupId) {
-        if (groupId == 0) {
+    public Response getAllTeams(@PathParam("id") long tournamentId) {
+        if (tournamentId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.ok(tournamentRepository.getAllTeams(groupId)).build();
+        return Response.ok(tournamentRepository.getAllTeams(tournamentId)).build();
     }
 
     @GET
     @Path("/game/{id:[0-9]+}")
-    public Response getAllGames(@PathParam("id") long groupId) {
-        if (groupId == 0) {
+    public Response getAllGames(@PathParam("id") long tournamentId) {
+        if (tournamentId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.ok(tournamentRepository.getAllGames(groupId)).build();
+        return Response.ok(tournamentRepository.getAllGames(tournamentId)).build();
     }
 
     @POST
-    @Path("{groupId:[0-9]+}/{teamId:[0-9]+}")
-    public Response addTeam(@PathParam("groupId") long groupId, @PathParam("teamId") long teamId) {
-        if (groupId == 0 || teamId == 0) {
+    @Path("{tournamentId:[0-9]+}/{teamId:[0-9]+}")
+    public Response addTeam(@PathParam("tournamentId") long tournamentId, @PathParam("teamId") long teamId) {
+        if (tournamentId == 0 || teamId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.ok(tournamentRepository.addTeam(groupId, teamId)).build();
+        return Response.ok(tournamentRepository.addTeam(tournamentId, teamId)).build();
     }
 
     @PUT
     @Transactional
-    public Response updateGroup(Tournament tournament) {
+    public Response updateTournament(Tournament tournament) {
         if (tournament == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        tournamentRepository.updateGroup(tournament);
+        tournamentRepository.updateTournament(tournament);
         return Response.ok().build();
     }
 
