@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Game {
@@ -54,5 +55,17 @@ public class Game {
 
     public boolean addTeam(Team team) {
         return teams.add(team);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return Objects.equals(teams, game.teams);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(gameId, teams);
     }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,7 +28,6 @@ public class Tournament {
     @JoinTable(name = "tournament_game", joinColumns = @JoinColumn(name = "tournamentId"),
             inverseJoinColumns = @JoinColumn(name = "gameId"))
     @JsonIgnoreProperties({"tournaments"})
-    @JsonIgnore
     private List<Game> games = new ArrayList<>();
 
     public Tournament() {
@@ -39,33 +39,6 @@ public class Tournament {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<String> generateGames() {
-        List<String> gameplan = new LinkedList<>();
-
-        int numRounds = teams.size() - 1;
-
-        for (int round = 0; round < numRounds; round++) {
-            for (int i = 0; i < teams.size() / 2; i++) {
-                Team team1 = teams.get(i);
-                Team team2 = teams.get(teams.size() - 1 - i);
-
-                if (team2 != null) {
-                    Game game = new Game();
-                    game.addTeam(team1);
-                    game.addTeam(team2);
-
-                    gameplan.add(team1.getName() + " vs " + team2.getName());
-                } else {
-                    gameplan.add(team1.getName() + " gets a break!");
-                }
-                Team lastTeam = teams.removeLast();
-
-                teams.add(1, lastTeam);
-            }
-        }
-        return gameplan;
     }
 
     public long getTournamentId() {
@@ -90,6 +63,10 @@ public class Tournament {
 
     public void setGames(List<Game> games) {
         this.games = games;
+    }
+
+    public void addGame(Game game) {
+        games.add(game);
     }
 
     public void addTeam(Team team) {

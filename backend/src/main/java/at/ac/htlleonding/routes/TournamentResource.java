@@ -55,6 +55,7 @@ public class TournamentResource {
 
     @GET
     @Path("/game/{id:[0-9]+}")
+    @Transactional
     public Response getAllGames(@PathParam("id") long tournamentId) {
         if (tournamentId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -64,11 +65,28 @@ public class TournamentResource {
 
     @POST
     @Path("{tournamentId:[0-9]+}/{teamId:[0-9]+}")
+    @Transactional
     public Response addTeam(@PathParam("tournamentId") long tournamentId, @PathParam("teamId") long teamId) {
         if (tournamentId == 0 || teamId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         return Response.ok(tournamentRepository.addTeam(tournamentId, teamId)).build();
+    }
+
+    @PATCH
+    @Transactional
+    @Path("generate/{tournamentId:[0-9]+}")
+    public Response generateGames(@PathParam("tournamentId") long tournamentId) {
+        Response response = Response.status(Response.Status.BAD_REQUEST).build();
+
+        if (tournamentId != 0) {
+            Tournament tournament = tournamentRepository.findById(tournamentId);
+            if (tournament != null) {
+                response = Response.ok(tournamentRepository.generateGames(tournament)).build();
+            }
+        }
+
+        return response;
     }
 
     @PUT
