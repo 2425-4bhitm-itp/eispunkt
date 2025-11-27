@@ -63,3 +63,14 @@ Content-Type: application/json
 {
 
 }
+
+###
+
+PUT http://localhost:8080/api/tournaments
+Content-Type: application/json
+
+{
+    "tournamentId": 1,
+    "name": "Testing",
+    "location": "None"
+}

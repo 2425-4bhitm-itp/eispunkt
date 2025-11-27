@@ -96,7 +96,7 @@ public class TournamentResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         tournamentRepository.updateTournament(tournament);
-        return Response.ok().build();
+        return Response.ok(tournament).build();
     }
 
     @DELETE

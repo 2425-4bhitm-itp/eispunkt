@@ -72,11 +72,12 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
         return games;
     }
 
+    // Only updates name and location
     public void updateTournament(Tournament tournament) {
         if (tournament != null) {
-            update("name = ?1, teams = ?2 where groupId = ?3",
+            update("name = ?1, location = ?2 where tournamentId = ?3",
                    tournament.getName(),
-                   tournament.getTeams(),
+                   tournament.getLocation(),
                    tournament.getTournamentId());
         }
     }
