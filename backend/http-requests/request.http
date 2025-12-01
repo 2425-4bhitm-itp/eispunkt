@@ -8,7 +8,7 @@ Content-Type: */*
 ###
 GET http://localhost:8080/api/team/15
 ###
-GET http://localhost:8080/api/team/findTeamById?teamId=1
+GET http://localhost:8080/api/teams/0
 ###
 GET http://localhost:8080/api/team/findTeamByName?teamName=Lehrer
 ###
@@ -74,3 +74,13 @@ Content-Type: application/json
     "name": "Testing",
     "location": "None"
 }
+
+
+###
+
+DELETE http://localhost:8080/api/teams/1
+
+
+###
+
+PATCH http://localhost:8080/api/teams/isVisible/1

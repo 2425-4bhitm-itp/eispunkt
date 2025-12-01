@@ -70,10 +70,24 @@ public class TeamResource {
     @DELETE
     @Transactional
     public Response deleteTeam(@PathParam("id") long teamId) {
-        if (teamId == 0) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        teamRepository.delete(teamRepository.findById(teamId));
+        teamRepository.deleteTeam(teamId);
         return Response.noContent().build();
+    }
+
+    @PATCH
+    @Path("isVisible/{id:[0-9]+}")
+    @Transactional
+    public Response flipIsVisible(@PathParam("id") long teamId) {
+        Response response = Response.status(Response.Status.BAD_REQUEST).build();
+
+        Team team = teamRepository.findById(teamId);
+
+        if (team != null) {
+            team.setVisible(!team.isVisible());
+            teamRepository.persistAndFlush(team);
+            response = Response.ok(team.isVisible()).build();
+        }
+
+        return response;
     }
 }

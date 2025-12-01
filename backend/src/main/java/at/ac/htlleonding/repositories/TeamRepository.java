@@ -1,13 +1,18 @@
 package at.ac.htlleonding.repositories;
 
 import at.ac.htlleonding.entities.Team;
+import at.ac.htlleonding.routes.TeamResource;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import jakarta.inject.Singleton;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 
 import java.util.List;
 
-@Singleton
+@ApplicationScoped
 public class TeamRepository implements PanacheRepository<Team> {
+    @Inject
+    TeamResource teamResource;
+
     public Team findById(long teamId) {
         return find("id", teamId).firstResult();
     }
@@ -27,4 +32,19 @@ public class TeamRepository implements PanacheRepository<Team> {
     public void updateTeam(Team team) {
         update("name = ?1, games = ?2 where teamId = ?3", team.getName(), team.getGames(), team.getTeamId());
     }
+
+    @Inject TournamentRepository tournamentRepository;
+
+    @Inject PlayerRepository playerRepository;
+
+    public void deleteTeam(long teamId) {
+        Team team = find("teamId", teamId).firstResult();
+
+        // Delete players belonging to the team
+        playerRepository.update("team = null where team = ?1", team);
+
+        // Finally delete the team
+        delete(team);
+    }
+
 }
