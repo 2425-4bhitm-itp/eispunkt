@@ -1,9 +1,5 @@
 <script>
 
-
-    function openTournament() {
-        window.location.href = "../turnier/turnierDetails.html";
-    }
 </script>
 
 <div id="body-div">
@@ -24,7 +20,7 @@
             <h1>Turnier</h1>
         </a>
 
-        <a on:click={openTournament} class="button">
+        <a href="/team" class="button">
             <h1>Mannschaftsspiel</h1>
         </a>
 
