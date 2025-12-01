@@ -3,6 +3,7 @@ package at.ac.htlleonding.entities;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,6 +19,11 @@ public class Team {
     @ManyToMany(mappedBy = "teams")
     @JsonbTransient
     private List<Game> games = new LinkedList<>();
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Player> players = new ArrayList<>();
+
+
 
     public Team(String name) {
         this.name = name;
@@ -50,5 +56,21 @@ public class Team {
 
     public void setGames(List<Game> games) {
         this.games = games;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public boolean addPlayer(Player player){
+        return players.add(player);
+    }
+
+    public boolean removePlayer(Player player){
+        return players.remove(player);
     }
 }

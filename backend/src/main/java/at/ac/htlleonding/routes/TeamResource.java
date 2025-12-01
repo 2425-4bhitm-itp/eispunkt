@@ -70,10 +70,7 @@ public class TeamResource {
     @DELETE
     @Transactional
     public Response deleteTeam(@PathParam("id") long teamId) {
-        if (teamId == 0) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
-        }
-        teamRepository.delete(teamRepository.findById(teamId));
+        teamRepository.deleteTeam(teamId);
         return Response.noContent().build();
     }
 }

@@ -74,3 +74,8 @@ Content-Type: application/json
     "name": "Testing",
     "location": "None"
 }
+
+
+###
+
+DELETE http://localhost:8080/api/teams/1
