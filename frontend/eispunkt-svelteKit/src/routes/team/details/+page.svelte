@@ -1,6 +1,23 @@
-<script>
+<script lang="ts">
+    import { onMount } from 'svelte';
+
     let showModal = false;
-    let teamName = "";
+    let playerName = "";
+
+    onMount(() => {
+        getSelectedTeam()
+    });
+
+    let players = $state(new Array());
+
+    async function getSelectedTeam() {
+        let teamId = localStorage.getItem("teamId")
+
+
+        const response = await fetch(`http://localhost:8080/api/players/team/${teamId}`);
+        players = await response.json();
+        console.log("Players geladen:", players);
+    }
 
     function openModal() {
         showModal = true;
@@ -10,22 +27,25 @@
         showModal = false;
     }
 
-    function saveTeam() {
-        if (teamName.trim() === "") {
-            alert("Bitte einen Teamnamen eingeben!");
+    function savePlayer() {
+        if (playerName.trim() === "") {
+            alert("Bitte einen Playernamen eingeben!");
             return;
         }
-        console.log("Team gespeichert:", teamName);
+        console.log("Spieler gespeichert:", playerName);
         closeModal();
     }
 
-    function teamDetails() {
-        window.location.href = "../player/player.html";
-    }
+    async function deletePlayer(id: number) {
+        const response = await fetch(`http://localhost:8080/api/players/${id}`, {
+            method: 'DELETE',
+        });
 
-    function deleteTeam() {
-        if (confirm("Willst du das Team wirklich löschen?")) {
-            console.log("Team gelöscht!");
+        if (response.ok) {
+            console.log(`Spieler mit ID ${id} wurde gelöscht.`);
+            await getSelectedTeam();
+        } else {
+            console.error('Fehler beim Löschen des Spielers.');
         }
     }
 </script>
@@ -44,63 +64,33 @@
         <div id="player-header-box">
             <h1>Spieler:</h1>
         </div>
-
-
-        <div class="team-details">
-            <h1>Marvin</h1>
-            <div class="svg-box">
-                <svg on:click={deleteTeam} width="35" height="35" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9C18 7.9 17.1 7 16 7H8C6.9 7 6 7.9 6
+        {#each players as player}
+            <div class="team-details">
+                <h1>{player.name}</h1>
+                <div class="svg-box">
+                    <svg onclick={() => {deletePlayer(player.playerId)}} width="35" height="35" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9C18 7.9 17.1 7 16 7H8C6.9 7 6 7.9 6
                     9V19ZM18 4H15.5L14.79 3.29C14.61 3.11 14.35 3 14.09 3H9.91C9.65 3 9.39 3.11 9.21 3.29L8.5 4H6C5.45 4 5
                     4.45 5 5C5 5.55 5.45 6 6 6H18C18.55 6 19 5.55 19 5C19 4.45 18.55 4 18 4Z" fill="#7FC8EE"/>
-                </svg>
+                    </svg>
+                </div>
             </div>
-        </div>
-        <div class="team-details">
-            <h1>Atilla</h1>
-            <div class="svg-box">
-                <svg on:click={deleteTeam} width="35" height="35" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9C18 7.9 17.1 7 16 7H8C6.9 7 6 7.9 6
-                    9V19ZM18 4H15.5L14.79 3.29C14.61 3.11 14.35 3 14.09 3H9.91C9.65 3 9.39 3.11 9.21 3.29L8.5 4H6C5.45 4 5
-                    4.45 5 5C5 5.55 5.45 6 6 6H18C18.55 6 19 5.55 19 5C19 4.45 18.55 4 18 4Z" fill="#7FC8EE"/>
-                </svg>
-            </div>
-        </div>
-        <div class="team-details">
-            <h1>Florian</h1>
-            <div class="svg-box">
-                <svg on:click={deleteTeam} width="35" height="35" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9C18 7.9 17.1 7 16 7H8C6.9 7 6 7.9 6
-                    9V19ZM18 4H15.5L14.79 3.29C14.61 3.11 14.35 3 14.09 3H9.91C9.65 3 9.39 3.11 9.21 3.29L8.5 4H6C5.45 4 5
-                    4.45 5 5C5 5.55 5.45 6 6 6H18C18.55 6 19 5.55 19 5C19 4.45 18.55 4 18 4Z" fill="#7FC8EE"/>
-                </svg>
-            </div>
-        </div>
-        <div class="team-details">
-            <h1>Vanesa</h1>
-            <div class="svg-box">
-                <svg on:click={deleteTeam} width="35" height="35" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9C18 7.9 17.1 7 16 7H8C6.9 7 6 7.9 6
-                    9V19ZM18 4H15.5L14.79 3.29C14.61 3.11 14.35 3 14.09 3H9.91C9.65 3 9.39 3.11 9.21 3.29L8.5 4H6C5.45 4 5
-                    4.45 5 5C5 5.55 5.45 6 6 6H18C18.55 6 19 5.55 19 5C19 4.45 18.55 4 18 4Z" fill="#7FC8EE"/>
-                </svg>
-            </div>
-        </div>
+        {/each}
     </div>
 
     {#if showModal}
         <div class="overlay active">
             <div class="modal">
-                <button class="close-btn" on:click={closeModal}>×</button>
+                <button class="close-btn" onclick={closeModal}>×</button>
                 <h2>Neuen Spieler erstellen</h2>
                 <label for="name">Name</label>
-                <input id="name" type="text" bind:value={teamName} placeholder="" />
-                <button class="save-btn" on:click={saveTeam}>Speichern</button>
+                <input id="name" type="text" bind:value={playerName} placeholder=""/>
+                <button class="save-btn" onclick={savePlayer}>Speichern</button>
             </div>
         </div>
     {/if}
 
-    <div id="addButton" on:click={openModal}>+</div>
+    <div id="addButton" onclick={openModal}>+</div>
 </div>
 
 

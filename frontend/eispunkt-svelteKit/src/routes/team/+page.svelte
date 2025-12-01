@@ -1,6 +1,73 @@
-<script>
-    let showModal = false;
+<script lang="ts">
+    import { onMount } from "svelte";
+    import { teamToEdit } from "$lib/stores/selectionStore";
+
+
+    let showModal = $state(false);
     let teamName = "";
+    let teams = $state(new Array());
+
+
+    onMount(async () => {
+        await getAllTeams();
+    });
+
+    async function getAllTeams() {
+        const res = await fetch("http://localhost:8080/api/teams/0", {
+            method: "GET"
+        });
+
+        if (res.ok) {
+            teams = await res.json();
+            console.log("Teams geladen:", teams);
+        } else {
+            alert("Fehler beim Laden der Teams!");
+        }
+    }
+
+
+    async function saveTeam() {
+        if (teamName.trim() === "") {
+            alert("Bitte einen Teamnamen eingeben!");
+            return;
+        }
+
+        const res = await fetch(`http://localhost:8080/api/teams/?teamName=${teamName}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: teamName })
+        });
+
+        if (res.ok) {
+            console.log("Team gespeichert:", teamName);
+            teamName = "";
+            closeModal()
+            await getAllTeams();
+        } else {
+            alert("Fehler beim Erstellen des Teams!");
+        }
+    }
+
+
+    async function deleteTeam(id: number) {
+        if (!confirm("Willst du das Team wirklich löschen?")) return;
+
+        const response = await fetch(`http://localhost:8080/api/teams/${id}`, {
+            method: "DELETE"
+        });
+
+        if (response.ok) {
+            console.log("Team gelöscht!");
+            await getAllTeams();
+        } else {
+            alert("Fehler beim Löschen!");
+        }
+    }
+
+    function navigateToDetails(id: number) {
+        localStorage.setItem("teamId", id.toString());
+        window.location.href = "/team/details";
+    }
 
     function openModal() {
         showModal = true;
@@ -10,21 +77,8 @@
         showModal = false;
     }
 
-    function saveTeam() {
-        if (teamName.trim() === "") {
-            alert("Bitte einen Teamnamen eingeben!");
-            return;
-        }
-        console.log("Team gespeichert:", teamName);
-        closeModal();
-    }
-
-    function deleteTeam() {
-        if (confirm("Willst du das Team wirklich löschen?")) {
-            console.log("Team gelöscht!");
-        }
-    }
 </script>
+
 
 <div id="body-div">
     <div id="header-box">
@@ -51,38 +105,43 @@
     </div>
 
     <div id="team-details-outer-box">
-        <div class="team-details">
-            <h1>Eispunkt</h1>
-            <div class="svg-box">
-                <a href="/team/details">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20">
-                        <path fill="#7FC8EE" d="m12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4l-2.3 2.3l-4-4z"/>
+        {#each teams as t}
+            <div class="team-details">
+                <h1>{t.name}</h1>
+                <div class="svg-box">
+
+                    <a onclick={() => {navigateToDetails(t.teamId)}}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20">
+                            <path fill="#7FC8EE" d="m12.3 3.7l4 4L4 20H0v-4L12.3 3.7zm1.4-1.4L16 0l4 4l-2.3 2.3l-4-4z"/>
+                        </svg>
+                    </a>
+
+                    <svg onclick={() => deleteTeam(t.id)} width="40" height="40" viewBox="0 0 24 24">
+                        <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9C18 7.9 17.1 7 16 7H8C6.9
+                    7 6 7.9 6 9V19ZM18 4H15.5L14.79 3.29C14.61 3.11 14.35 3 14.09 3H9.91C9.65
+                    3 9.39 3.11 9.21 3.29L8.5 4H6C5.45 4 5 4.45 5 5C5 5.55 5.45 6 6
+                    6H18C18.55 6 19 5.55 19 5C19 4.45 18.55 4 18 4Z" fill="#7FC8EE"/>
                     </svg>
-                </a>
 
-
-                <svg on:click={deleteTeam} width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9C18 7.9 17.1 7 16 7H8C6.9 7 6 7.9 6
-                    9V19ZM18 4H15.5L14.79 3.29C14.61 3.11 14.35 3 14.09 3H9.91C9.65 3 9.39 3.11 9.21 3.29L8.5 4H6C5.45 4 5
-                    4.45 5 5C5 5.55 5.45 6 6 6H18C18.55 6 19 5.55 19 5C19 4.45 18.55 4 18 4Z" fill="#7FC8EE"/>
-                </svg>
+                </div>
             </div>
-        </div>
+        {/each}
     </div>
+
 
     {#if showModal}
         <div class="overlay active">
             <div class="modal">
-                <button class="close-btn" on:click={closeModal}>×</button>
+                <button class="close-btn" onclick={() => {showModal = false}}>×</button>
                 <h2>Neues Team erstellen</h2>
                 <label for="name">Name</label>
                 <input id="name" type="text" bind:value={teamName} placeholder="" />
-                <button class="save-btn" on:click={saveTeam}>Speichern</button>
+                <button class="save-btn" onclick={saveTeam}>Speichern</button>
             </div>
         </div>
     {/if}
 
-    <div id="addButton" on:click={openModal}>+</div>
+    <div id="addButton" onclick={() => {showModal = true}}>+</div>
 </div>
 
 
@@ -100,7 +159,6 @@
         flex-direction: column;
         padding: 0;
         margin: 0;
-        overflow: hidden;
         font-family: "Afacad", sans-serif;
     }
 
