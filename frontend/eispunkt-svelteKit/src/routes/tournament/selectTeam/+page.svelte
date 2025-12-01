@@ -1,11 +1,19 @@
  <script lang="ts">
     import {fade} from "svelte/transition";
     import {cubicInOut} from "svelte/easing";
+	import { onMount } from "svelte";
+    import {selectedTournament} from "$lib/stores/selectionStore"
 
     let selectedTeam = "";
     let team1Visible = false;
     let team2Visible = false;
 
+
+    onMount(async () => {
+        let teamsResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/${$selectedTournament}/teams`);
+        let teams = teamsResponse.json()
+        console.log(teams)        
+    })
 
 
     function selectTeam() {
