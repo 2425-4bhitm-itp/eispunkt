@@ -1,6 +1,5 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { teamToEdit } from "$lib/stores/selectionStore";
 
 
     let showModal = $state(false);
