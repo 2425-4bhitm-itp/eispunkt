@@ -1,5 +1,7 @@
 package at.ac.htlleonding.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 
@@ -20,10 +22,8 @@ public class Team {
     @JsonbTransient
     private List<Game> games = new LinkedList<>();
 
-    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Player> players = new ArrayList<>();
-
-
+    @Column(name = "visible")
+    private boolean isVisible = true;
 
     public Team(String name) {
         this.name = name;
@@ -58,19 +58,11 @@ public class Team {
         this.games = games;
     }
 
-    public List<Player> getPlayers() {
-        return players;
+    public boolean isVisible() {
+        return isVisible;
     }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
-    }
-
-    public boolean addPlayer(Player player){
-        return players.add(player);
-    }
-
-    public boolean removePlayer(Player player){
-        return players.remove(player);
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }
