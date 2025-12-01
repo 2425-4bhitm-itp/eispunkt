@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriBuilder;
 
-@Path("/api/team")
+@Path("/api/teams")
 public class TeamResource {
     @Inject
     TeamRepository teamRepository;
