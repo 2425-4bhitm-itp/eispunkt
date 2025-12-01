@@ -1,7 +1,11 @@
 import { persisted } from "svelte-persisted-store";
 
-export const selection = persisted('selection', {
-    selectedTeams: [],
-    tournamentId: null,
-    
+export const selectedTeams = persisted('teams', {
+    selectedTeams: []
 })
+
+export const selectedTournament = persisted('tournament',
+    {
+        selectedTournament: 0
+    }
+)
