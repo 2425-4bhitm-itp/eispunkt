@@ -4,48 +4,57 @@
 	import { onMount } from "svelte";
     import {selectedTournament} from "$lib/stores/selectionStore"
 
-    let selectedTeam = "";
+    let selectedTeam = $state("")
+    let teams = $state(new Array())
+    let tourneyTeams = $state(new Array())
     let team1Visible = false;
     let team2Visible = false;
 
 
     onMount(async () => {
-        let teamsResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/${$selectedTournament}/teams`);
-        let teams = teamsResponse.json()
-        console.log(teams)        
+        let tourneyTeamsResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/team/${$selectedTournament}`);
+        
+        if(tourneyTeamsResponse.ok){
+            tourneyTeams = await tourneyTeamsResponse.json()
+        }
+
+        let teamResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/teams/0`)
+
+        if(teamResponse.ok){
+            teams = await teamResponse.json()
+        }
     })
 
 
-    function selectTeam() {
+    async function selectTeam() {
         const team = parseInt(selectedTeam);
 
         if (!team) return;
 
-        console.log("(PUT) /api/tournament/{tournamentId}/{teamId}");
-        console.log(
-            `insert into TOURNAMENT_TEAM (tournament_tournamentid, teams_teamid) values ({tournamentId}, {teamId});`
-        );
+        let selectResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/${$selectedTournament}/${team}`,{
+            method: "POST"
+        });
 
-        if (team === 1) team1Visible = true;
-        if (team === 2) team2Visible = true;
+        if(selectResponse.ok){
+            tourneyTeams.push(teams.find(t => t.teamId == parseInt(selectedTeam)))
+            teams = teams.filter(t => t.teamId != parseInt(selectedTeam))
+        }
+        
 
-        selectedTeam = ""; // reset select
+        selectedTeam = ""; 
     }
 
-    function deleteTeam(team: any) {
-        console.log(
-            `delete from TOURNAMENT_TEAM where TOURNAMENT_TOURNAMENTID = {tournamentId} and TEAMS_TEAMID = {teamId};`
-        );
-        console.log("(DELETE) /api/tournament/{tournamentId}/{teamId}");
+    async function deleteTeam(team: Number) {
+        if(!team) return;
 
-        if (team === 1) team1Visible = false;
-        if (team === 2) team2Visible = false;
+        let deleteResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/${$selectedTournament}/${team}`,{
+            method: "DELETE"
+        });
+
+        if(deleteResponse.ok){
+            tourneyTeams = tourneyTeams.filter(t => t.teamId != team)
+        }
     }
-
-    console.log(`select t from tournament_team tt
-         join team t on tt.team_id = t.team_id
-         where tt.tournament_id = {tournamentId};`);
-    console.log("(GET) /api/tournament/{tournamnetid}/teams");
 </script>
 
 <div id="body-div">
@@ -63,30 +72,22 @@
 
             <select id="team-select" bind:value={selectedTeam} on:change={selectTeam} name="team">
                 <option value="" disabled selected>Team auswählen</option>
-                <option value="1" disabled={team1Visible}>Eispunkt</option>
-                <option value="2" disabled={team2Visible}>Eisbär</option>
+                {#each teams as team}
+                    <option value="{team.teamId}">{team.name}</option>
+                {/each}
             </select>
         </div>
 
 
         <div id="display-box">
-            {#if team1Visible}
-                <div class="team-box" id="team1" transition:fade={{ duration: 250, easing: cubicInOut }}>
-                    <h1>Eispunkt</h1>
-                    <svg on:click={() => deleteTeam(1)} width="20" height="20" viewBox="0 0 16 14" xmlns="http://www.w3.org/2000/svg">
+            {#each tourneyTeams as team}
+                <div class="team-box" transition:fade={{ duration: 250, easing: cubicInOut }}>
+                    <h1>{team.name}</h1>
+                    <svg on:click={() => deleteTeam(team.teamId)} width="20" height="20" viewBox="0 0 16 14" xmlns="http://www.w3.org/2000/svg">
                         <path fill="black" d="M6.01761 7L0 12.2654L1.98239 14L8 8.73459L14.0176 14L16 12.2654L9.98239 7L16 1.73459L14.0176 0L8 5.26541L1.98239 0L0 1.73459L6.01761 7Z"/>
                     </svg>
                 </div>
-            {/if}
-
-            {#if team2Visible}
-                <div class="team-box" id="team2" transition:fade={{ duration: 250, easing: cubicInOut }}>
-                    <h1>Eisbär</h1>
-                    <svg on:click={() => deleteTeam(2)} width="20" height="20" viewBox="0 0 16 14" xmlns="http://www.w3.org/2000/svg">
-                        <path fill="black" d="M6.01761 7L0 12.2654L1.98239 14L8 8.73459L14.0176 14L16 12.2654L9.98239 7L16 1.73459L14.0176 0L8 5.26541L1.98239 0L0 1.73459L6.01761 7Z"/>
-                    </svg>
-                </div>
-            {/if}
+            {/each}
         </div>
 
         <a id="next-button" href="/game">
@@ -172,6 +173,7 @@
         height: 70%;
         display: flex;
         flex-direction: column;
+        overflow:scroll;
         align-items: center;
     }
 
@@ -181,12 +183,16 @@
         padding: 5%;
         margin-bottom: 5%;
         display: flex;
-        justify-content: space-between;
+
         align-items: center;
         font-size: 15px;
         background-color: #f8f8f8;
         border-radius: 16px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    .team-box h1{
+        width:80%;
+        font-size:20px;
     }
 
     #next-button {
@@ -197,7 +203,11 @@
         align-items: center;
         position: fixed;
         bottom: 30px;
-        right: 30px;
+        right: 15px;
         border-radius: 16px;
+    }
+
+    svg{
+        cursor:pointer;
     }
 </style>

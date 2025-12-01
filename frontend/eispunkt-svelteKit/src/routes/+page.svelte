@@ -20,11 +20,11 @@
             <h1>Turnier</h1>
         </a>
 
-        <a href="/team" class="button">
+        <a class="button deactivated">
             <h1>Mannschaftsspiel</h1>
         </a>
 
-        <a href="/game" class="button">
+        <a class="button deactivated">
             <h1>Freundschaftsspiel</h1>
         </a>
     </div>
@@ -101,6 +101,16 @@
         margin-bottom: 5%;
         padding-left: 5%;
     }
+
+    .deactivated{
+        background-color:#858585;
+        cursor:default;
+    }
+
+    .deactivated:hover{
+        background-color:#858585 !important;
+    }
+
     .button h1 {
         color: white;
         font-family: "Afacad", sans-serif;

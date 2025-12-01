@@ -14,7 +14,7 @@
         let teamId = localStorage.getItem("teamId")
 
 
-        const response = await fetch(`http://localhost:8080/api/players/team/${teamId}`);
+        const response = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/team/${teamId}`);
         players = await response.json();
         console.log("Players geladen:", players);
     }
@@ -37,7 +37,7 @@
     }
 
     async function deletePlayer(id: number) {
-        const response = await fetch(`http://localhost:8080/api/players/${id}`, {
+        const response = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/${id}`, {
             method: 'DELETE',
         });
 

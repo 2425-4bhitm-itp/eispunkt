@@ -23,6 +23,9 @@
 
         let creationResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments`,{
             method: "POST",
+            headers:{
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({name: `${tournamentName}`})
         })
 
@@ -33,6 +36,7 @@
                 tournaments = await tournamentsResponse.json();
             }   
         }
+        showModal = false;
     }
 
     async function deleteTournament(tournamentId: Number) {
@@ -201,6 +205,11 @@
         font-size: 15px;
         border-radius: 16px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .tournament-details h1{
+        width:60%;
+        font-size:25px;
     }
 
     .svg-box {
