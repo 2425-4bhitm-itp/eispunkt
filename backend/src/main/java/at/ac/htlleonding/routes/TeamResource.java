@@ -74,7 +74,7 @@ public class TeamResource {
         return Response.noContent().build();
     }
 
-    @PATCH
+    @GET
     @Path("isVisible/{id:[0-9]+}")
     @Transactional
     public Response flipIsVisible(@PathParam("id") long teamId) {

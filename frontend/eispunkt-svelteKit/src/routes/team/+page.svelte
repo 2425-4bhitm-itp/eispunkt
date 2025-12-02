@@ -50,8 +50,8 @@
 	async function deleteTeam(id: number) {
 		if (!confirm('Willst du das Team wirklich löschen?')) return;
 
-		const response = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/teams/${id}`, {
-			method: 'DELETE'
+		const response = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/teams/isVisible/${id}`, {
+			method: 'GET'
 		});
 
 		if (response.ok) {
