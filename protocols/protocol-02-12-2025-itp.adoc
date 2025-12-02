@@ -1,0 +1,75 @@
+= Besprechungsprotokoll ITP 29.1.2025
+firstname lastname
+1.0, {docdate}: Some notes
+ifndef::imagesdir[:imagesdir: images]
+:icons: font
+//:sectnums:    // Nummerierung der Überschriften / section numbering
+//:toc: left
+
+//Need this blank line after ifdef, don't know why...
+ifdef::backend-html5[]
+
+// https://fontawesome.com/v4.7.0/icons/
+icon:file-text-o[link=https://raw.githubusercontent.com/htl-leonding-college/asciidoctor-docker-template/master/asciidocs/{docname}.adoc] ‏ ‏ ‎
+icon:github-square[link=https://github.com/htl-leonding-college/asciidoctor-docker-template] ‏ ‏ ‎
+icon:home[link=https://htl-leonding.github.io/]
+endif::backend-html5[]
+
+
+.Teilnehmer
+|===
+|anwesend
+
+|Vorname Nachname
+
+|Prof. Hammer
+
+|Prof. Aberger
+
+|M. Anderson
+
+|F. Hayer (Protokollführer)
+
+|A. Simsek
+
+|V. Catic
+|===
+
+.Ort und Zeit
+[cols=2*]
+|===
+|Ort
+|HTL Leonding - Raum E72
+
+|von-bis
+|Di. 02.12.2025, 4. EH
+|Dauer
+|50 min
+|===
+
+
+
+== Besprochene Themen
+
+* Sprint 3
+
+== Vereinbarungen und Entscheidungen
+
+.Was wurde vereinbart?
+[%autowidth]
+|===
+|wer |macht was |bis wann
+
+| Eispunkt
+a|
+** Usability
+*** Dümmster anzunehmender Benutzer
+** Rollen Funktionalität anfangen
+*** Mit Keycloak anfangen
+** Techstack Folie
+** Teaser-Video
+*** Planung
+** Zoom deaktivieren
+a|
+2.12.2025
+|===
