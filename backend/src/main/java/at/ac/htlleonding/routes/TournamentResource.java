@@ -125,6 +125,6 @@ public class TournamentResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        return Response.ok(tournament).build();
+        return Response.ok().build();
     }
 }
