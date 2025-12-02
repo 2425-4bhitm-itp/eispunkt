@@ -110,7 +110,7 @@ public class TournamentResource {
         return Response.noContent().build();
     }
 
-    @PUT
+    @DELETE
     @Path("remove/{tournamentId:[0-9]+}/{teamId:[0-9]+]}")
     public Response removeTeamFromTournament(@PathParam("tournamentId") long tournamentId,
                                              @PathParam("teamId") long teamId){

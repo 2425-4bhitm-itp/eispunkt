@@ -5,6 +5,9 @@
 	let games = $state(new Array());
 	let teams = $state(new Array());
 
+	$inspect(games)
+	$inspect(teams)
+
 	function parseGames(gameStrings: string[]) {
     	return gameStrings.map(g => {
         	const [team1, team2] = g.split(" vs ").map(Number);
@@ -48,8 +51,8 @@
 		{#each games as game}
 		<div class='turnierDet'>
 			<div>
-				<h1>{game.team1}</h1>
-				<h1>{game.team2}</h1>
+				<h1>{teams.at(game.team1).name}</h1>
+				<h1>{teams.at(game.team2).name}</h1>
 			</div>
 			<a onclick={() => {navigateToGame(game.team1, game.team2)}}>
 				<svg width="100" height="100" viewBox="0 0 41 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -81,6 +84,10 @@
 		text-align: center;
 		align-items: center;
 		justify-content: center;
+	}
+
+	#displayBox{
+				overflow: scroll;
 	}
 
 	#header {
