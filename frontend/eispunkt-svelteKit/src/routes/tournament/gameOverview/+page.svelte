@@ -6,7 +6,7 @@
 
 	onMount(async () => {
 		let gamesResponse = await fetch(
-			`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/generate/${selectedTournament}`,
+			`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/generate/${$selectedTournament}`,
 			{ method: 'PATCH' }
 		);
 
