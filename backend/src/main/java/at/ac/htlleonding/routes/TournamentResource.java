@@ -111,7 +111,7 @@ public class TournamentResource {
     }
 
     @DELETE
-    @Path("/remove/{tournamentId:[0-9]+}/{teamId:[0-9]+]}")
+    @Path("/remove/{tournamentId:[0-9]+}/{teamId:[0-9]+}")
     public Response removeTeamFromTournament(@PathParam("tournamentId") long tournamentId,
                                              @PathParam("teamId") long teamId){
         Tournament tournament = tournamentRepository.findById(tournamentId);
