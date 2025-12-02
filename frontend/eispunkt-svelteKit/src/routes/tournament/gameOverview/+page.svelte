@@ -51,8 +51,8 @@
 		{#each games as game}
 		<div class='turnierDet'>
 			<div>
-				<h1>{teams.at(game.team1)}</h1>
-				<h1>{teams.at(game.team2)}</h1>
+				<h1>{game.team1}</h1>
+				<h1>{game.team2}</h1>
 			</div>
 			<a onclick={() => {navigateToGame(game.team1, game.team2)}}>
 				<svg width="100" height="100" viewBox="0 0 41 36" fill="none" xmlns="http://www.w3.org/2000/svg">
