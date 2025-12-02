@@ -110,5 +110,20 @@ public class TournamentResource {
         return Response.noContent().build();
     }
 
+    @PUT
+    @Path("remove/{tournamentId:[0-9]+}/{teamId:[0-9]+]}")
+    public Response removeTeamFromTournament(@PathParam("tournamentId") long tournamentId,
+                                             @PathParam("teamId") long teamId){
+        Tournament tournament = tournamentRepository.findById(tournamentId);
 
+        if (tournament != null) {
+
+            tournament.getTeams().removeIf(team -> team.getTeamId() == teamId);
+            tournamentRepository.persistAndFlush(tournament);
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        return Response.ok(tournament).build();
+    }
 }
