@@ -47,8 +47,8 @@
     async function deleteTeam(team: Number) {
         if(!team) return;
 
-        let deleteResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/${$selectedTournament}/${team}`,{
-            method: "DELETE"
+        let deleteResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/remove/${$selectedTournament}/${team}`,{
+            method: "PUT"
         });
 
         if(deleteResponse.ok){
