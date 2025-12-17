@@ -38,7 +38,7 @@ public class StageResource {
             response = Response.status(Response.Status.BAD_REQUEST);
         } else {
             stageRepository.persistAndFlush(stage);
-            var location = UriBuilder.fromResource(ScoreResource.class)
+            var location = UriBuilder.fromResource(StageResource.class)
                                      .path(String.valueOf(stage.getStageId()))
                                      .build();
             response = Response.status(Response.Status.CREATED).location(location).entity(stage);

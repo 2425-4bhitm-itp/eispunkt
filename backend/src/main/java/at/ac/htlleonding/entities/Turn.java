@@ -12,6 +12,15 @@ public class Turn {
     @ManyToOne
     private Stage stage;
 
+    @Column(name = "turn_number")
+    private int turnNumber;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+    private int score;
+
     public Turn() {
     }
 
