@@ -1,6 +1,8 @@
 package at.ac.htlleonding.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 @Entity
 public class Turn {
@@ -19,6 +21,8 @@ public class Turn {
     @JoinColumn(name = "team_id")
     private Team team;
 
+    @Min(message = "Score must be between 1 and 4", value = 1)
+    @Max(message = "Score must be between 1 and 4", value = 4)
     private int score;
 
     public Turn() {
@@ -42,5 +46,29 @@ public class Turn {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public int getTurnNumber() {
+        return turnNumber;
+    }
+
+    public void setTurnNumber(int turnNumber) {
+        this.turnNumber = turnNumber;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
