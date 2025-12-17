@@ -14,6 +14,7 @@ public class Stage {
     @JsonbTransient
     public Game game;
 
+    @Column(name = "stage_number")
     public int stageNumber;
 
     public Stage() {

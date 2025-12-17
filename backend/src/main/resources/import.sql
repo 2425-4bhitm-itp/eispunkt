@@ -212,11 +212,11 @@ insert into game_team (games_gameid, teams_teamid)
 values (1, 2);
 
 -- Stage
-insert into stage (stagenumber, game_gameid)
+insert into stage (stage_number, game_gameid)
 values (1, 1);
-insert into stage (stagenumber, game_gameid)
+insert into stage (stage_number, game_gameid)
 values (2, 1);
-insert into stage (stagenumber, game_gameid)
+insert into stage (stage_number, game_gameid)
 values (3, 1);
 
 -- Turn
