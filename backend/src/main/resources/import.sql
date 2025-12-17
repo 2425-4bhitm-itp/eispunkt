@@ -202,8 +202,64 @@ values ((select teamid from team where name = '1. ESV Haslach an der Mühl 1'), 
 -- Game
 insert into game (date)
 values ('2025-03-05');
+insert into game (date)
+values ('2025-12-12');
 
--- Group
+-- Game_Team
+insert into game_team (games_gameid, teams_teamid)
+values (1, 1);
+insert into game_team (games_gameid, teams_teamid)
+values (1, 2);
+
+-- Stage
+insert into stage (stagenumber, game_gameid)
+values (1, 1);
+insert into stage (stagenumber, game_gameid)
+values (2, 1);
+insert into stage (stagenumber, game_gameid)
+values (3, 1);
+
+-- Turn
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (1, 1, 1, 3);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (1, 2, 1, 2);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (1, 3, 2, 1);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (1, 4, 1, 4);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (1, 5, 2, 3);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (1, 6, 2, 4);
+
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (2, 1, 1, 4);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (2, 2, 2, 4);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (2, 3, 1, 3);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (2, 4, 2, 3);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (2, 5, 1, 2);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (2, 6, 2, 2);
+
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (3, 1, 1, 2);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (3, 2, 1, 1);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (3, 3, 2, 3);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (3, 4, 1, 4);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (3, 5, 1, 2);
+insert into turn (stage_stageid, turn_number, team_id, score)
+values (3, 6, 1, 1);
+
+-- Tournament
 insert into tournament (name)
 values ('Spielgruppe Eispunkt');
 
@@ -225,6 +281,25 @@ values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'
 insert into tournament_team (tournamentId, teamid)
 values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
         (select teamid from team where name = 'ÖTSU Stroheim 1'));
+insert into tournament_team (tournamentId, teamid)
+values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
+        (select teamid from team where name = 'Union ESV Haag a. H. 1'));
+insert into tournament_team (tournamentId, teamid)
+values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
+        (select teamid from team where name = 'ÖTSU Oepping 2'));
+
+insert into tournament (name)
+values ('Eisbärchen');
+
+insert into tournament_team (tournamentId, teamid)
+values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
+        (select teamid from team where name = 'ÖTSU Oepping 1'));
+insert into tournament_team (tournamentId, teamid)
+values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
+        (select teamid from team where name = 'ÖTSU Arnreit 1'));
+insert into tournament_team (tournamentId, teamid)
+values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
+        (select teamid from team where name = 'ESV Ruprechtshofen 1'));
 insert into tournament_team (tournamentId, teamid)
 values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
         (select teamid from team where name = 'Union ESV Haag a. H. 1'));
