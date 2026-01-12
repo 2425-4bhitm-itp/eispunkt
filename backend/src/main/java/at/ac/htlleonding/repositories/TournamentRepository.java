@@ -1,5 +1,6 @@
 package at.ac.htlleonding.repositories;
 
+import at.ac.htlleonding.dto.MatchDto;
 import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.entities.Tournament;
 import at.ac.htlleonding.entities.Team;
@@ -82,8 +83,8 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
         }
     }
 
-    public List<String> generateGames(Tournament tournament) {
-        List<String> gameplan = new LinkedList<>();
+    public List<MatchDto> generateGames(Tournament tournament) {
+        List<MatchDto> gameplan = new LinkedList<>();
         List<Team> teams = new LinkedList<>(tournament.getTeams());
 
 
@@ -111,18 +112,16 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
                         tournament.addGame(game);
                     }
 
-                    gameplan.add(team1.getTeamId() + " vs " + team2.getTeamId());
+                    gameplan.add(new MatchDto(team1, team2));
                 } else {
                     Team playing = team1 == null ? team2 : team1;
-                    gameplan.add(playing.getTeamId() + " gets a break!");
+                    gameplan.add(new MatchDto(playing, null));
                 }
             }
             Team lastTeam = teams.removeLast();
 
             teams.add(1, lastTeam);
         }
-        gameplan.sort(String::compareToIgnoreCase);
-
 
         persistAndFlush(tournament);
 
