@@ -8,31 +8,18 @@
 	$inspect(games)
 	$inspect(teams)
 
-	function parseGames(gameStrings: string[]) {
-    	return gameStrings.map(g => {
-        	const [team1, team2] = g.split(" vs ").map(Number);
-        	return { team1, team2 };
-    	});
-	}
-
 	onMount(async () => {
 		let gamesResponse = await fetch(
 			`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/generate/${$selectedTournament}`,
 			{ method: 'PATCH' }
 		);
 
-		games = parseGames(await gamesResponse.json());
-
-		let teamsResponse = await fetch(
-			`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/team/${$selectedTournament}`
-		)
-
-		teams = await teamsResponse.json()
+		games = await gamesResponse.json();
 	});
 
 	function navigateToGame(team1Id:number, team2Id:number){
-		selectedTeams.set([team1Id, team2Id])
-		window.location.href = "/game"
+		selectedTeams.set({selectedTeams: [team1Id, team2Id]});
+		window.location.href = '/game'
 	}
 </script>
 
@@ -51,14 +38,20 @@
 		{#each games as game}
 		<div class='turnierDet'>
 			<div>
-				<h1>{game.team1}</h1>
-				<h1>{game.team2}</h1>
+				{#if game.team2}
+					<h1>{game.team1?.name}</h1>
+					<h1>{game.team2?.name}</h1>
+				{:else}
+					<h1>{game.team1?.name} spielt nicht!</h1>
+				{/if}
 			</div>
-			<a onclick={() => {navigateToGame(game.team1, game.team2)}}>
+			{#if game.team2}
+			<a on:click={() => {navigateToGame(game.team1.teamId, game.team2.teamId)}}>
 				<svg width="100" height="100" viewBox="0 0 41 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M13.6667 10.23V25.77C13.6667 26.955 15.153 27.675 16.2976 27.03L30.2034 19.26C31.2626 18.675 31.2626 17.325 30.2034 16.725L16.2976 8.97001C15.153 8.32501 13.6667 9.04501 13.6667 10.23Z" fill="#7FC8EE"/>
 				</svg>
 			</a>
+			{/if}
 		</div>
 		{/each}
 	</div>
