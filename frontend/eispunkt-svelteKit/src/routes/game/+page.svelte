@@ -153,67 +153,73 @@
 	}
 </script>
 
-<div id="game">
-	<h1 id="superScoreCounter">{t1SuperScore}-{t2SuperScore}</h1>
-</div>
-<div id="progressBar">
-	<div class="progress-segment"></div>
-	<div class="progress-segment"></div>
-	<div class="progress-segment"></div>
-	<div class="progress-segment"></div>
-	<div class="progress-segment"></div>
-	<div class="progress-segment"></div>
-	<div class="progress-segment"></div>
-	<div class="progress-segment"></div>
-	<div class="progress-segment"></div>
-	<div class="progress-segment"></div>
-	<div class="progress-segment"></div>
-	<div class="progress-segment"></div>
-	<div class="progress-segment"></div>
-</div>
-<div class="team_outer_box">
-	<div class="team_inner_box">
-		<h1>Eispunkt</h1>
+<div id="noZoom">
+	<div id="game">
+		<h1 id="superScoreCounter">{t1SuperScore}-{t2SuperScore}</h1>
 	</div>
-	<div class="points_buttons_outer_box">
-		<div on:click={() => deletePoint(1)} class="points_button">
-			<p class="minus">-</p>
+	<div id="progressBar">
+		<div class="progress-segment"></div>
+		<div class="progress-segment"></div>
+		<div class="progress-segment"></div>
+		<div class="progress-segment"></div>
+		<div class="progress-segment"></div>
+		<div class="progress-segment"></div>
+		<div class="progress-segment"></div>
+		<div class="progress-segment"></div>
+		<div class="progress-segment"></div>
+		<div class="progress-segment"></div>
+		<div class="progress-segment"></div>
+		<div class="progress-segment"></div>
+		<div class="progress-segment"></div>
+	</div>
+	<div class="team_outer_box">
+		<div class="team_inner_box">
+			<h1>Eispunkt</h1>
 		</div>
-		<h2 id="t1SubScoreText">0</h2>
-		<div on:click={() => addPoint(1)} class="points_button">
-			<p>+</p>
+		<div class="points_buttons_outer_box">
+			<div on:click={() => deletePoint(1)} class="points_button">
+				<p class="minus">-</p>
+			</div>
+			<h2 id="t1SubScoreText">0</h2>
+			<div on:click={() => addPoint(1)} class="points_button">
+				<p>+</p>
+			</div>
 		</div>
 	</div>
-</div>
-<div class="team_outer_box">
-	<div class="team_inner_box">
-		<h1>Eisbär</h1>
-	</div>
-	<div class="points_buttons_outer_box">
-		<div on:click={() => deletePoint(2)} class="points_button">
-			<p class="minus">-</p>
+	<div class="team_outer_box">
+		<div class="team_inner_box">
+			<h1>Eisbär</h1>
 		</div>
+		<div class="points_buttons_outer_box">
+			<div on:click={() => deletePoint(2)} class="points_button">
+				<p class="minus">-</p>
+			</div>
 
-		<h2 id="t2SubScoreText">0</h2>
-		<div on:click={() => addPoint(2)} class="points_button">
-			<p>+</p>
+			<h2 id="t2SubScoreText">0</h2>
+			<div on:click={() => addPoint(2)} class="points_button">
+				<p>+</p>
+			</div>
 		</div>
 	</div>
-</div>
-<div class="overlay" id="overlay">
-	<div class="modal">
-		<h2 id="winnerText">Team 1 wins</h2>
-		<button class="save-btn" on:click={resetGame}> Restart Game </button>
+	<div class="overlay" id="overlay">
+		<div class="modal">
+			<h2 id="winnerText">Team 1 wins</h2>
+			<button class="save-btn" on:click={resetGame}> Restart Game </button>
 
-		<button class="save-btn">
-			<a href="/">Home</a>
-		</button>
+			<button class="save-btn">
+				<a href="/">Home</a>
+			</button>
+		</div>
 	</div>
 </div>
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Protest+Strike&display=swap');
 	@import url('https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap');
+
+	#noZoom {
+		touch-action: manipulation;
+	}
 
 	* {
 		margin: 0;
@@ -383,7 +389,7 @@
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 		padding: 10%;
 		width: 50%;
-        height:30%;
+		height: 30%;
 		animation: fadeIn 0.2s ease-out;
 		justify-content: center;
 		align-content: center;
