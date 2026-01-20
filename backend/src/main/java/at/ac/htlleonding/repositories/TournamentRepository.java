@@ -4,9 +4,7 @@ import at.ac.htlleonding.dto.MatchDto;
 import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.entities.Tournament;
 import at.ac.htlleonding.entities.Team;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
-import io.quarkus.logging.Log;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -83,7 +81,7 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
         }
     }
 
-    public List<MatchDto> generateGames(Tournament tournament) {
+    private List<MatchDto> generateGames(Tournament tournament) {
         List<MatchDto> gameplan = new LinkedList<>();
         List<Team> teams = new LinkedList<>(tournament.getTeams());
 
@@ -100,7 +98,7 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
                 Team team1 = teams.get(i);
                 Team team2 = teams.get(teams.size() - 1 - i);
 
-                if (team1 != null && team2 != null) {
+                if (team1 != null && team2 != null && team1 != team2) {
                     Game game = new Game();
                     game.setDate(LocalDate.now());
                     game.addTeam(team1);
@@ -126,5 +124,59 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
         persistAndFlush(tournament);
 
         return gameplan;
+    }
+
+    public List<List<MatchDto>> generateGamesPaginated(Tournament tournament) {
+        List<MatchDto> matches = new ArrayList<>(generateGames(tournament));
+        List<List<MatchDto>> rounds = new ArrayList<>();
+
+        MatchDto match;
+        rounds.add(new ArrayList<>());
+        int failsCounter = 0;
+        while (!matches.isEmpty()) {
+            boolean roundIsFull = rounds.getLast().size() >= tournament.getTeams().size() / 2;
+
+            match = matches.getFirst();
+
+            if (rounds.isEmpty() || roundIsFull) {
+                rounds.add(new ArrayList<>());
+            }
+
+            boolean team1InRound = checkTeamInRound(match.team1(), rounds.getLast());
+            boolean team2InRound = checkTeamInRound(match.team2(), rounds.getLast());
+            if(!team1InRound && !team2InRound) {
+                rounds.getLast().add(match);
+                matches.removeFirst();
+                failsCounter = 0;
+            } else if (failsCounter > matches.size()) {
+                rounds.add(new ArrayList<>());
+                failsCounter = 0;
+            } else {
+                failsCounter++;
+                matches.removeFirst();
+                matches.add(match);
+            }
+        }
+
+        persistAndFlush(tournament);
+
+        return rounds;
+    }
+
+    private boolean checkTeamInRound(Team team, List<MatchDto> currentRound) {
+        boolean isInRound = false;
+
+        if(team == null) {
+            return isInRound;
+        }
+
+        for (MatchDto match : currentRound) {
+            if (match.team2() == team || match.team1() == team) {
+                isInRound = true;
+                break;
+            }
+        }
+
+        return isInRound;
     }
 }

@@ -84,3 +84,7 @@ DELETE http://localhost:8080/api/tournaments/1
 ###
 
 PATCH http://localhost:8080/api/teams/isVisible/1
+
+###
+
+PATCH http://localhost:8080/api/tournaments/generate/1

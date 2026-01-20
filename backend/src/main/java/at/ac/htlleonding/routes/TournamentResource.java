@@ -82,7 +82,7 @@ public class TournamentResource {
         if (tournamentId != 0) {
             Tournament tournament = tournamentRepository.findById(tournamentId);
             if (tournament != null) {
-                response = Response.ok(tournamentRepository.generateGames(tournament)).build();
+                response = Response.ok(tournamentRepository.generateGamesPaginated(tournament)).build();
             }
         }
 
