@@ -1,0 +1,11 @@
+services:
+  frontend:
+    container_name: eispunkt-frontend
+    build:
+      context: ../frontend/eispunkt-svelteKit
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - eispunkt-net
