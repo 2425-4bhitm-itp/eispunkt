@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
-	let showModal = $state(false);
+
+
+
+    let showModal = $state(false);
 	let teamName = '';
 	let teams = $state(new Array());
+
 
 	onMount(async () => {
 		await getAllTeams();
@@ -21,6 +25,17 @@
 			alert('Fehler beim Laden der Teams!');
 		}
 	}
+
+    let searchTerm = $state('');
+
+    let filteredTeams = $derived.by(() => {
+        const term = searchTerm.trim().toLowerCase();
+
+        if (term.length === 0) return teams;
+
+        return teams.filter((t: any) => t.name.toLowerCase().includes(term));
+    });
+
 
 	async function saveTeam() {
 		if (teamName.trim() === '') {
@@ -121,12 +136,27 @@
 			<svg width="140" height="140" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path d="M19 5H17V4C17 3.45 16.55 3 16 3H8C7.45 3 7 3.45 7 4V5H5C3.9 5 3 5.9 3 7V8C3 10.55 4.92 12.63 7.39 12.94C8.02 14.44 9.37 15.57 11 15.9V19H8C7.45 19 7 19.45 7 20C7 20.55 7.45 21 8 21H16C16.55 21 17 20.55 17 20C17 19.45 16.55 19 16 19H13V15.9C14.63 15.57 15.98 14.44 16.61 12.94C19.08 12.63 21 10.55 21 8V7C21 5.9 20.1 5 19 5ZM5 8V7H7V10.82C5.84 10.4 5 9.3 5 8ZM19 8C19 9.3 18.16 10.4 17 10.82V7H19V8Z" fill="#45CAAC"/>
 			</svg>
-
+        </a>
 	</div>
 
-	<div id="team-details-outer-box">
-		{#each teams as t}
-			<div class="team-details">
+    <div id="team-details-outer-box">
+        <div id="search-add-box">
+            <input
+                    id="search-input"
+                    type="text"
+                    placeholder="Suchen"
+                    bind:value={searchTerm}
+            />
+            <div
+                    id="addButton"
+                    onclick={() => {
+			            showModal = true;
+		            }}
+            >+</div>
+        </div>
+
+		{#each filteredTeams as t}
+			<div class="team-details" onclick={() => {navigateToDetails(t.teamId);}}>
 				<h1>{t.name}</h1>
 				<div class="svg-box">
 					<a
@@ -172,15 +202,6 @@
 			</div>
 		</div>
 	{/if}
-
-	<div
-		id="addButton"
-		onclick={() => {
-			showModal = true;
-		}}
-	>
-		+
-	</div>
 </div>
 
 <style>
@@ -255,7 +276,39 @@
 		width: 75%;
 	}
 
-	#team-details-outer-box {
+    #search-add-box {
+        width: 100%;
+        margin-top: 4%;
+        display: flex;
+        justify-content: space-evenly;
+    }
+
+    #search-input {
+        width: 65%;
+        font-size: 20px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: none;
+        outline: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.29);
+    }
+
+    #addButton {
+        height: 100%;
+        width: 15%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #7fc8ee;
+        color: white;
+        font-size: 40px;
+        font-weight: bold;
+        border-radius: 16px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.29);
+        cursor: pointer;
+    }
+
+    #team-details-outer-box {
 		width: 100%;
 		height: 82%;
 		display: flex;
@@ -263,6 +316,7 @@
 		align-items: center;
 		flex-direction: column;
 		padding-top: 5%;
+        margin-bottom: 5%;
 	}
 
 	.team-details {
@@ -274,10 +328,16 @@
 		padding: 5%;
 		margin-top: 5%;
 		background-color: #f8f8f8;
-
 		border-radius: 16px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-	}
+        cursor: pointer;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .team-details:hover {
+        transform: scale(1.005);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    }
 
 	.team-details h1 {
 		width: 60%;
@@ -361,23 +421,5 @@
 		font-size: 50px;
 		cursor: pointer;
 		color: #333;
-	}
-
-	#addButton {
-		width: 8vh;
-		height: 8vh;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		position: fixed;
-		bottom: 40px;
-		right: 40px;
-		background-color: #7fc8ee;
-		color: white;
-		font-size: 40px;
-		font-weight: bold;
-		border-radius: 16px;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.29);
-		cursor: pointer;
 	}
 </style>
