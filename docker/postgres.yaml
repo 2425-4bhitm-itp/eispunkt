@@ -6,11 +6,18 @@ services:
       - 5432:5432
     volumes:
       - postgres:/var/lib/postgresql/data
-    networks:
-      - eispunkt-net
+      - ./init-keycloak.sql:/docker-entrypoint-initdb.d/init-keycloak.sql:ro
     environment:
       - POSTGRES_PASSWORD=eispunkt#4040#
       - POSTGRES_USER=admin
       - POSTGRES_DB=eispunkt
+    healthcheck:
+      test: pg_isready --dbname=keycloak --username=keycloak
+      interval: 60s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+      start_interval: 2s
+
 volumes:
   postgres:

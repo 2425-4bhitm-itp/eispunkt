@@ -11,6 +11,4 @@ services:
       - QUARKUS_DATASOURCE_PASSWORD=eispunkt#4040#
     depends_on:
       - postgres
-    networks:
-      - eispunkt-net
       

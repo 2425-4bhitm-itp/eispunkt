@@ -28,4 +28,4 @@ services:
             start_interval: 5s
         environment:
             - KEYCLOAK_ADMIN=admin
-            - KEYCLOAK_ADMIN_PASSWORD=password
+            - KEYCLOAK_ADMIN_PASSWORD=keycloak
