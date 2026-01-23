@@ -1,9 +1,12 @@
 package at.ac.htlleonding.routes;
 
 import at.ac.htlleonding.entities.Stage;
+import at.ac.htlleonding.entities.Team;
 import at.ac.htlleonding.entities.Turn;
+import at.ac.htlleonding.repositories.TeamRepository;
 import at.ac.htlleonding.repositories.TurnRepository;
 import at.ac.htlleonding.repositories.StageRepository;
+import at.ac.htlleonding.websocket.TurnWebSocket;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -19,50 +22,58 @@ public class TurnResource {
     
     @Inject
     StageRepository stageRepository;
+    @Inject
+    TurnWebSocket turnWebSocket;
+    @Inject
+    TeamRepository teamRepository;
 
     @POST
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createTurn(Turn turn) {
-        Response.ResponseBuilder response;
         if (turn == null) {
-            response = Response.status(Response.Status.BAD_REQUEST);
-        } else {
-            turnRepository.persistAndFlush(turn);
-            var location = UriBuilder.fromResource(TurnResource.class).path(String.valueOf(turn.getTurnId())).build();
-            response = Response.status(Response.Status.CREATED).location(location).entity(turn);
-        }
-        return response.build();
-    }
-
-    @POST
-    @Path("/create")
-    @Transactional
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createTurnWithStageId(@QueryParam("stageId") long stageId) {
-        if (stageId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        
-        Stage stage = stageRepository.findById(stageId);
-        if (stage == null) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+
+        if (turn.getStage() != null) {
+            var managedStage = stageRepository.findById(turn.getStage().getStageId());
+            if (managedStage == null) {
+                return Response.status(Response.Status.NOT_FOUND)
+                               .entity("Stage not found").build();
+            }
+            turn.setStage(managedStage);
         }
-        
-        Turn turn = new Turn(stage);
+
+        if (turn.getTeam() != null) {
+            var managedTeam = teamRepository.findById(turn.getTeam().getTeamId());
+            if (managedTeam == null) {
+                return Response.status(Response.Status.NOT_FOUND)
+                               .entity("Team not found").build();
+            }
+            turn.setTeam(managedTeam);
+        }
+
         turnRepository.persistAndFlush(turn);
-        
-        return Response.status(Response.Status.CREATED).entity(turn).build();
+        turnWebSocket.broadcastTurn(turn);
+
+        var location = UriBuilder.fromResource(TurnResource.class)
+                                 .path(String.valueOf(turn.getTurnId()))
+                                 .build();
+
+        return Response.status(Response.Status.CREATED)
+                       .location(location)
+                       .entity(turn)
+                       .build();
     }
 
     @GET
     @Path("{id:[0-9]+}")
-    public Response getTurn(@PathParam("id") long stageId) {
-        if (stageId == 0) {
+    public Response getTurn(@PathParam("id") long turnId) {
+        if (turnId == 0) {
             return Response.ok(turnRepository.findAll()).build();
         } else {
-            return Response.ok(turnRepository.findById(stageId)).build();
+            return Response.ok(turnRepository.findById(turnId)).build();
         }
     }
 
@@ -75,6 +86,7 @@ public class TurnResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         turnRepository.updateTurn(turn);
+        turnWebSocket.broadcastTurn(turn);
         return Response.ok().build();
     }
 
