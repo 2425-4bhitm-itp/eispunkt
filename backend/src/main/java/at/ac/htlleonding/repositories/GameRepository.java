@@ -2,17 +2,20 @@ package at.ac.htlleonding.repositories;
 
 import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.entities.Team;
+import at.ac.htlleonding.websocket.ScoreWebSocket;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-
 import java.util.List;
 
 @ApplicationScoped
 public class GameRepository implements PanacheRepository<Game> {
     @Inject
     GameRepository gameRepository;
+
+    @Inject
+    ScoreWebSocket scoreWebSocket;
 
     public Game findById(long id) {
         return find("id", id).firstResult();
@@ -43,7 +46,6 @@ public class GameRepository implements PanacheRepository<Game> {
         update("date = ?1, teams = ?2 where id = ?3", game.getDate(), game.getTeams(), game.getGameId());
     }
 
-    @Transactional
     public void changeActive(Long gameId) {
         Game game = findById(gameId);
         System.out.printf("Setting game %d active status to %b%n", gameId, !game.getActive());

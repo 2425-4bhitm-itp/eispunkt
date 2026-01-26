@@ -96,13 +96,13 @@ Accept: application/json
 
 {
   "stage": {
-    "stageId": 1
+    "stageId": 2
   },
   "turnNumber": 2,
   "team": {
     "teamId": 2
   },
-  "score": 1
+  "score": 5
 }
 
 ### Update an existing Turn
