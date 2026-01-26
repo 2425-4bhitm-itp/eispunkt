@@ -3,6 +3,7 @@ package at.ac.htlleonding.repositories;
 import at.ac.htlleonding.entities.Team;
 import at.ac.htlleonding.routes.TeamResource;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
+import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
@@ -22,7 +23,9 @@ public class TeamRepository implements PanacheRepository<Team> {
     }
 
     public List<Team> getAllTeams() {
-        return listAll();
+        System.out.println("Getting all teams!!!");
+
+        return listAll(Sort.descending("name"));
     }
 
     public void renameTeam(long teamId, String newName) {
