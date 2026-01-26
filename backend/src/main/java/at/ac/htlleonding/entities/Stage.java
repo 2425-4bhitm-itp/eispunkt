@@ -37,7 +37,7 @@ public class Stage {
         return stageId;
     }
 
-    private void setStageId(long stageId) {
+    public void setStageId(long stageId) {
         this.stageId = stageId;
     }
 

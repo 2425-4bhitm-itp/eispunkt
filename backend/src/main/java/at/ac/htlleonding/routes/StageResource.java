@@ -22,7 +22,7 @@ public class StageResource {
     @GET
     public Response getStageById(@PathParam("id") long stageId) {
         if (stageId == 0) {
-            return Response.ok(stageRepository.findAll()).build();
+            return Response.ok(stageRepository.listAll()).build();
         } else {
             return Response.ok(stageRepository.findById(stageId)).build();
         }

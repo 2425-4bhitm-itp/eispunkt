@@ -88,3 +88,47 @@ PATCH http://localhost:8080/api/teams/isVisible/1
 ###
 
 PATCH http://localhost:8080/api/tournaments/generate/1
+
+### Create a new Turn
+POST http://localhost:8080/api/turns
+Content-Type: application/json
+Accept: application/json
+
+{
+  "stage": {
+    "stageId": 1
+  },
+  "turnNumber": 2,
+  "team": {
+    "teamId": 2
+  },
+  "score": 1
+}
+
+### Update an existing Turn
+PUT http://localhost:8080/api/turns
+Content-Type: application/json
+Accept: application/json
+
+{
+  "turnId": 5,
+  "stage": {
+    "stageId": 3
+  },
+  "turnNumber": 2,
+  "team": {
+    "teamId": 3
+  },
+  "score": 4
+}
+
+### GET Stages
+
+GET http://localhost:8080/api/stages/0
+
+### GET Tournaments
+
+GET http://localhost:8080/api/tournaments/0
+
+### GET Games
+GET http://localhost:8080/api/games/0

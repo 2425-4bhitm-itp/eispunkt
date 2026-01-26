@@ -2,11 +2,13 @@
 	import { selectedTeams, selectedTournament } from '$lib/stores/selectionStore';
 	import { onMount } from 'svelte';
 
-	let games = $state(new Array());
-	let teams = $state(new Array());
+	let allRounds = $state(new Array());
+	let currentRoundIndex = $state(0);
 
-	$inspect(games)
-	$inspect(teams)
+	const currentGames = $derived(allRounds[currentRoundIndex] || []);
+
+	$inspect(allRounds)
+	$inspect(currentRoundIndex)
 
 	onMount(async () => {
 		let gamesResponse = await fetch(
@@ -14,12 +16,24 @@
 			{ method: 'PATCH' }
 		);
 
-		games = await gamesResponse.json();
+		allRounds = await gamesResponse.json();
 	});
 
-	function navigateToGame(team1Id:number, team2Id:number){
-		selectedTeams.set({selectedTeams: [team1Id, team2Id]});
-		window.location.href = '/game'
+	function navigateToGame(team1Id: number, team2Id: number) {
+		selectedTeams.set({ selectedTeams: [team1Id, team2Id] });
+		window.location.href = '/game';
+	}
+
+	function goToPreviousRound() {
+		if (currentRoundIndex > 0) {
+			currentRoundIndex--;
+		}
+	}
+
+	function goToNextRound() {
+		if (currentRoundIndex < allRounds.length - 1) {
+			currentRoundIndex++;
+		}
 	}
 </script>
 
@@ -31,11 +45,11 @@
 			</svg>
 		</a>
 
-		<header id="header">Turnier</header>
+		<header id="header">Turnier - Runde {currentRoundIndex + 1}/{allRounds.length}</header>
 	</div>
 
 	<div id="displayBox">
-		{#each games as game}
+		{#each currentGames as game}
 		<div class='turnierDet'>
 			<div>
 				{#if game.team2}
@@ -54,6 +68,11 @@
 			{/if}
 		</div>
 		{/each}
+	</div>
+
+	<div id="navigation-box">
+		<button on:click={goToPreviousRound} disabled={currentRoundIndex === 0}>← Vorherige</button>
+		<button on:click={goToNextRound} disabled={currentRoundIndex === allRounds.length - 1}>Nächste →</button>
 	</div>
 </div>
 
@@ -79,13 +98,46 @@
 		justify-content: center;
 	}
 
-	#displayBox{
-				overflow: scroll;
+	#displayBox {
+		overflow: scroll;
+		flex: 1;
+	}
+
+	#navigation-box {
+		display: flex;
+		justify-content: center;
+		gap: 15vw;
+		padding: 20px;
+		background-color: #f8f8f8;
+		border-top: 1px solid #ddd;
+	}
+
+	#navigation-box button {
+		padding: 10px 20px;
+		font-size: 16px;
+		font-family: 'Afacad', sans-serif;
+		background-color: #45caac;
+		color: white;
+		border: none;
+		border-radius: 8px;
+		cursor: pointer;
+		font-weight: bold;
+		transition: background-color 0.3s;
+	}
+
+	#navigation-box button:hover:not(:disabled) {
+		background-color: #2eb8a0;
+	}
+
+	#navigation-box button:disabled {
+		background-color: #ccc;
+		cursor: not-allowed;
 	}
 
 	#header {
 		color: white;
-		font-size: 300%;
+		font-size: 215%;
+		margin-left:15%;
 		font-weight: bold;
 		font-family: 'Afacad', sans-serif;
 	}

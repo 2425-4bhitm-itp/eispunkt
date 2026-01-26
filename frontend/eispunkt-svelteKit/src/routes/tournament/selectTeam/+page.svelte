@@ -7,9 +7,6 @@
     let selectedTeam = $state("")
     let teams = $state(new Array())
     let tourneyTeams = $state(new Array())
-    let team1Visible = false;
-    let team2Visible = false;
-
 
     onMount(async () => {
         let tourneyTeamsResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/team/${$selectedTournament}`);
@@ -18,11 +15,14 @@
             tourneyTeams = await tourneyTeamsResponse.json()
         }
 
+
         let teamResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/teams/0`)
 
         if(teamResponse.ok){
             teams = await teamResponse.json()
         }
+
+        teams = teams.filter(t => !tourneyTeams.find(tt => tt.teamId == t.teamId))
     })
 
 

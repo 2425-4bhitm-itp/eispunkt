@@ -2,7 +2,4 @@ include:
   - backend.yaml
   - frontend.yaml
   - postgres.yaml
-
-networks:
-  eispunkt-net:
-    driver: bridge
+  - keycloak.yaml

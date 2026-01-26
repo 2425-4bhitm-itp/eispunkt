@@ -1,0 +1,211 @@
+*{
+    margin: 0;
+}
+
+#header-box {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    background-color: #45CAAC;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5%;
+}
+
+#header{
+    color: white;
+    font-size: 500%;
+    font-weight: bold;
+    font-family: "Protest Strike", serif;
+
+}
+
+#outerbox{
+    display: flex;
+    width: 100%;
+}
+
+#progressBar {
+    display: flex;
+    gap: 4px;
+    margin-top: 10px;
+    width: 80%;
+    height: 3vh;
+    margin-left: 10%;
+}
+
+.progress-segment {
+    flex: 1;
+    height: 100%;
+    background-color: #ccc;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+
+
+#boxRight{
+    width: 40%;
+
+}
+
+#boxLeft{
+    width: 60%;
+    background-color:#F8F8F8;
+    box-shadow: 2px 2px 1px #C9C9C9;
+    border-radius: 6px ;
+    margin: 1%;
+
+}
+
+
+
+.points_buttons_outer_box {
+    background-color: #7FC8EE;
+    opacity: 75%;
+    border-radius: 13px;
+    width: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+    margin-left: 33%;
+}
+
+.points_buttons_outer_box h2 {
+    font-family: "Protest Strike", sans-serif;
+    font-size: 300%;
+    width: 8vw;
+    font-weight: 400;
+    color: white;
+    user-select: none;
+    text-align: center;
+}
+
+.points_buttons_outer_box p{
+    text-align: center;
+    color: white;
+    width: 10vh;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 300%;
+    border-radius: 6px;
+    font-family: "Protest Strike", sans-serif;
+
+
+}
+
+.teamBox{
+
+    background-color: rgb(127,200,238,0.33);
+    border-radius: 13px;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10%;
+    margin-left: 18%;
+    margin-bottom: 10%;
+    box-shadow: 2px 3px 2px rgb(127,200,238,0.70);
+
+}
+
+
+
+.teamBox p{
+
+    text-align: center;
+    color: white;
+    width: 200vh;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 400%;
+    border-radius: 6px;
+    font-family: "Afacad", sans-serif;
+    font-weight: bold;
+
+
+}
+
+#upperBox{
+    background-color:#F8F8F8;
+    box-shadow: 2px 2px 1px #C9C9C9;
+    border-radius: 6px ;
+    margin: 1%;
+    font-family: "Afacad", sans-serif;
+    font-weight: bold;
+    width: 90%;
+    padding: 2%;
+    margin-top: 3%;
+}
+#upperBox h1{
+    margin-top: 2%;
+    margin-left: 4%;
+    font-size: 300%;
+}
+
+#underBox h1{
+    margin-top: 2%;
+    margin-left: 4%;
+    font-size: 300%;
+}
+
+
+#upperBox p{
+    margin-top: 2%;
+    margin-left: 4%;
+    font-size: 200%;
+    margin-bottom: 4%;
+
+}
+
+#underBox{
+    background-color:#F8F8F8;
+    box-shadow: 2px 2px 1px #C9C9C9;
+    border-radius: 6px ;
+    margin: 1%;
+    font-family: "Afacad", sans-serif;
+    font-weight: bold;
+    width: 90%;
+    padding: 2%;
+    margin-top: 3%;
+}
+
+
+.points{
+    width: 100%;
+    display: flex;
+}
+
+#displayBox{
+    width: 100%;
+
+}
+h3 {
+    color: #7FC8EE;
+    font-size:300%;
+    margin-left: 400%;
+}
+
+.turnierDet{
+    width: 70%;
+    background-color: #F8F8F8;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    font-size: 50%;
+    margin:8%;
+    margin-top: 5%;
+    margin-left: 13%;
+    font-family: "Afacad", sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2%;
+}
