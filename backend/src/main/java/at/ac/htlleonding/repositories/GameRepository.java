@@ -46,7 +46,7 @@ public class GameRepository implements PanacheRepository<Game> {
     @Transactional
     public void changeActive(Long gameId) {
         Game game = findById(gameId);
-        game.setActive(!game.getActive());
-        update("isActive = ?1 where gameId = ?2", game.getActive(), gameId);
+        System.out.printf("Setting game %d active status to %b%n", gameId, !game.getActive());
+        update("isActive = ?1 where gameId = ?2", !game.getActive(), gameId);
     }
 }

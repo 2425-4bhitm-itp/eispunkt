@@ -41,13 +41,17 @@ public class ScoreWebSocket {
     }
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("gameId") String gameId) {
+    public void onOpen(Session session, @PathParam("gameId") Long gameId) {
         System.out.println("GameId: " + gameId);
         sessions.add(session);
         System.out.println("WS CONNECTED: " + session.getId());
 
         executor.runAsync(() -> {
-            gameRepository.changeActive(Long.getLong(gameId));
+            try {
+                gameRepository.changeActive(gameId);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
     }
 
