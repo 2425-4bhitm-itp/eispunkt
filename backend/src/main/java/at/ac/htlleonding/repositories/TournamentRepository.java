@@ -85,8 +85,7 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
         List<MatchDto> gameplan = new LinkedList<>();
         List<Team> teams = new LinkedList<>(tournament.getTeams());
 
-
-        boolean hasOddTeamSize = (teams.size() % 2 != 0);
+        boolean hasOddTeamSize = teams.size() % 2 != 0;
         if (hasOddTeamSize) {
             teams.add(null);
         }
@@ -104,27 +103,29 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
                     game.addTeam(team1);
                     game.addTeam(team2);
 
-                    if(!tournament.getGames().contains(game)) {
-                        gameRepository.persist(game);
+                    gameRepository.persist(game);
 
-                        tournament.addGame(game);
-                    }
+                    tournament.addGame(game);
 
-                    gameplan.add(new MatchDto(team1, team2));
+                    gameplan.add(
+                            new MatchDto(team1, team2, game.getGameId())
+                    );
                 } else {
                     Team playing = team1 == null ? team2 : team1;
-                    gameplan.add(new MatchDto(playing, null));
+                    gameplan.add(
+                            new MatchDto(playing, null, null)
+                    );
                 }
             }
-            Team lastTeam = teams.removeLast();
 
+            Team lastTeam = teams.removeLast();
             teams.add(1, lastTeam);
         }
 
         persistAndFlush(tournament);
-
         return gameplan;
     }
+
 
     public List<List<MatchDto>> generateGamesPaginated(Tournament tournament) {
         List<MatchDto> matches = new ArrayList<>(generateGames(tournament));

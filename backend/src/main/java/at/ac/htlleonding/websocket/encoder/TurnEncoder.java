@@ -1,4 +1,4 @@
-package at.ac.htlleonding.websocket;
+package at.ac.htlleonding.websocket.encoder;
 
 import at.ac.htlleonding.entities.Turn;
 import com.fasterxml.jackson.core.JsonProcessingException;

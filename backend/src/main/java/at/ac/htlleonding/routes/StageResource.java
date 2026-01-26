@@ -1,5 +1,7 @@
 package at.ac.htlleonding.routes;
 
+import at.ac.htlleonding.dto.StageCreationDTO;
+import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.entities.Stage;
 import at.ac.htlleonding.repositories.StageRepository;
 import at.ac.htlleonding.repositories.GameRepository;
@@ -32,11 +34,12 @@ public class StageResource {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createStage(Stage stage) {
+    public Response createStage(StageCreationDTO stageDto) {
         Response.ResponseBuilder response;
-        if (stage == null) {
+        if (stageDto == null) {
             response = Response.status(Response.Status.BAD_REQUEST);
         } else {
+            Stage stage = new Stage(gameRepository.findById(stageDto.gameId()), stageDto.stageNumber());
             stageRepository.persistAndFlush(stage);
             var location = UriBuilder.fromResource(StageResource.class)
                                      .path(String.valueOf(stage.getStageId()))

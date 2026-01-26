@@ -2,6 +2,7 @@ package at.ac.htlleonding.websocket;
 
 import at.ac.htlleonding.dto.TurnDto;
 import at.ac.htlleonding.entities.Turn;
+import at.ac.htlleonding.websocket.encoder.TurnDtoEncoder;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
@@ -16,7 +17,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
 )
 @ApplicationScoped
 public class TurnWebSocket {
-
     private static final Set<Session> sessions = new CopyOnWriteArraySet<>();
 
     public void broadcastTurn(Turn turn) {
@@ -24,7 +24,6 @@ public class TurnWebSocket {
         for (Session s : sessions) {
             System.out.println("Sending to session: " + s.getId());
             s.getAsyncRemote().sendObject(TurnDto.fromEntity(turn));
-            //s.getAsyncRemote().sendText("hello from server");
         }
     }
 
