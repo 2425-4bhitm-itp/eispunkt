@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { selectedTeams, selectedTournament } from '$lib/stores/selectionStore';
+	import { selectedGame, selectedTeams, selectedTournament } from '$lib/stores/selectionStore';
 	import { onMount } from 'svelte';
 
 	let allRounds = $state(new Array());
@@ -19,8 +19,9 @@
 		allRounds = await gamesResponse.json();
 	});
 
-	function navigateToGame(team1Id: number, team2Id: number) {
+	function navigateToGame(team1Id: number, team2Id: number, gameId: number) {
 		selectedTeams.set({ selectedTeams: [team1Id, team2Id] });
+		selectedGame.set({ selectedGame: gameId });
 		window.location.href = '/game';
 	}
 
@@ -60,7 +61,7 @@
 				{/if}
 			</div>
 			{#if game.team2}
-			<a on:click={() => {navigateToGame(game.team1.teamId, game.team2.teamId)}}>
+			<a on:click={() => {navigateToGame(game.team1.teamId, game.team2.teamId, game.gameId)}}>
 				<svg width="100" height="100" viewBox="0 0 41 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M13.6667 10.23V25.77C13.6667 26.955 15.153 27.675 16.2976 27.03L30.2034 19.26C31.2626 18.675 31.2626 17.325 30.2034 16.725L16.2976 8.97001C15.153 8.32501 13.6667 9.04501 13.6667 10.23Z" fill="#7FC8EE"/>
 				</svg>

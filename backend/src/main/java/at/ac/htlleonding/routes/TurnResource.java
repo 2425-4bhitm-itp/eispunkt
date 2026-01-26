@@ -48,12 +48,14 @@ public class TurnResource {
             }
             turn.setStage(stage);
 
-            var team = teamRepository.findById(turn.getTeam().getTeamId());
+            Team team = teamRepository.findById(turnDto.teamId());
             if (team == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("Team not found").build();
             }
             turn.setTeam(team);
+            turn.setScore(turnDto.score());
+            turn.setTurnNumber(turnDto.turnNumber());
 
         turnRepository.persistAndFlush(turn);
         turnWebSocket.broadcastTurn(turn);
