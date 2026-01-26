@@ -316,4 +316,37 @@
         box-shadow: 0 2px 8px rgba(0,0,0,0.29);
         cursor: pointer;
     }
+
+    @media (min-width: 1024px) {
+        svg{
+            width: 70px;
+            height: 70px;
+        }
+
+
+        .tournament-details h1{
+            width:60%;
+            font-size:40px;
+        }
+
+        .modal h2 {
+            font-weight: 600;
+            margin-bottom: 10%;
+            text-align: center;
+            font-size: 50px;
+        }
+
+        .save-btn {
+            width: 50%;
+            padding: 5%;
+            text-align: center;
+            color: white;
+            font-size: 30px;
+            font-weight: bold;
+            background-color: #7FC8EE;
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+        }
+    }
 </style>

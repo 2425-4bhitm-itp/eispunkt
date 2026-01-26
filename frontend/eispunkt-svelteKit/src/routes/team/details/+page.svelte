@@ -306,4 +306,34 @@
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.29);
 		cursor: pointer;
 	}
+
+
+	@media (min-width: 1024px) {
+		svg{
+			width: 50px;
+			height: 50px;
+		}
+
+		.team-details {
+			width: 80%;
+			height: 8%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 5%;
+			margin-top: 5%;
+			background-color: #f8f8f8;
+			font-size: 20px;
+			border-radius: 16px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+		}
+
+
+		#player-header-box h1{
+			font-size: 50px;
+
+		}
+
+
+	}
 </style>
