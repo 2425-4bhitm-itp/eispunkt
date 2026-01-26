@@ -247,4 +247,39 @@
             height: 120px;
         }
     }
+
+
+    @media (min-width: 1748px) {
+        #display-box {
+            width: 100%;
+            height: 70%;
+            display: flex;
+            flex-direction: column;
+            overflow:scroll;
+            align-items: center;
+            margin-top: 12%;
+        }
+
+        label {
+            font-size: 90px;
+            top: 2%;
+            font-weight: bold;
+            margin-top: 10%;
+        }
+
+        select {
+            width: 80%;
+            font-size: 60px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            margin-top: 5%;
+            font-family: "Afacad", sans-serif;
+            color: rgba(0, 0, 0, 0.27);
+        }
+
+    }
 </style>
