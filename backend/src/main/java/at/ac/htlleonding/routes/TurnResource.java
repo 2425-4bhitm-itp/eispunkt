@@ -1,5 +1,6 @@
 package at.ac.htlleonding.routes;
 
+import at.ac.htlleonding.dto.TurnCreationDTO;
 import at.ac.htlleonding.entities.Stage;
 import at.ac.htlleonding.entities.Team;
 import at.ac.htlleonding.entities.Turn;
@@ -34,28 +35,25 @@ public class TurnResource {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createTurn(Turn turn) {
-        if (turn == null) {
+    public Response createTurn(TurnCreationDTO turnDto) {
+        if (turnDto == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+            Turn turn = new Turn();
 
-        if (turn.getStage() != null) {
-            var managedStage = stageRepository.findById(turn.getStage().getStageId());
-            if (managedStage == null) {
+            Stage stage = stageRepository.findById(turnDto.stageId());
+            if (stage == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("Stage not found").build();
             }
-            turn.setStage(managedStage);
-        }
+            turn.setStage(stage);
 
-        if (turn.getTeam() != null) {
-            var managedTeam = teamRepository.findById(turn.getTeam().getTeamId());
-            if (managedTeam == null) {
+            var team = teamRepository.findById(turn.getTeam().getTeamId());
+            if (team == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("Team not found").build();
             }
-            turn.setTeam(managedTeam);
-        }
+            turn.setTeam(team);
 
         turnRepository.persistAndFlush(turn);
         turnWebSocket.broadcastTurn(turn);
