@@ -6,6 +6,7 @@ import at.ac.htlleonding.entities.Turn;
 import at.ac.htlleonding.repositories.TeamRepository;
 import at.ac.htlleonding.repositories.TurnRepository;
 import at.ac.htlleonding.repositories.StageRepository;
+import at.ac.htlleonding.websocket.ScoreWebSocket;
 import at.ac.htlleonding.websocket.TurnWebSocket;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -26,6 +27,8 @@ public class TurnResource {
     TurnWebSocket turnWebSocket;
     @Inject
     TeamRepository teamRepository;
+    @Inject
+    ScoreWebSocket scoreWebSocket;
 
     @POST
     @Transactional
@@ -56,6 +59,7 @@ public class TurnResource {
 
         turnRepository.persistAndFlush(turn);
         turnWebSocket.broadcastTurn(turn);
+        scoreWebSocket.broadcastScore(turn.getStage().getGame());
 
         var location = UriBuilder.fromResource(TurnResource.class)
                                  .path(String.valueOf(turn.getTurnId()))
@@ -87,6 +91,7 @@ public class TurnResource {
         }
         turnRepository.updateTurn(turn);
         turnWebSocket.broadcastTurn(turn);
+        scoreWebSocket.broadcastScore(turn.getStage().getGame());
         return Response.ok().build();
     }
 

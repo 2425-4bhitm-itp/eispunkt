@@ -1,36 +1,54 @@
 package at.ac.htlleonding.websocket;
 
+import at.ac.htlleonding.dto.Score;
 import at.ac.htlleonding.dto.TurnDto;
+import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.entities.Turn;
-import at.ac.htlleonding.websocket.encoder.TurnDtoEncoder;
+import at.ac.htlleonding.repositories.GameRepository;
+import at.ac.htlleonding.websocket.encoder.ScoreEncoder;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
+import org.eclipse.microprofile.context.ManagedExecutor;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
+
 @ServerEndpoint(
-        value = "/ws/turns",
-        encoders = {TurnDtoEncoder.class}
+        value = "/ws/scores/{gameId}",
+        encoders = {ScoreEncoder.class}
 )
 @ApplicationScoped
-public class TurnWebSocket {
+public class ScoreWebSocket {
+    @Inject
+    GameRepository gameRepository;
+
+    @Inject
+    ManagedExecutor executor;
+
     private static final Set<Session> sessions = new CopyOnWriteArraySet<>();
 
-    public void broadcastTurn(Turn turn) {
-        System.out.println("BROADCASTING TURN: " + turn.getTurnId());
+    public void broadcastScore(Game game) {
+        System.out.println("BROADCASTING Game: " + game.getGameId());
         for (Session s : sessions) {
             System.out.println("Sending to session: " + s.getId());
-            s.getAsyncRemote().sendObject(TurnDto.fromEntity(turn));
+            s.getAsyncRemote().sendObject(Score.createFromGame(game));
         }
     }
 
     @OnOpen
-    public void onOpen(Session session) {
+    public void onOpen(Session session, @PathParam("gameId") String gameId) {
+        System.out.println("GameId: " + gameId);
         sessions.add(session);
         System.out.println("WS CONNECTED: " + session.getId());
+
+        executor.runAsync(() -> {
+            gameRepository.changeActive(Long.getLong(gameId));
+        });
     }
 
     @OnClose

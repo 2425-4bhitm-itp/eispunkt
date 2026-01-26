@@ -17,6 +17,10 @@ public class StageRepository implements PanacheRepository<Stage> {
         return stage.getGame();
     }
 
+    public List<Stage> findAllStagesOfGame(long gameId) {
+        return find("game = ?1", gameId).firstResult();
+    }
+
     public List<Stage> getAllStages() {
         return listAll();
     }

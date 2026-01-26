@@ -5,6 +5,7 @@ import at.ac.htlleonding.entities.Team;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 
@@ -40,5 +41,12 @@ public class GameRepository implements PanacheRepository<Game> {
 
     public void updateGame(Game game) {
         update("date = ?1, teams = ?2 where id = ?3", game.getDate(), game.getTeams(), game.getGameId());
+    }
+
+    @Transactional
+    public void changeActive(Long gameId) {
+        Game game = findById(gameId);
+        game.setActive(!game.getActive());
+        update("isActive = ?1 where gameId = ?2", game.getActive(), gameId);
     }
 }

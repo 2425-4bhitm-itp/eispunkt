@@ -1,5 +1,6 @@
 package at.ac.htlleonding.entities;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
@@ -19,6 +20,13 @@ public class Game {
 
     @ManyToMany
     private List<Team> teams = new LinkedList<>();
+
+    @OneToMany(mappedBy = "game")
+    @JsonbTransient
+    private List<Stage> stages = new LinkedList<>();
+
+    @Column(name = "is_active", columnDefinition = "boolean default false")
+    private Boolean isActive = true;
 
     // Constructors, getters, and setters
     public Game() {
@@ -55,6 +63,22 @@ public class Game {
 
     public boolean addTeam(Team team) {
         return teams.add(team);
+    }
+
+    public List<Stage> getStages() {
+        return stages;
+    }
+
+    public void setStages(List<Stage> stages) {
+        this.stages = stages;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
     }
 
     @Override
