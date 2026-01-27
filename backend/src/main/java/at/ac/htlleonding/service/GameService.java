@@ -28,10 +28,7 @@ public class GameService {
     }
 
     @Transactional
-    public List<Long> getActiveGameIds() {
-        return gameRepository.list("isActive = true")
-                             .stream()
-                             .map(Game::getGameId)
-                             .toList();
+    public List<Game> getActiveGameIds() {
+        return gameRepository.list("isActive = true");
     }
 }
