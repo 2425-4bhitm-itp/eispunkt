@@ -34,7 +34,6 @@ public class GameClientWebSocket {
             try {
                 System.out.println("Changing game " + gameId + " to active");
                 gameService.changeActive(gameId, true);
-                desktopClientWebSocket.broadcastActiveGames();
             } catch (Exception e) {
                 e.printStackTrace();
             }

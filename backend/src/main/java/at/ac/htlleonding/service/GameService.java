@@ -2,6 +2,7 @@ package at.ac.htlleonding.service;
 
 import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.repositories.GameRepository;
+import at.ac.htlleonding.websocket.DesktopClientWebSocket;
 import at.ac.htlleonding.websocket.GameClientWebSocket;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -16,7 +17,7 @@ public class GameService {
     GameRepository gameRepository;
 
     @Inject
-    GameClientWebSocket gameClientWebSocket;
+    DesktopClientWebSocket desktopClientWebSocket;
 
     @Transactional
     public void changeActive(Long gameId, boolean active) {
@@ -25,6 +26,8 @@ public class GameService {
                 "where gameId = ?2",
                 active,
                 gameId);
+        gameRepository.getEntityManager().flush();
+        desktopClientWebSocket.broadcastActiveGames();
     }
 
     @Transactional
