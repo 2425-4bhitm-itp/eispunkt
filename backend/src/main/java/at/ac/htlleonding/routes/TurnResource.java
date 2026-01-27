@@ -78,6 +78,16 @@ public class TurnResource {
         }
     }
 
+    @GET
+    @Path("/stage/{id:[0-9]+}")
+    public Response getTurnsOfStage(@PathParam("id") long stageId) {
+        if (stageId != 0) {
+            return Response.ok(turnRepository.getTurnsOfStage(stageRepository.findById(stageId))).build();
+        }else{
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+    }
+
     @PUT
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)

@@ -83,7 +83,7 @@
             {#each tourneyTeams as team}
                 <div class="team-box" transition:fade={{ duration: 250, easing: cubicInOut }}>
                     <h1>{team.name}</h1>
-                    <svg on:click={() => deleteTeam(team.teamId)} width="20" height="20" viewBox="0 0 16 14" xmlns="http://www.w3.org/2000/svg">
+                    <svg on:click={() => deleteTeam(team.teamId)} width="30" height="30" viewBox="0 0 16 14" xmlns="http://www.w3.org/2000/svg">
                         <path fill="black" d="M6.01761 7L0 12.2654L1.98239 14L8 8.73459L14.0176 14L16 12.2654L9.98239 7L16 1.73459L14.0176 0L8 5.26541L1.98239 0L0 1.73459L6.01761 7Z"/>
                     </svg>
                 </div>
@@ -191,7 +191,7 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
     .team-box h1{
-        width:80%;
+        width:75%;
         font-size:20px;
     }
 

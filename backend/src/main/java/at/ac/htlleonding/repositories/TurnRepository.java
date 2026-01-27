@@ -24,4 +24,8 @@ public class TurnRepository implements PanacheRepository<Turn> {
     public void updateTurn(Turn turn) {
         update("stage = ?1 where turnId = ?2", turn.getStage(), turn.getTurnId());
     }
+
+    public List<Turn> getTurnsOfStage(Stage stage) {
+        return find("stage = ?1 order by turnNumber asc", stage).list();
+    }
 }

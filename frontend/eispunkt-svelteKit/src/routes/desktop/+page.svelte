@@ -19,7 +19,15 @@
 		team1Score: number;
 		team2: Team;
 		team2Score: number;
-		currentStage: number;
+		currentStage: {
+			stageId: number;
+			stageNumber: number;
+		};
+	};
+
+	type Turn = {
+		score: number;
+		team: Team;
 	};
 
 	type Segment = {
@@ -35,11 +43,36 @@
 	let patrolIntervalId: number | null = null;
 
 	let segments: Segment[] = $state([]);
-	segments.fill({ teamIndex: 0, score: 0 }, 0, 6);
 
-	function selectGame(game: Game) {
+	async function selectGame(game: Game) {
 		selectedGame = game;
-        selectedPatrolIndex = activeGames.findIndex(g => g.gameId === game.gameId);
+		let segmentsResponse = await fetch(
+			`https://it200230.cloud.htl-leonding.ac.at/api/turns/stage/${game.currentStage.stageId}`
+		);
+		let segmentsData = await segmentsResponse.json();
+
+		if (segments.length == 6) {
+			initSegments();
+		}
+
+		let counter = 0;
+		for (let segment in segmentsData) {
+			segments[counter] = {
+				teamIndex: segmentsData[segment].team.teamId === game.team1.teamId ? 0 : 1,
+				score: segmentsData[segment].score
+			};
+			counter++;
+		}
+
+		let team1Response = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/team/${game.team1.teamId}`);
+		let team1Data = await team1Response.json();
+		game.team1.players = team1Data;
+
+		let team2Response = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/team/${game.team2.teamId}`);	
+		let team2Data = await team2Response.json();
+		game.team2.players = team2Data;
+
+		selectedPatrolIndex = activeGames.findIndex((g) => g.gameId === game.gameId);
 	}
 
 	function togglePatrol() {
@@ -47,7 +80,7 @@
 		if (isPatrolling) {
 			patrolIntervalId = setInterval(() => {
 				selectedPatrolIndex = (selectedPatrolIndex + 1) % activeGames.length;
-				selectedGame = activeGames[selectedPatrolIndex];
+				selectGame(activeGames[selectedPatrolIndex]);
 			}, 5000) as unknown as number;
 		} else {
 			if (patrolIntervalId !== null) {
@@ -59,6 +92,7 @@
 	}
 
 	onMount(() => {
+		initSegments();
 		socket = new WebSocket('wss://it200230.cloud.htl-leonding.ac.at/ws/games');
 
 		socket.onopen = (event) => {
@@ -69,24 +103,22 @@
 		socket.onmessage = (event) => {
 			try {
 				const msg = JSON.parse(event.data);
-
 				switch (msg.type) {
 					case 'active-games':
 						activeGames = msg.payload;
 						if (!selectedGame && activeGames.length > 0) {
-							selectedGame = activeGames[selectedPatrolIndex];
+							selectGame(activeGames[selectedPatrolIndex]);
 						}
 						break;
 
 					case 'game-update':
-						console.log(msg.payload);
 						const index = activeGames.findIndex((g) => g.gameId === msg.payload.gameId);
 						if (index >= 0) {
 							activeGames[index] = msg.payload;
 							activeGames = [...activeGames];
 						}
 						if (selectedGame?.gameId === msg.payload.gameId) {
-							selectedGame = msg.payload;
+							selectGame(msg.payload);
 						}
 						break;
 
@@ -126,6 +158,15 @@
 			}
 		};
 	});
+
+	function initSegments() {
+		for (let i = 0; i < 6; i++) {
+			segments[i] = {
+				teamIndex: -1,
+				score: 0
+			};
+		}
+	}
 </script>
 
 <div class="page">
@@ -144,30 +185,44 @@
 					</div>
 				{/if}
 
-				{#each activeGames as game (game.gameId)}
-					<div
-						class="match"
-						class:selected={selectedGame?.gameId === game.gameId}
-						onclick={() => selectGame(game)}
-					>
-						<div class="match-row">
-							<span>{game.team1.name}</span>
-							<strong>{game.team1Score}</strong>
+				{#key activeGames.length}
+					{#each activeGames as game (game.gameId)}
+						<div
+							class="match"
+							class:selected={selectedGame?.gameId === game.gameId}
+							onclick={() => selectGame(game)}
+						>
+							<div class="match-row">
+								<span>{game.team1.name}</span>
+								<strong>{game.team1Score}</strong>
+							</div>
+							<div class="match-row">
+								<span>{game.team2.name}</span>
+								<strong>{game.team2Score}</strong>
+							</div>
 						</div>
-						<div class="match-row">
-							<span>{game.team2.name}</span>
-							<strong>{game.team2Score}</strong>
-						</div>
-					</div>
-				{/each}
+					{/each}
+				{/key}
 			</div>
 		</section>
 
 		<section class="right">
 			<div class="progress">
-				{#each segments as _}
-					<div class="segment"></div>
-				{/each}
+				{#if selectedGame != null}
+					{#each segments as segment}
+						{#if segment.teamIndex == 0}
+							<div class="segment team1">
+								{#if segment.score != 0}{segment.score}{/if}
+							</div>
+						{:else if segment.teamIndex == 1}
+							<div class="segment team2">
+								{#if segment.score != 0}{segment.score}{/if}
+							</div>
+						{:else}
+							<div class="segment"></div>
+						{/if}
+					{/each}
+				{/if}
 			</div>
 
 			{#if selectedGame}
@@ -230,7 +285,7 @@
 		text-align: center;
 		font-family: 'Protest Strike', sans-serif;
 		font-size: 50px;
-        font-weight:bold;
+		font-weight: bold;
 		padding: 1rem;
 	}
 
@@ -261,9 +316,15 @@
 
 	.segment {
 		flex: 1;
-		height: 3vh;
+		height: 5vh;
 		background: #ccc;
 		border-radius: 4px;
+		transition: background-color 0.3s ease;
+		color: black;
+		justify-content: center;
+		text-align: center;
+		font-weight: bold;
+		font-size: 200%;
 	}
 
 	.score-box {
@@ -271,6 +332,7 @@
 		justify-content: center;
 		align-items: center;
 		gap: 2rem;
+		margin-top: 5vh;
 		background: var(--accent);
 		border-radius: var(--radius);
 		color: white;
@@ -358,11 +420,11 @@
 		box-shadow: var(--shadow);
 	}
 
-    .active{
-        background-color: var(--bg);
-        border:3px solid var(--accent);
-        color:black;
-    }
+	.active {
+		background-color: var(--bg);
+		border: 3px solid var(--accent);
+		color: black;
+	}
 
 	.match {
 		background: white;
@@ -411,5 +473,11 @@
 		.layout {
 			grid-template-columns: 1fr;
 		}
+	}
+	:global(.team1) {
+		background-color: #dc3545 !important;
+	}
+	:global(.team2) {
+		background-color: #007bff !important;
 	}
 </style>

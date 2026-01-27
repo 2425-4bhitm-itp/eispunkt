@@ -27,12 +27,11 @@
 
 
 	onMount(() => {
+		socket = new WebSocket('wss://it200230.cloud.htl-leonding.ac.at/ws/scores/' + $selectedGame.selectedGame);
 		startNewStage();
 		getGameSummary();
 		progressSegments = document.getElementsByClassName('progress-segment');
 		console.log(progressSegments);
-
-		socket = new WebSocket('wss://it200230.cloud.htl-leonding.ac.at/ws/scores/' + $selectedGame.selectedGame);
 	});
 
 	async function startNewStage() {
