@@ -290,19 +290,3 @@ values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'
 
 insert into tournament (name)
 values ('Eisbärchen');
-
-insert into tournament_team (tournamentId, teamid)
-values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
-        (select teamid from team where name = 'ÖTSU Oepping 1'));
-insert into tournament_team (tournamentId, teamid)
-values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
-        (select teamid from team where name = 'ÖTSU Arnreit 1'));
-insert into tournament_team (tournamentId, teamid)
-values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
-        (select teamid from team where name = 'ESV Ruprechtshofen 1'));
-insert into tournament_team (tournamentId, teamid)
-values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
-        (select teamid from team where name = 'Union ESV Haag a. H. 1'));
-insert into tournament_team (tournamentId, teamid)
-values ((select tournamentId from tournament where name = 'Spielgruppe Eispunkt'),
-        (select teamid from team where name = 'ÖTSU Oepping 2'));
