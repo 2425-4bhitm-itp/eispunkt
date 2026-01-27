@@ -3,6 +3,8 @@
 	import { selectedGame } from '$lib/stores/selectionStore';
 	import { onMount } from 'svelte';
 
+	let socket: WebSocket;
+
 	let stageNumber = $state(1);
 	let stageId = 0;
 	let turnNumber = $state(1);
@@ -29,6 +31,8 @@
 		getGameSummary();
 		progressSegments = document.getElementsByClassName('progress-segment');
 		console.log(progressSegments);
+
+		socket = new WebSocket('ws://localhost:8080/ws/scores/' + $selectedGame.selectedGame);
 	});
 
 	async function startNewStage() {
@@ -132,6 +136,7 @@
 			winnerText = `Gleichstand!`;
 		}
 		toggleModal();
+		socket.close();
 	}
 
 	/*
