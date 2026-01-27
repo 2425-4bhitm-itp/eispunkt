@@ -216,7 +216,7 @@
 	}
 
 	#body-div {
-		width: 100vw;
+		width: 100%;
 		height: 100vh;
 		display: flex;
 		flex-direction: column;
@@ -421,5 +421,65 @@
 		font-size: 50px;
 		cursor: pointer;
 		color: #333;
+	}
+
+	@media (min-width: 1024px) {
+		#body-div {
+			height: 100vh;
+			display: flex;
+			flex-direction: column;
+			padding: 0;
+			margin: 0;
+			font-family: 'Afacad', sans-serif;
+		}
+
+		svg{
+			width: 50px;
+			height: 50px;
+		}
+
+		.team-details h1 {
+			width: 60%;
+			font-size: 40px;
+		}
+
+		#search-input {
+			width: 65%;
+			font-size: 30px;
+			padding: 15px 15px;
+			border-radius: 12px;
+			border: none;
+			outline: none;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.29);
+		}
+
+		#header-box {
+			width: 100%;
+			height: 20%;
+			display: flex;
+			background-color: #45caac;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+		}
+		.modal h2 {
+			font-weight: 600;
+			margin-bottom: 10%;
+			text-align: center;
+			font-size: 50px;
+		}
+
+		.save-btn {
+			width: 50%;
+			padding: 5%;
+			text-align: center;
+			color: white;
+			font-size: 30px;
+			font-weight: bold;
+			background-color: #7fc8ee;
+			border: none;
+			border-radius: 16px;
+			cursor: pointer;
+		}
 	}
 </style>

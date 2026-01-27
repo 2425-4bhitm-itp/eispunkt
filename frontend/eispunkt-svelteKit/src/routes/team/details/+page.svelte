@@ -13,9 +13,7 @@
 	async function getSelectedTeam() {
 		let teamId = localStorage.getItem('teamId');
 
-		const response = await fetch(
-			`https://it200230.cloud.htl-leonding.ac.at/api/players/team/${teamId}`
-		);
+		const response = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/team/${teamId}`);
 		players = await response.json();
 		console.log('Players geladen:', players);
 	}
@@ -23,9 +21,9 @@
 	function openModal() {
 		if (players.length < 4) {
 			showModal = true;
-		}else{
-            console.log("Too many Players!")
-        }
+		} else {
+			console.log('Too many Players!');
+		}
 	}
 
 	function closeModal() {
@@ -40,24 +38,27 @@
 
 		const playerCreateResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/`, {
 			method: 'POST',
-            headers:{
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({name: `${playerName}`})
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ name: `${playerName}` })
 		});
 
-        const playerResponse = await fetch(`${playerCreateResponse.headers.get('location')}`,{
-            method: 'GET'
-        })
+		const playerResponse = await fetch(`${playerCreateResponse.headers.get('location')}`, {
+			method: 'GET'
+		});
 
-        let player = await playerResponse.json();
+		let player = await playerResponse.json();
 
-        const addToTeamResposne = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/${player.playerId}?teamId=${localStorage.getItem('teamId')}`,{
-            method: 'PATCH'
-        });
+		const addToTeamResposne = await fetch(
+			`https://it200230.cloud.htl-leonding.ac.at/api/players/${player.playerId}?teamId=${localStorage.getItem('teamId')}`,
+			{
+				method: 'PATCH'
+			}
+		);
 
-        console.log(await addToTeamResposne);
-        getSelectedTeam();
+		console.log(await addToTeamResposne);
+		getSelectedTeam();
 		closeModal();
 	}
 
@@ -133,7 +134,7 @@
 		</div>
 	{/if}
 
-	<div id="addButton" onclick={openModal}>+</div>
+	<div id="addButton" class={players.length < 4 ? '' : 'disabled'} onclick={openModal}>+</div>
 </div>
 
 <style>
@@ -145,6 +146,10 @@
 	body {
 		width: 100vw;
 		height: 100vh;
+	}
+	.disabled {
+		background-color: #ccc !important;
+		cursor: default !important;
 	}
 
 	#body-div {
@@ -305,5 +310,30 @@
 		border-radius: 16px;
 		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.29);
 		cursor: pointer;
+	}
+
+	@media (min-width: 1024px) {
+		svg {
+			width: 50px;
+			height: 50px;
+		}
+
+		.team-details {
+			width: 80%;
+			height: 8%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 5%;
+			margin-top: 5%;
+			background-color: #f8f8f8;
+			font-size: 20px;
+			border-radius: 16px;
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+		}
+
+		#player-header-box h1 {
+			font-size: 50px;
+		}
 	}
 </style>

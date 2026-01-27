@@ -210,4 +210,76 @@
     svg{
         cursor:pointer;
     }
+
+    @media (min-width: 1024px) {
+        .team-box h1{
+            width:80%;
+            font-size:40px;
+        }
+
+        .team-box svg{
+            width: 30px;
+            height: 30px;
+        }
+
+        label {
+            font-size: 60px;
+            top: 2%;
+            font-weight: bold;
+        }
+
+        select {
+            width: 80%;
+            font-size: 45px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            margin-top: 10%;
+            font-family: "Afacad", sans-serif;
+            color: rgba(0, 0, 0, 0.27);
+        }
+
+        #next-button svg{
+            width: 120px;
+            height: 120px;
+        }
+    }
+
+
+    @media (min-width: 1748px) {
+        #display-box {
+            width: 100%;
+            height: 70%;
+            display: flex;
+            flex-direction: column;
+            overflow:scroll;
+            align-items: center;
+            margin-top: 12%;
+        }
+
+        label {
+            font-size: 90px;
+            top: 2%;
+            font-weight: bold;
+            margin-top: 10%;
+        }
+
+        select {
+            width: 80%;
+            font-size: 60px;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            background-color: white;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            margin-top: 5%;
+            font-family: "Afacad", sans-serif;
+            color: rgba(0, 0, 0, 0.27);
+        }
+
+    }
 </style>

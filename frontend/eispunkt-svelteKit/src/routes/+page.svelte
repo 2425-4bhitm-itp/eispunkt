@@ -7,7 +7,7 @@
     <div class="header-box">
         <h1>
             Willkommen bei<br/>
-            <span style="font-size: 65px">Eispunkt</span>
+            <span >Eispunkt</span>
         </h1>
     </div>
 
@@ -65,6 +65,13 @@
         font-style: normal;
     }
 
+    span{
+        font-size: 65px;
+    }
+
+
+
+
     .selection-box {
         width: 100%;
         height: 70%;
@@ -118,5 +125,45 @@
     }
     .button:hover {
         background-color: #7fe3ee;
+    }
+
+
+
+    @media (min-width: 1024px) {
+        .header-box {
+            width: 100%;
+            height: 30%;
+            background-color: #45caac;
+            border-radius: 0 0 80% 0;
+            display: flex;
+            padding-left: 5%;
+            justify-content: start;
+            align-items: center;
+        }
+        .header-box h1 {
+            color: white;
+            font-size: 80px;
+            text-align: left;
+            font-weight: lighter;
+            font-family: "Protest Strike", serif;
+            font-style: normal;
+        }
+
+        span{
+            font-size: 150px;
+
+        }
+
+        .subtitle-box h2 {
+            font-family: "Afacad", sans-serif;
+            font-size: 50px;
+        }
+
+
+        .button h1 {
+            color: white;
+            font-family: "Afacad", sans-serif;
+            font-size: 50px;
+        }
     }
 </style>

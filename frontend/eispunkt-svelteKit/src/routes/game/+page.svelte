@@ -1,161 +1,164 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
+	import { type Team } from '$lib/interfaces/team';
+	import { selectedGame } from '$lib/stores/selectionStore';
 	import { onMount } from 'svelte';
 
-	let t1SubScore = 0;
+	let socket: WebSocket;
+
+	let stageNumber = $state(1);
+	let stageId = 0;
+	let turnNumber = $state(1);
+
+	let teams = $state(new Array<Team>());
+
+	let t1Score = $state(0);
+	let t2Score = $state(0);
 	let t1SuperScore = $state(0);
-	let t2SubScore = 0;
 	let t2SuperScore = $state(0);
+
+	let t1StageScore = 0;
+	let t2StageScore = 0;
+
 	let currentSegment = 0;
-
-	let overlay: HTMLElement | null = null;
-
-	onMount(() => {
-		overlay = document.getElementById('overlay');
-	});
-
-	console.log('(POST) /api/stage/{stage} - Stage Objekt  im request body');
-	console.log(`insert into Stage (stagenumber, game_gameid)
-                 values ({stage.stagenumber}, {stage.gameId});`);
-	console.log(`(POST) \`/api/turn/{turn}\` - Turn Objekt mit im request body`);
-	console.log(`insert into Turn (stage_stageid) values ({turn.stage_stageid});`);
-	console.log('(POST) /api/score/{score} - Score Objekt im request body');
-	console.log(`insert into Score (score, team_teamid, turn_turnid) values ({score.score},
-            {score.turn_turnid}, {score.game_gameId});`);
-
-	console.log('(GET) `/api/game/{gameId}/summary`');
-	console.log(`select t.teamid, t.name, s.stageid, tu.turnid, sc.scoreid, sc.score
-             from GAME g
-                      join public.game_team gt on g.gameid = gt.games_gameid
-                      join public.team t on t.teamid = gt.teams_teamid
-                      join public.stage s on g.gameid = s.game_gameid
-                      join turn tu on s.stageid = tu.stage_stageid
-                      join score sc on tu.turnid = sc.turn_turnid
-             where g.gameid = 2
-             group by t.teamid, s.stageid, tu.turnid, sc.scoreid;`);
-
 	let progressSegments: any;
 
-	progressSegments = document.getElementsByClassName('progress-segment');
+	let overlayVisible = $state(false);
+	let winnerText = $state('');
 
-	function addPoint(index: number) {
-		console.log('(PUT) `/api/scores/{score}` - Score Objekt mit neuem Punktestand im request body');
-		console.log(`UPDATE public.score
-                 SET score       = score.score,
-                     team_teamid = score.team,
-                     turn_turnid = score.turn
-                 WHERE scoreid = score.scoreId;`);
 
-		if (index == 1) {
-			t1SubScore++;
-			updateText();
-			if (t1SubScore > 2) {
-				t1SuperScore += 2;
-				progressSegments[currentSegment].classList.add('team1');
-				checkWin();
-				resetSub();
-			} else if (t1SubScore == 2 && t2SubScore == 2) {
-				t1SuperScore += 1;
-				t2SuperScore += 1;
-				progressSegments[currentSegment].classList.add('draw');
-				checkWin();
-				resetSub();
-			}
-		} else {
-			t2SubScore++;
-			updateText();
-			if (t2SubScore > 2) {
-				t2SuperScore += 2;
-				progressSegments[currentSegment].classList.add('team2');
-				checkWin();
-				resetSub();
-			} else if (t2SubScore == 2 && t1SubScore == 2) {
-				t2SuperScore += 1;
-				t1SuperScore += 1;
-				progressSegments[currentSegment].classList.add('draw');
-				checkWin();
-				resetSub();
-			}
-		}
+	onMount(() => {
+		startNewStage();
+		getGameSummary();
+		progressSegments = document.getElementsByClassName('progress-segment');
+		console.log(progressSegments);
+
+		socket = new WebSocket('ws://localhost:8080/ws/scores/' + $selectedGame.selectedGame);
+	});
+
+	async function startNewStage() {
+		t1StageScore = 0;
+		t2StageScore = 0;
+		let res = await fetch('https://it200230.cloud.htl-leonding.ac.at/api/stages/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				gameId: $selectedGame.selectedGame,
+				stageNumber: stageNumber
+			})
+		});
+		let stageObject = await res.json();
+		stageId = stageObject.stageId;
 	}
 
-	function deletePoint(teamId: number) {
-		console.log('(PUT) /api/scores/{score} - Score Objekt mit neuem Punktestand im request body');
-		console.log(`UPDATE public.score
-                 SET score       = score.score,
-                     team_teamid = score.team,
-                     turn_turnid = score.turn
-                 WHERE scoreid = score.scoreId;`);
-
-		if (teamId == 1 && t1SubScore > 0) {
-			t1SubScore--;
-		} else {
-			if (t2SubScore > 0) {
-				t2SubScore--;
-			}
-		}
-		updateText();
+	async function getGameSummary() {
+		let res = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/games/${$selectedGame.selectedGame}`);
+		let gameSummary = await res.json();
+		teams = gameSummary.teams;
 	}
 
-	function resetSub() {
-		console.log('(POST) /api/stage/{stage} - Stage Objekt  im request body');
-		console.log(`insert into Stage (stagenumber, game_gameid)
-                 values ({stage.stagenumber}, {stage.gameId});`);
-		console.log(`(POST) \`/api/turn/{turn}\` - Turn Objekt mit im request body`);
-		console.log(`insert into Turn (stage_stageid) values ({turn.stage_stageid});`);
-		console.log('(POST) /api/score/{score} - Score Objekt im request body');
-		console.log(`insert into Score (score, team_teamid, turn_turnid) values ({score.score},
-            {score.turn_turnid}, {score.game_gameId});`);
+	async function submitScore() {
+		let res = await fetch('https://it200230.cloud.htl-leonding.ac.at/api/turns/', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				stageId: stageId,
+				turnNumber: turnNumber,
+				teamId: teams[t1Score > 0 ? 0 : 1].teamId,
+				score: t1Score > 0 ? t1Score : t2Score
+			})
+		});
 
-		t1SubScore = 0;
-		t2SubScore = 0;
+		progressSegments[currentSegment].classList.add(t1Score > 0 ? 'team1' : 'team2');
+		progressSegments[currentSegment].innerHTML = t1Score > 0 ? `${t1Score}` : `${t2Score}`;
+
+		if (t1Score > t2Score) {
+			t1StageScore += t1Score;
+		} else {
+			t2StageScore += t2Score;
+		}
+
+		let turnObject = await res.json();
+		console.log(turnObject);
+		turnNumber++;
 		currentSegment++;
-		updateText();
+
+		if (turnNumber > 6) {
+			turnNumber = 1;
+			stageNumber++;
+
+			if (t1StageScore > t2StageScore) {
+				t1SuperScore += 2;
+			} else if (t2StageScore > t1StageScore) {
+				t2SuperScore += 2;
+			} else {
+				t1SuperScore += 1;
+				t2SuperScore += 1;
+			}
+
+
+			if (stageNumber > 3) {
+				checkWin();
+				return;
+			}
+
+			for (let i = 0; i < progressSegments.length; i++) {
+				if (progressSegments[i].classList.contains('team1')) {
+					progressSegments[i].classList.remove('team1');
+				} else if (progressSegments[i].classList.contains('team2')) {
+					progressSegments[i].classList.remove('team2');
+				}
+				progressSegments[i].innerHTML = '';
+			}
+
+			currentSegment = 0;
+
+			await startNewStage();
+		}
+
+		resetScore();
 	}
 
-	function updateText() {
-		if (browser) {
-			document.getElementById('t1SubScoreText')!.innerText = `${t1SubScore}`;
-			document.getElementById('t2SubScoreText')!.innerText = `${t2SubScore}`;
-		}
+	function resetScore() {
+		t1Score = 0;
+		t2Score = 0;
 	}
 
 	function checkWin() {
-		if (t1SuperScore >= 12) {
-			document.getElementById('winnerText')!.innerHTML = `<h2>Eispunkt Wins</h2>`;
-			openModal();
-		} else if (t2SuperScore >= 12) {
-			document.getElementById('winnerText')!.innerHTML = `<h2>Eisbär Wins</h2>`;
-			openModal();
+		if (t1SuperScore > t2SuperScore) {
+			winnerText = `${teams[0].name} gewinnt!`;
+		} else if (t2SuperScore > t1SuperScore) {
+			winnerText = `${teams[1].name} gewinnt!`;
 		} else {
-			return;
+			winnerText = `Gleichstand!`;
 		}
+		toggleModal();
+		socket.close();
 	}
 
+	/*
 	function resetGame() {
 		resetSub();
 		currentSegment = 0;
-		t1SuperScore = 0;
-		t2SuperScore = 0;
 		for (let i = 0; i < progressSegments.length; i++) {
 			progressSegments[i].classList.remove('team1', 'team2', 'draw');
 		}
 		closeModal();
 		updateText();
 	}
+*/
 
-	function openModal() {
-		overlay?.classList.add('active');
-	}
-
-	function closeModal() {
-		overlay?.classList.remove('active');
+	function toggleModal() {
+		overlayVisible = !overlayVisible;
 	}
 </script>
 
 <div id="noZoom">
 	<div id="game">
-		<h1 id="superScoreCounter">{t1SuperScore}-{t2SuperScore}</h1>
+		<h1 id="superScoreCounter">{t1SuperScore} - {t2SuperScore}</h1>
 	</div>
 	<div id="progressBar">
 		<div class="progress-segment"></div>
@@ -164,53 +167,114 @@
 		<div class="progress-segment"></div>
 		<div class="progress-segment"></div>
 		<div class="progress-segment"></div>
-		<div class="progress-segment"></div>
-		<div class="progress-segment"></div>
-		<div class="progress-segment"></div>
-		<div class="progress-segment"></div>
-		<div class="progress-segment"></div>
-		<div class="progress-segment"></div>
-		<div class="progress-segment"></div>
 	</div>
 	<div class="team_outer_box">
 		<div class="team_inner_box">
-			<h1>Eispunkt</h1>
+			<div class="team_indicator team1"></div>
+			{#if teams.length == 0}
+				<h1>Loading...</h1>
+			{:else}
+				<h1>{teams[0].name}</h1>
+			{/if}
 		</div>
 		<div class="points_buttons_outer_box">
-			<div on:click={() => deletePoint(1)} class="points_button">
-				<p class="minus">-</p>
-			</div>
-			<h2 id="t1SubScoreText">0</h2>
-			<div on:click={() => addPoint(1)} class="points_button">
-				<p>+</p>
-			</div>
+			{#if t2Score == 0}
+				<div
+					on:click={() => {
+						if (t1Score > 0) {
+							t1Score--;
+						}
+					}}
+					class="points_button"
+				>
+					<p class="minus">-</p>
+				</div>
+				<h2 id="t1ScoreText">{t1Score}</h2>
+				<div
+					on:click={() => {
+						if (t1Score < 4) {
+							t1Score++;
+						} else {
+						}
+					}}
+					class="points_button"
+				>
+					<p>+</p>
+				</div>
+			{:else}
+				<div class="points_button disabled">
+					<p class="minus">-</p>
+				</div>
+				<h2 id="t1ScoreText">{t1Score}</h2>
+				<div class="points_button disabled">
+					<p>+</p>
+				</div>
+			{/if}
 		</div>
 	</div>
 	<div class="team_outer_box">
 		<div class="team_inner_box">
-			<h1>Eisbär</h1>
+			<div class="team_indicator team2"></div>
+			{#if teams.length == 0}
+				<h1>Loading...</h1>
+			{:else}
+				<h1>{teams[1].name}</h1>
+			{/if}
 		</div>
 		<div class="points_buttons_outer_box">
-			<div on:click={() => deletePoint(2)} class="points_button">
-				<p class="minus">-</p>
-			</div>
+			{#if t1Score == 0}
+				<div
+					on:click={() => {
+						if (t2Score > 0) {
+							t2Score--;
+						}
+					}}
+					class="points_button"
+				>
+					<p class="minus">-</p>
+				</div>
 
-			<h2 id="t2SubScoreText">0</h2>
-			<div on:click={() => addPoint(2)} class="points_button">
-				<p>+</p>
-			</div>
+				<h2 id="t2ScoreText">{t2Score}</h2>
+				<div
+					on:click={() => {
+						if (t2Score < 4) {
+							t2Score++;
+						}
+					}}
+					class="points_button"
+				>
+					<p>+</p>
+				</div>
+			{:else}
+				<div class="points_button disabled">
+					<p class="minus">-</p>
+				</div>
+
+				<h2 id="t2ScoreText">{t2Score}</h2>
+				<div class="points_button disabled">
+					<p>+</p>
+				</div>
+			{/if}
 		</div>
 	</div>
-	<div class="overlay" id="overlay">
-		<div class="modal">
-			<h2 id="winnerText">Team 1 wins</h2>
-			<button class="save-btn" on:click={resetGame}> Restart Game </button>
 
-			<button class="save-btn">
-				<a href="/">Home</a>
-			</button>
+	{#if t1Score > 0 || t2Score > 0}
+		<div class="submit_box">
+			<button class="save-btn" on:click={submitScore}>Submit</button>
 		</div>
-	</div>
+	{/if}
+
+	{#if overlayVisible}
+		<div class="overlay" id="overlay">
+			<div class="modal">
+				<h2 id="winnerText">{winnerText}</h2>
+
+				<button class="save-btn">
+					<a href="/">Home</a>
+				</button>
+			</div>
+		</div>
+	{/if}
 </div>
 
 <style>
@@ -224,6 +288,11 @@
 	* {
 		margin: 0;
 		font-family: Afacad;
+	}
+
+	.disabled {
+		background-color: #ccc !important;
+		cursor: default !important;
 	}
 
 	body {
@@ -252,7 +321,7 @@
 
 	#scoreHeader h2 {
 		width: 20vw;
-		font-size: 50px;
+		font-size: 45px;
 		text-align: center;
 	}
 
@@ -272,18 +341,27 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		margin-top: 10%;
+		margin-top: 5%;
 		align-items: center;
 	}
 
 	.team_inner_box {
-		width: 100%;
+		display: flex;
+		flex-direction: row;
+		width: 85vw;
 		height: 30%;
 		text-align: center;
 	}
+
+	.team_indicator {
+		width: 5px;
+		height: 100%;
+		margin-right: 2%;
+	}
+
 	.team_inner_box > h1 {
-		font-size: 300%;
-		margin-bottom: 5%;
+		width: 98%;
+		font-size: clamp(2rem, 4vw, 3rem);
 	}
 
 	.points_buttons_outer_box {
@@ -294,6 +372,7 @@
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
+		margin-top: 2vh;
 	}
 
 	.points_buttons_outer_box h2 {
@@ -337,7 +416,7 @@
 		gap: 4px;
 		margin-top: 10px;
 		width: 100%;
-		height: 3vh;
+		height: 5vh;
 	}
 
 	.progress-segment {
@@ -346,6 +425,11 @@
 		background-color: #ccc;
 		border-radius: 4px;
 		transition: background-color 0.3s ease;
+		color: black;
+		justify-content: center;
+		text-align: center;
+		font-weight: bold;
+		font-size: 200%;
 	}
 
 	:global(.team1) {
@@ -368,16 +452,12 @@
 	:global(.overlay) {
 		position: fixed;
 		inset: 0;
-		display: none;
+		display: flex;
 		align-items: center;
 		justify-content: center;
 		backdrop-filter: blur(6px);
 		background-color: rgba(255, 255, 255, 0.4);
 		z-index: 10;
-	}
-
-	:global(.overlay.active) {
-		display: flex !important;
 	}
 
 	.modal {
