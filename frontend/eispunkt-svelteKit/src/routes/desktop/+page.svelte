@@ -35,6 +35,7 @@
 	let patrolIntervalId: number | null = null;
 
 	let segments: Segment[] = $state([]);
+	segments.fill({ teamIndex: 0, score: 0 }, 0, 6);
 
 	function selectGame(game: Game) {
 		selectedGame = game;
@@ -58,7 +59,7 @@
 	}
 
 	onMount(() => {
-		socket = new WebSocket('ws://localhost:8080/ws/games');
+		socket = new WebSocket('wss://localhost:8080/ws/games');
 
 		socket.onopen = (event) => {
 			console.log('Desktop WebSocket connected:');
