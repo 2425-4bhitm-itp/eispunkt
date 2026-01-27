@@ -7,8 +7,7 @@ import at.ac.htlleonding.entities.Turn;
 import at.ac.htlleonding.repositories.TeamRepository;
 import at.ac.htlleonding.repositories.TurnRepository;
 import at.ac.htlleonding.repositories.StageRepository;
-import at.ac.htlleonding.websocket.ScoreWebSocket;
-import at.ac.htlleonding.websocket.TurnWebSocket;
+import at.ac.htlleonding.websocket.DesktopClientWebSocket;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -25,11 +24,9 @@ public class TurnResource {
     @Inject
     StageRepository stageRepository;
     @Inject
-    TurnWebSocket turnWebSocket;
-    @Inject
     TeamRepository teamRepository;
     @Inject
-    ScoreWebSocket scoreWebSocket;
+    DesktopClientWebSocket desktopClientWebSocket;
 
     @POST
     @Transactional
@@ -48,16 +45,18 @@ public class TurnResource {
             }
             turn.setStage(stage);
 
-            var team = teamRepository.findById(turn.getTeam().getTeamId());
+            Team team = teamRepository.findById(turnDto.teamId());
             if (team == null) {
                 return Response.status(Response.Status.NOT_FOUND)
                                .entity("Team not found").build();
             }
             turn.setTeam(team);
+            turn.setScore(turnDto.score());
+            turn.setTurnNumber(turnDto.turnNumber());
 
         turnRepository.persistAndFlush(turn);
-        turnWebSocket.broadcastTurn(turn);
-        scoreWebSocket.broadcastScore(turn.getStage().getGame());
+        desktopClientWebSocket.broadcastTurn(turn);
+        desktopClientWebSocket.broadcastGameUpdate(turn.getStage().getGame());
 
         var location = UriBuilder.fromResource(TurnResource.class)
                                  .path(String.valueOf(turn.getTurnId()))
@@ -88,8 +87,8 @@ public class TurnResource {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         turnRepository.updateTurn(turn);
-        turnWebSocket.broadcastTurn(turn);
-        scoreWebSocket.broadcastScore(turn.getStage().getGame());
+        desktopClientWebSocket.broadcastTurn(turn);
+        desktopClientWebSocket.broadcastGameUpdate(turn.getStage().getGame());
         return Response.ok().build();
     }
 

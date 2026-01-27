@@ -1,6 +1,7 @@
 package at.ac.htlleonding.routes;
 
 
+import at.ac.htlleonding.dto.ActiveGameDTO;
 import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.repositories.GameRepository;
 import jakarta.inject.Inject;
@@ -63,5 +64,21 @@ public class GameResource {
         }
         gameRepository.delete(game);
         return Response.noContent().build();
+    }
+
+    @Path("/scores/{id:[0-9]+}")
+    @GET
+    public Response getScoreOfGame(@PathParam("id") long gameId) {
+        Response response = Response.status(Response.Status.BAD_REQUEST).build();
+
+        if (gameId == 0) {
+            response = Response.ok(gameRepository.list("isActive = true")
+                                                 .stream()
+                                                 .map(ActiveGameDTO::createFromGame).toList()).build();
+        } else if (gameId > 0) {
+            response = Response.ok(ActiveGameDTO.createFromGame(gameRepository.findById(gameId))).build();
+        }
+
+        return response;
     }
 }

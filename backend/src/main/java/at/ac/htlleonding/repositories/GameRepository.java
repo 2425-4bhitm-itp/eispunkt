@@ -2,11 +2,11 @@ package at.ac.htlleonding.repositories;
 
 import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.entities.Team;
-import at.ac.htlleonding.websocket.ScoreWebSocket;
+import at.ac.htlleonding.websocket.GameClientWebSocket;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
+
 import java.util.List;
 
 @ApplicationScoped
@@ -15,7 +15,7 @@ public class GameRepository implements PanacheRepository<Game> {
     GameRepository gameRepository;
 
     @Inject
-    ScoreWebSocket scoreWebSocket;
+    GameClientWebSocket gameClientWebSocket;
 
     public Game findById(long id) {
         return find("id", id).firstResult();

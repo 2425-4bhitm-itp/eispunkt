@@ -2,7 +2,7 @@ package at.ac.htlleonding.service;
 
 import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.repositories.GameRepository;
-import at.ac.htlleonding.websocket.ScoreWebSocket;
+import at.ac.htlleonding.websocket.GameClientWebSocket;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -16,7 +16,7 @@ public class GameService {
     GameRepository gameRepository;
 
     @Inject
-    ScoreWebSocket scoreWebSocket;
+    GameClientWebSocket gameClientWebSocket;
 
     @Transactional
     public void changeActive(Long gameId, boolean active) {

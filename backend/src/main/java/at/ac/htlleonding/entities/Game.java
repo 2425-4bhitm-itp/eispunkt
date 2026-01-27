@@ -26,7 +26,7 @@ public class Game {
     private List<Stage> stages = new LinkedList<>();
 
     @Column(name = "is_active", columnDefinition = "boolean default false")
-    private Boolean isActive = true;
+    private Boolean isActive = false;
 
     // Constructors, getters, and setters
     public Game() {
