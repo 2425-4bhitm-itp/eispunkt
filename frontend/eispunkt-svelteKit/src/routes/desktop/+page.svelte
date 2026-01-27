@@ -59,7 +59,7 @@
 	}
 
 	onMount(() => {
-		socket = new WebSocket('wss://localhost:8080/ws/games');
+		socket = new WebSocket('wss://it200230.cloud.htl-leonding.ac.at/ws/games');
 
 		socket.onopen = (event) => {
 			console.log('Desktop WebSocket connected:');

@@ -32,7 +32,7 @@
 		progressSegments = document.getElementsByClassName('progress-segment');
 		console.log(progressSegments);
 
-		socket = new WebSocket('wss://localhost:8080/ws/scores/' + $selectedGame.selectedGame);
+		socket = new WebSocket('wss://it200230.cloud.htl-leonding.ac.at/ws/scores/' + $selectedGame.selectedGame);
 	});
 
 	async function startNewStage() {
