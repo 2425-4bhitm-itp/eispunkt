@@ -1,5 +1,6 @@
 package at.ac.htlleonding.repositories;
 
+import at.ac.htlleonding.entities.Player;
 import at.ac.htlleonding.entities.Team;
 import at.ac.htlleonding.routes.TeamResource;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
@@ -50,4 +51,13 @@ public class TeamRepository implements PanacheRepository<Team> {
         delete(team);
     }
 
+    public void addPlayerToTeam(Team team, Player player) {
+        team.addPlayer(player);
+        persist(team);
+    }
+
+    public void removePlayerFromTeam(Team team, Player player) {
+        team.removePlayer(player);
+        persist(team);
+    }
 }

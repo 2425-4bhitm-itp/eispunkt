@@ -2,6 +2,7 @@ package at.ac.htlleonding.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 
@@ -24,6 +25,10 @@ public class Team {
 
     @Column(name = "visible")
     private boolean isVisible = true;
+
+    @OneToMany(mappedBy = "team")
+    @JsonbTransient
+    private List<Player> players = new ArrayList<>();
 
     public Team(String name) {
         this.name = name;
@@ -65,4 +70,23 @@ public class Team {
     public void setVisible(boolean visible) {
         isVisible = visible;
     }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public void addPlayer(Player player) {
+        players.add(player);
+        player.setTeam(this);
+    }
+
+    public void removePlayer(Player player) {
+        players.remove(player);
+        player.setTeam(null);
+    }
+
 }

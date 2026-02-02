@@ -1,6 +1,8 @@
 package at.ac.htlleonding.routes;
 
+import at.ac.htlleonding.entities.Player;
 import at.ac.htlleonding.entities.Team;
+import at.ac.htlleonding.repositories.PlayerRepository;
 import at.ac.htlleonding.repositories.TeamRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -13,6 +15,8 @@ import jakarta.ws.rs.core.UriBuilder;
 public class TeamResource {
     @Inject
     TeamRepository teamRepository;
+    @Inject
+    PlayerRepository playerRepository;
 
     @POST
     @Transactional
@@ -54,7 +58,7 @@ public class TeamResource {
         if (team == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        teamRepository.updateTeam(team);
+        teamRepository.persist(team);
         return Response.ok().build();
     }
 
@@ -90,4 +94,63 @@ public class TeamResource {
 
         return response;
     }
+
+    @PUT
+    @Path("{teamId:[0-9]+}/addPlayer/{playerId:[0-9]+}")
+    @Transactional
+    public Response addPlayerToTeam(@PathParam("teamId") long teamId,
+                                    @PathParam("playerId") long playerId) {
+
+        Team team = teamRepository.findById(teamId);
+        Player player = playerRepository.findById(playerId);
+
+        if (team == null || player == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        if (player.getTeam() != null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                           .entity(String.format(
+                                   "Player #%d already belongs to Team #%d",
+                                   playerId,
+                                   player.getTeam().getTeamId()))
+                           .build();
+        }
+
+        teamRepository.addPlayerToTeam(team, player);
+
+        return Response.ok(String.format(
+                "Player #%d added to Team #%d",
+                playerId,
+                teamId)).build();
+    }
+
+    @PUT
+    @Path("{teamId:[0-9]+}/removePlayer/{playerId:[0-9]+}")
+    @Transactional
+    public Response removePlayerFromTeam(@PathParam("teamId") long teamId,
+                                    @PathParam("playerId") long playerId) {
+        Team team = teamRepository.findById(teamId);
+        Player player = playerRepository.findById(playerId);
+
+        if (team == null || player == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        if (player.getTeam() == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                           .entity(String.format(
+                                   "Player #%d does not belong to Team #%d",
+                                   playerId,
+                                   teamId))
+                           .build();
+        } else {
+            teamRepository.removePlayerFromTeam(team, player);
+            return Response.ok(String.format(
+                    "Player #%d removed from Team #%d",
+                    playerId,
+                    teamId)).build();
+        }
+    }
+
 }
