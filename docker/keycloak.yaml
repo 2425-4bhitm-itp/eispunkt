@@ -12,6 +12,7 @@ services:
             "--http-enabled=true",
             "--health-enabled=true",
             "--metrics-enabled=true",
+            "--proxy-headers=forwarded",
             "--import-realm"     # alles aus dem import-Verzeichnis wird importiert. Die Credentials werden nicht exportiert. Beim Import sind neue Passwörter zu vergeben
             ]
         depends_on:

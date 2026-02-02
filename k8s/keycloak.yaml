@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: keycloak
+          imagePullPolicy: IfNotPresent
+          command:
+            - /opt/keycloak/bin/kc.sh
+          args:
+            - start-dev
+            - --db=postgres
+            - --db-url=jdbc:postgresql://postgres:5432/keycloak
+            - --db-username=keycloak
+            - --db-password=keycloak
+            - --http-enabled=true
+            - --health-enabled=true
+            - --metrics-enabled=true
+            - --proxy-headers=forwarded
+            - --import-realm
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KEYCLOAK_ADMIN
+              value: admin
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              value: keycloak
+          #readinessProbe:
+          #  tcpSocket:
+          #    port: 8080
+          #  initialDelaySeconds: 120
+          #  periodSeconds: 40
+          #  timeoutSeconds: 30
+          #  failureThreshold: 3
+          #livenessProbe:
+          #  tcpSocket:
+          #    port: 8080
+          #  initialDelaySeconds: 120
+          #  periodSeconds: 40
+          #  timeoutSeconds: 30
+          #  failureThreshold: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+spec:
+  selector:
+    app: keycloak
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8080
