@@ -1,8 +1,5 @@
 package at.ac.htlleonding.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 

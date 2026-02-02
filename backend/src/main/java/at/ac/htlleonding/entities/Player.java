@@ -1,7 +1,5 @@
 package at.ac.htlleonding.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 
 @Entity
