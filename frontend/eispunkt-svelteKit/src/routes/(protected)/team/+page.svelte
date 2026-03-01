@@ -3,7 +3,6 @@
 
 
 
-
     let showModal = $state(false);
 	let teamName = '';
 	let teams = $state(new Array());

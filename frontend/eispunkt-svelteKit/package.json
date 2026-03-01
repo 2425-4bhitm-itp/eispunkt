@@ -34,6 +34,7 @@
 		"vite": "^7.0.4"
 	},
 	"dependencies": {
+		"keycloak-js": "^26.2.3",
 		"svelte-persisted-store": "^0.12.0"
 	}
 }
