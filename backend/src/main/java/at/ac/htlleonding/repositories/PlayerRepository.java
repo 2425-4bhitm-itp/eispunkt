@@ -36,4 +36,8 @@ public class PlayerRepository implements PanacheRepository<Player> {
             update("name = ?1, team = ?2 where playerId = ?3", player.getName(), player.getTeam(), player.getPlayerId());
         }
     }
+
+    public List<Player> getAllPlayersWithoutTeam() {
+        return list("team is null");
+    }
 }

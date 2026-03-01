@@ -48,6 +48,11 @@ public class PlayerResource {
     @Path("/team/{id:[0-9]+}")
     @GET
     public Response getAllPlayersOfTeam(@PathParam("id") long teamId) {
+
+        if(teamId == 0) {
+            return Response.ok(playerRepository.getAllPlayersWithoutTeam()).build();
+        }
+
         return Response.ok(playerRepository.getAllPlayersWithTeam(teamId)).build();
     }
 
