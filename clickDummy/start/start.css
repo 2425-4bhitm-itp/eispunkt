@@ -28,7 +28,7 @@
 
 .circle h1 {
     color: white;
-    font-size: 600%;
+    font-size: 200%;
     text-align: center;
     line-height: 1.4;
     margin-left: 15%;
@@ -43,7 +43,7 @@
 
 .circle h1 span {
     font-weight: bold;
-    font-size: 200%;
+    font-size: 600%;
     font-family: "Protest Strike", serif;
     font-weight: 400;
     font-style: normal;
@@ -57,6 +57,7 @@ h2{
     margin-bottom:3vh;
     margin-top: 6%;
 }
+
 
 .button{
     width:80vw;
