@@ -12,8 +12,9 @@ export const load = async () => {
   }
 
   const roles = keycloak.tokenParsed?.realm_access?.roles ?? [];
+  console.log(roles);
   return { 
-    isTeam: roles.includes('team'),
-    isAdmin: roles.includes('tournament-admin'),
+    isTeam: roles.includes('Team'),
+    isAdmin: roles.includes('TournamentAdmin'),
   };
 };

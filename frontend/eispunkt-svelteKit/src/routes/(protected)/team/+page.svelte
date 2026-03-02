@@ -10,6 +10,6 @@
 	<TeamListView />
 {/if}
 
-{#if data.isTeam}
+{#if data.isTeam && data.isAdmin == false}
 	<TeamDetailView teamId={data.team.teamId} />
 {/if}
