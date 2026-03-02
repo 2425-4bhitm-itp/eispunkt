@@ -5,6 +5,7 @@ import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.entities.Stage;
 import at.ac.htlleonding.repositories.StageRepository;
 import at.ac.htlleonding.repositories.GameRepository;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -22,6 +23,7 @@ public class StageResource {
 
     @Path("/{id:[0-9]+}")
     @GET
+    @RolesAllowed({"TournamentAdmin", "Team"})
     public Response getStageById(@PathParam("id") long stageId) {
         if (stageId == 0) {
             return Response.ok(stageRepository.listAll()).build();
@@ -34,6 +36,7 @@ public class StageResource {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"TournamentAdmin", "Team"})
     public Response createStage(StageCreationDTO stageDto) {
         Response.ResponseBuilder response;
         if (stageDto == null) {
@@ -51,9 +54,10 @@ public class StageResource {
 
     @POST
     @Path("/create")
-    @Transactional
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createStageWithGameId(@QueryParam("gameId") long gameId, 
+    @RolesAllowed({"TournamentAdmin", "Team"})
+    @Transactional
+    public Response createStageWithGameId(@QueryParam("gameId") long gameId,
                                           @QueryParam("stageNumber") int stageNumber) {
         if (gameId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -70,9 +74,10 @@ public class StageResource {
     }
 
     @PUT
-    @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"TournamentAdmin", "Team"})
+    @Transactional
     public Response updateStage(Stage stage){
         if(stage == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -83,6 +88,7 @@ public class StageResource {
 
     @DELETE
     @Path("/{id:[0-9]+}")
+    @RolesAllowed({"TournamentAdmin", "Team"})
     @Transactional
     public Response deleteGroup(@PathParam("id") long stageId) {
         if (stageId == 0) {
