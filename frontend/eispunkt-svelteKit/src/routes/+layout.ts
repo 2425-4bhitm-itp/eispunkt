@@ -1,26 +1,22 @@
 import { browser } from '$app/environment';
-import { keycloak } from '$lib/keycloak';
-
-let initialized = false;
+import { keycloak, initKeycloak } from '$lib/keycloak';
 
 export const load = async () => {
-  if (!browser) return {};
+  if (!browser) return { authenticated: false, team: null };
 
-  if (!initialized) {
-    await keycloak.init({
-      onLoad: 'check-sso',
-      silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
-      checkLoginIframe: false
-    });
-    initialized = true;
-  }
+  await initKeycloak();
 
   if (keycloak.authenticated) {
     const res = await fetch('/api/users/init', {
       method: 'POST',
       headers: { Authorization: `Bearer ${keycloak.token}` }
     });
-    const team = await res.json();
+
+    let team = null;
+    if (res.ok && res.status !== 304) {
+      team = await res.json();
+    }
+
     return { authenticated: true, team };
   }
 
