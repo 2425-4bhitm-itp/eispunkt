@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { selectedGame, selectedTeams, selectedTournament } from '$lib/stores/selectionStore';
+	import { user } from '$lib/stores/userStore';
 	import { onMount } from 'svelte';
 
 	let allRounds = $state(new Array());
@@ -7,16 +8,24 @@
 
 	const currentGames = $derived(allRounds[currentRoundIndex] || []);
 
-	$inspect(allRounds)
-	$inspect(currentRoundIndex)
-
 	onMount(async () => {
 		let gamesResponse = await fetch(
-			`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/generate/${$selectedTournament}`,
+			`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/generate/${$selectedTournament.selectedTournament}`,
 			{ method: 'PATCH' }
 		);
 
 		allRounds = await gamesResponse.json();
+
+		if ($user.role !== 'TournamentAdmin') {
+			allRounds = allRounds
+				.map((round) =>
+					round.filter(
+						(game: { team1: { teamId: any; }; team2: { teamId: any; }; }) =>
+							game.team1?.teamId == $user.team.teamId || game.team2?.teamId == $user.team.teamId
+					)
+				)
+				.filter((round) => round.length > 0);
+		}
 	});
 
 	function navigateToGame(team1Id: number, team2Id: number, gameId: number) {
@@ -40,9 +49,16 @@
 
 <div id="body-div">
 	<div id="header-box">
-		<a id="backArrow" href="/tournament">
-			<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24">
-				<path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l6 6m-6-6l6-6"/>
+		<a id="backArrow" href="/tournament" title="Zurück zum Turnier">
+			<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
+				<path
+					fill="none"
+					stroke="white"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M5 12h14M5 12l6 6m-6-6l6-6"
+				/>
 			</svg>
 		</a>
 
@@ -51,29 +67,46 @@
 
 	<div id="displayBox">
 		{#each currentGames as game}
-		<div class='turnierDet'>
-			<div>
+			<div class="turnierDet">
+				<div>
+					{#if game.team2}
+						<h1>{game.team1?.name}</h1>
+						<h1>{game.team2?.name}</h1>
+					{:else}
+						<h1>{game.team1?.name} spielt nicht!</h1>
+					{/if}
+				</div>
 				{#if game.team2}
-					<h1>{game.team1?.name}</h1>
-					<h1>{game.team2?.name}</h1>
-				{:else}
-					<h1>{game.team1?.name} spielt nicht!</h1>
+					<div
+						onclick={() => {
+							navigateToGame(game.team1.teamId, game.team2.teamId, game.gameId);
+						}}
+						title="Zum Spiel"
+					>
+						<svg
+							width="100"
+							height="100"
+							viewBox="0 0 41 36"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+							class="playButton"
+						>
+							<path
+								d="M13.6667 10.23V25.77C13.6667 26.955 15.153 27.675 16.2976 27.03L30.2034 19.26C31.2626 18.675 31.2626 17.325 30.2034 16.725L16.2976 8.97001C15.153 8.32501 13.6667 9.04501 13.6667 10.23Z"
+								fill="#7FC8EE"
+							/>
+						</svg>
+					</div>
 				{/if}
 			</div>
-			{#if game.team2}
-			<a on:click={() => {navigateToGame(game.team1.teamId, game.team2.teamId, game.gameId)}}>
-				<svg width="100" height="100" viewBox="0 0 41 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<path d="M13.6667 10.23V25.77C13.6667 26.955 15.153 27.675 16.2976 27.03L30.2034 19.26C31.2626 18.675 31.2626 17.325 30.2034 16.725L16.2976 8.97001C15.153 8.32501 13.6667 9.04501 13.6667 10.23Z" fill="#7FC8EE"/>
-				</svg>
-			</a>
-			{/if}
-		</div>
 		{/each}
 	</div>
 
 	<div id="navigation-box">
-		<button on:click={goToPreviousRound} disabled={currentRoundIndex === 0}>← Vorherige</button>
-		<button on:click={goToNextRound} disabled={currentRoundIndex === allRounds.length - 1}>Nächste →</button>
+		<button onclick={() => goToPreviousRound()} disabled={currentRoundIndex === 0}>← Vorherige</button>
+		<button onclick={() => goToNextRound()} disabled={currentRoundIndex === allRounds.length - 1}
+			>Nächste →</button
+		>
 	</div>
 </div>
 
@@ -138,7 +171,7 @@
 	#header {
 		color: white;
 		font-size: 215%;
-		margin-left:15%;
+		margin-left: 15%;
 		font-weight: bold;
 		font-family: 'Afacad', sans-serif;
 	}
@@ -147,13 +180,13 @@
 		position: absolute;
 		left: 2%;
 	}
-	
-	a svg{
+
+	.playButton{
 		height:10vh;
 		width:10vh;
 	}
 
-	svg{
+	svg {
 		cursor: pointer;
 	}
 
@@ -171,8 +204,4 @@
 		font-family: 'Afacad', sans-serif;
 	}
 
-	.turnierDet a {
-		margin-left: 20%;
-		margin-top: 2%;
-	}
 </style>

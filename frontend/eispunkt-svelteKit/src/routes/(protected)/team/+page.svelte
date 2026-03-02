@@ -1,14 +1,14 @@
 <script>
 	import TeamListView from '$lib/components/TeamListView.svelte';
 	import TeamDetailView from '$lib/components/TeamDetailView.svelte';
+	import { user } from '$lib/stores/userStore';
 
-	let { data } = $props();
 </script>
 
-{#if data.isAdmin}
+{#if $user.role === 'TournamentAdmin'}
 	<TeamListView />
 {/if}
 
-{#if data.isTeam && data.isAdmin == false}
-	<TeamDetailView teamId={data.team.teamId} />
+{#if $user.role === 'Team'}
+	<TeamDetailView teamId={$user.team?.teamId} />
 {/if}

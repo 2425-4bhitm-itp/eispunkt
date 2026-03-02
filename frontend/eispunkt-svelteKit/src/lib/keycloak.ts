@@ -13,7 +13,7 @@ export function initKeycloak(): Promise<boolean> {
     initPromise = keycloak.init({
       onLoad: 'check-sso',
       silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
-      checkLoginIframe: false,
+      checkLoginIframe: false
     });
   }
   return initPromise;

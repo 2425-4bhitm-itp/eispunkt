@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { user } from '$lib/stores/userStore';
+	import { keycloak } from '$lib/keycloak';
 
 	let showModal = $state(false);
 	let teamName = '';
@@ -39,14 +41,11 @@
 			return;
 		}
 
-		const res = await fetch(
-			`https://it200230.cloud.htl-leonding.ac.at/api/teams/?teamName=${teamName}`,
-			{
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ name: teamName })
-			}
-		);
+		const res = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/teams/?teamName=${teamName}`, {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ name: teamName })
+		});
 
 		if (res.ok) {
 			console.log('Team gespeichert:', teamName);
@@ -61,12 +60,9 @@
 	async function deleteTeam(id: number) {
 		if (!confirm('Willst du das Team wirklich löschen?')) return;
 
-		const response = await fetch(
-			`https://it200230.cloud.htl-leonding.ac.at/api/teams/isVisible/${id}`,
-			{
-				method: 'GET'
-			}
-		);
+		const response = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/teams/isVisible/${id}`, {
+			method: 'GET'
+		});
 
 		if (response.ok) {
 			console.log('Team gelöscht!');
@@ -86,11 +82,47 @@
 	function closeModal() {
 		showModal = false;
 	}
+
+	async function logout() {
+		user.set({ authenticated: false, team: null, role: null });
+		await keycloak.logout({ redirectUri: `${window.location.origin}/` });
+	}
 </script>
 
 <div id="body-div">
 	<div id="header-box">
+		<a id="backArrow" href="/" title="Zur Startseite">
+			<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
+				<path
+					fill="none"
+					stroke="white"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M5 12h14M5 12l6 6m-6-6l6-6"
+				/>
+			</svg>
+		</a>
+
 		<header id="header">Team</header>
+
+		<svg
+			height="30px"
+			width="30px"
+			viewBox="0 0 16 16"
+			version="1.1"
+			xmlns="http://www.w3.org/2000/svg"
+			xmlns:xlink="http://www.w3.org/1999/xlink"
+			color="#f8f8f8"
+			id="logout"
+			onclick={() => logout()}
+		>
+			<rect width="50" height="50" id="icon-bound" fill="none" />
+			<path
+				d="M14,14l0,-12l-6,0l0,-2l8,0l0,16l-8,0l0,-2l6,0Zm-9.002,-0.998l-4.998,-5.002l5,-5l1.416,1.416l-2.588,2.584l8.172,0l0,2l-8.172,0l2.586,2.586l-1.416,1.416Z"
+				fill="#f8f8f8"
+			/>
+		</svg>
 	</div>
 
 	<div id="icon-box">
@@ -180,7 +212,7 @@
 						</svg>
 					</a>
 
-					<svg onclick={() => deleteTeam(t.id)} width="40" height="40" viewBox="0 0 24 24">
+					<svg onclick={() => deleteTeam(t.teamId)} width="40" height="40" viewBox="0 0 24 24">
 						<path
 							d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9C18 7.9 17.1 7 16 7H8C6.9
                     7 6 7.9 6 9V19ZM18 4H15.5L14.79 3.29C14.61 3.11 14.35 3 14.09 3H9.91C9.65
@@ -244,8 +276,20 @@
 	#header-box header {
 		color: white;
 		font-size: 400%;
-		font-weight: bold;
+		font-weight: 600;
 		font-family: 'Afacad', sans-serif;
+	}
+
+	#logout {
+		position: absolute;
+		right: 5%;
+		margin-top: -1%;
+		cursor: pointer;
+	}
+
+	#backArrow {
+		position: absolute;
+		left: 2%;
 	}
 
 	#icon-box {

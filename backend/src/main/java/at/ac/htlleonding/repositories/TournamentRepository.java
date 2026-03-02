@@ -38,6 +38,10 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
         return findById(tournamentId).getTeams();
     }
 
+    public List<Tournament> getTournamentsOfTeam(long teamId){
+        return find("SELECT t FROM Tournament t JOIN t.teams team WHERE team.teamId = ?1", teamId).list();
+    }
+
     public Team addTeam(long tournamentId, long teamId) {
         Tournament tournament = findById(tournamentId);
         Team team = teamRepository.findById(teamId);
@@ -180,4 +184,6 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
 
         return isInRound;
     }
+
+
 }

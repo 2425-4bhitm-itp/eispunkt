@@ -4,6 +4,7 @@ import at.ac.htlleonding.entities.Player;
 import at.ac.htlleonding.entities.Team;
 import at.ac.htlleonding.repositories.PlayerRepository;
 import at.ac.htlleonding.repositories.TeamRepository;
+import at.ac.htlleonding.repositories.TournamentRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -17,6 +18,8 @@ public class TeamResource {
     TeamRepository teamRepository;
     @Inject
     PlayerRepository playerRepository;
+    @Inject
+    TournamentRepository tournamentRepository;
 
     @POST
     @Transactional
@@ -49,6 +52,12 @@ public class TeamResource {
     @GET
     public Response findTeamByName(@PathParam("teamName") String teamName) {
         return Response.ok(teamRepository.findByName(teamName)).build();
+    }
+
+    @Path("/tournament/{id:[0-9]+}")
+    @GET
+    public Response findTournamentsOfTeam(@PathParam("id") long teamId){
+        return Response.ok(tournamentRepository.getTournamentsOfTeam(teamId)).build();
     }
 
     @PUT

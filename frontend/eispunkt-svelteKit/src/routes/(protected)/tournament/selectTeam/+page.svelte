@@ -8,8 +8,9 @@
     let teams = $state(new Array())
     let tourneyTeams = $state(new Array())
 
+
     onMount(async () => {
-        let tourneyTeamsResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/team/${$selectedTournament}`);
+        let tourneyTeamsResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/team/${$selectedTournament.selectedTournament}`);
         
         if(tourneyTeamsResponse.ok){
             tourneyTeams = await tourneyTeamsResponse.json()
@@ -31,7 +32,7 @@
 
         if (!team) return;
 
-        let selectResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/${$selectedTournament}/${team}`,{
+        let selectResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/${$selectedTournament.selectedTournament}/${team}`,{
             method: "POST"
         });
 
@@ -47,7 +48,7 @@
     async function deleteTeam(team: Number) {
         if(!team) return;
 
-        let deleteResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/remove/${$selectedTournament}/${team}`,{
+        let deleteResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/remove/${$selectedTournament.selectedTournament}/${team}`,{
             method: "DELETE"
         });
 
@@ -59,7 +60,7 @@
 
 <div id="body-div">
     <div id="header-box">
-        <a id="backArrow" href="/tournament">
+        <a id="backArrow" href="/tournament" title="Zurück zur Turnierübersicht">
             <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24">
                 <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l6 6m-6-6l6-6"/>
             </svg>
@@ -90,7 +91,7 @@
             {/each}
         </div>
 
-        <a id="next-button" href="/tournament/gameOverview">
+        <a id="next-button" href="/tournament/gameOverview" title="Zur Spielübersicht">
             <svg width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM9.5 14.67V9.33C9.5 8.54 10.38 8.06 11.04 8.49L15.19 11.16C15.8 11.55 15.8 12.45 15.19 12.84L11.04 15.51C10.38 15.94 9.5 15.46 9.5 14.67Z" fill="#7FC8EE"/>
             </svg>
