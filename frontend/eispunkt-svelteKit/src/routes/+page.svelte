@@ -24,7 +24,7 @@
             <h1>Mannschaftsspiel</h1>
         </a>
 
-        <a class="button deactivated">
+        <a href="/quickplay" class="button">
             <h1>Freundschaftsspiel</h1>
         </a>
     </div>
