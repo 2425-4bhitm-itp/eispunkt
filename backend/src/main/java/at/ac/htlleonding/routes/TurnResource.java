@@ -8,6 +8,7 @@ import at.ac.htlleonding.repositories.TeamRepository;
 import at.ac.htlleonding.repositories.TurnRepository;
 import at.ac.htlleonding.repositories.StageRepository;
 import at.ac.htlleonding.websocket.DesktopClientWebSocket;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -32,6 +33,7 @@ public class TurnResource {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"Team", "TournamentAdmin"})
     public Response createTurn(TurnCreationDTO turnDto) {
         if (turnDto == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -70,6 +72,7 @@ public class TurnResource {
 
     @GET
     @Path("{id:[0-9]+}")
+    @RolesAllowed({"Team", "TournamentAdmin"})
     public Response getTurn(@PathParam("id") long turnId) {
         if (turnId == 0) {
             return Response.ok(turnRepository.findAll()).build();
@@ -80,6 +83,7 @@ public class TurnResource {
 
     @GET
     @Path("/stage/{id:[0-9]+}")
+    @RolesAllowed({"Team", "TournamentAdmin"})
     public Response getTurnsOfStage(@PathParam("id") long stageId) {
         if (stageId != 0) {
             return Response.ok(turnRepository.getTurnsOfStage(stageRepository.findById(stageId))).build();
@@ -92,6 +96,7 @@ public class TurnResource {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"Team", "TournamentAdmin"})
     public Response updateTurn(Turn turn) {
         if (turn == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -104,6 +109,7 @@ public class TurnResource {
 
     @DELETE
     @Path("/{id:[0-9]+}")
+    @RolesAllowed({"TournamentAdmin"})
     @Transactional
     public Response deleteTurn(@PathParam("id") long turnId) {
         if (turnId == 0) {
