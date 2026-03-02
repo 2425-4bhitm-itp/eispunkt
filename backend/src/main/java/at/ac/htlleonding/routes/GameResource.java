@@ -4,6 +4,7 @@ package at.ac.htlleonding.routes;
 import at.ac.htlleonding.dto.ActiveGameDTO;
 import at.ac.htlleonding.entities.Game;
 import at.ac.htlleonding.repositories.GameRepository;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -19,15 +20,17 @@ public class GameResource {
     GameRepository gameRepository;
 
     @POST
-    @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"Team", "TournamentAdmin"})
+    @Transactional
     public Response createGame() {
         Game newGame = gameRepository.createGame();
         return Response.ok(newGame).build();
     }
 
     @Path("/{id:[0-9]+}")
+    @RolesAllowed({"Team", "TournamentAdmin"})
     @GET
     public Response findGameById(@PathParam("id") long gameId) {
         if (gameId == 0) {
@@ -38,6 +41,7 @@ public class GameResource {
 
     @Path("/{gameId:[0-9]+}/{teamId:[0-9]+}")
     @POST
+    @RolesAllowed({"Team", "TournamentAdmin"})
     @Transactional
     public Response addTeamToGame(@PathParam("gameId") long gameId, @PathParam("teamId") long teamId) {
         return Response.ok(gameRepository.addTeamToGame(gameId, teamId)).build();
@@ -45,6 +49,7 @@ public class GameResource {
 
     @PUT
     @Transactional
+    @RolesAllowed({"Team", "TournamentAdmin"})
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateGame(Game game) {
         if (game == null) {
@@ -56,6 +61,7 @@ public class GameResource {
 
     @Path("/{id:[0-9]+}")
     @DELETE
+    @RolesAllowed({"TournamentAdmin"})
     @Transactional
     public Response deleteGame(@PathParam("id") long gameId) {
         Game game = gameRepository.findById(gameId);
@@ -68,6 +74,7 @@ public class GameResource {
 
     @Path("/scores/{id:[0-9]+}")
     @GET
+    @RolesAllowed({"Team", "TournamentAdmin"})
     public Response getScoreOfGame(@PathParam("id") long gameId) {
         Response response = Response.status(Response.Status.BAD_REQUEST).build();
 
