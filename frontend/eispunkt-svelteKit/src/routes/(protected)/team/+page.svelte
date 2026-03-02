@@ -1,6 +1,6 @@
 <script>
-	import TeamListView from "../../../components/TeamListView.svelte";
-	import TeamDetailView from "../../../components/TeamDetailView.svelte";
+	import TeamListView from "$lib/components/TeamListView.svelte"
+	import TeamDetailView from "$lib/components/TeamDetailView.svelte";
 	
 let {data} = $props();
 </script>

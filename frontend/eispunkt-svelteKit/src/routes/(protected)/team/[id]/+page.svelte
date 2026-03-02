@@ -1,5 +1,5 @@
 <script lang="ts">
-    import TeamDetailView from "../../../components/TeamDetailView.svelte";
+    import TeamDetailView from "$lib/components/TeamDetailView.svelte";
 
     let { data } = $props();
 </script>
