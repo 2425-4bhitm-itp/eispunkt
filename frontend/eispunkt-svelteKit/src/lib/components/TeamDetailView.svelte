@@ -83,8 +83,8 @@
 
     async function deletePlayer(id: number) {
         const response = await fetch(
-            `https://it200230.cloud.htl-leonding.ac.at/api/players/${id}`,
-            { method: 'DELETE' }
+            `https://it200230.cloud.htl-leonding.ac.at/api/teams/${teamId}/removePlayer/${id}`,
+            { method: 'PUT' }
         );
 
         if (response.ok) {
