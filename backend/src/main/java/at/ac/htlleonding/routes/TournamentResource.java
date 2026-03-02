@@ -2,6 +2,7 @@ package at.ac.htlleonding.routes;
 
 import at.ac.htlleonding.entities.Tournament;
 import at.ac.htlleonding.repositories.TournamentRepository;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -20,6 +21,7 @@ public class TournamentResource {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"TournamentAdmin"})
     public Response createTournament(Tournament tournament) {
         Response.ResponseBuilder response;
         if (tournament == null) {
@@ -36,6 +38,7 @@ public class TournamentResource {
 
     @GET
     @Path("/{id:[0-9]+}")
+    @RolesAllowed({"TournamentAdmin"})
     public Response getTournament(@PathParam("id") long tournamentId) {
         if (tournamentId == 0) {
             return Response.ok(tournamentRepository.getAllTournaments()).build();
@@ -46,6 +49,7 @@ public class TournamentResource {
 
     @GET
     @Path("/team/{id:[0-9]+}")
+    @RolesAllowed({"TournamentAdmin"})
     public Response getAllTeams(@PathParam("id") long tournamentId) {
         if (tournamentId == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -55,6 +59,7 @@ public class TournamentResource {
 
     @GET
     @Path("/game/{id:[0-9]+}")
+    @RolesAllowed({"TournamentAdmin"})
     @Transactional
     public Response getAllGames(@PathParam("id") long tournamentId) {
         if (tournamentId == 0) {
@@ -65,6 +70,7 @@ public class TournamentResource {
 
     @POST
     @Path("{tournamentId:[0-9]+}/{teamId:[0-9]+}")
+    @RolesAllowed({"TournamentAdmin"})
     @Transactional
     public Response addTeam(@PathParam("tournamentId") long tournamentId, @PathParam("teamId") long teamId) {
         if (tournamentId == 0 || teamId == 0) {
@@ -74,8 +80,9 @@ public class TournamentResource {
     }
 
     @PATCH
-    @Transactional
     @Path("generate/{tournamentId:[0-9]+}")
+    @RolesAllowed({"TournamentAdmin"})
+    @Transactional
     public Response generateGames(@PathParam("tournamentId") long tournamentId) {
         Response response = Response.status(Response.Status.BAD_REQUEST).build();
 
@@ -90,6 +97,7 @@ public class TournamentResource {
     }
 
     @PUT
+    @RolesAllowed({"TournamentAdmin"})
     @Transactional
     public Response updateTournament(Tournament tournament) {
         if (tournament == null) {
@@ -101,6 +109,7 @@ public class TournamentResource {
 
     @DELETE
     @Path("/{id:[0-9]+}")
+    @RolesAllowed({"TournamentAdmin"})
     @Transactional
     public Response deleteTournament(@PathParam("id") long tournamentId) {
         if (tournamentId == 0) {
@@ -112,6 +121,7 @@ public class TournamentResource {
 
     @DELETE
     @Path("/remove/{tournamentId:[0-9]+}/{teamId:[0-9]+}")
+    @RolesAllowed({"TournamentAdmin"})
     @Transactional
     public Response removeTeamFromTournament(@PathParam("tournamentId") long tournamentId,
                                              @PathParam("teamId") long teamId){
