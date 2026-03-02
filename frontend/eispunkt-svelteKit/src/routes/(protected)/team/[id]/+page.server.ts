@@ -1,3 +1,4 @@
 export const load = ({ params }) => {
-    return { teamId: Number(params.id) };
+    console.log(params)
+    return { teamId: parseInt(params.id) };
 };
