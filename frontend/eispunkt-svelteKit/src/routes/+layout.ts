@@ -12,11 +12,10 @@ export const load = async () => {
       headers: { Authorization: `Bearer ${keycloak.token}` }
     });
 
-    let team = null;
-    if (res.ok && res.status !== 304) {
-      team = await res.json();
-    }
 
+    let team = await res.json();
+
+    console.log(team);
     return { authenticated: true, team };
   }
 
