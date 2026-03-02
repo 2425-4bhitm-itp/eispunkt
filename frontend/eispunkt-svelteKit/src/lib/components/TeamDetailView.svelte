@@ -5,9 +5,8 @@
     let playerName = $state('');
     let players = $state<any[]>([]);
 
-    // 🔽 NEU
     let mode = $state<'new' | 'existing'>('new');
-    let allPlayers = $state<any[]>([]);
+    let orphanedPlayers = $state<any[]>([]);
     let selectedPlayerId = $state<number | null>(null);
 
     $effect(() => {
@@ -21,9 +20,10 @@
         players = await response.json();
     }
 
-    async function getAllPlayers() {
-        const response = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players`);
-        allPlayers = await response.json();
+    async function getOrphanedPlayers(){
+        const response = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/team/0`)
+        orphanedPlayers = await response.json();
+        console.log(orphanedPlayers);
     }
 
     function openModal() {
@@ -32,7 +32,7 @@
             mode = 'new';
             playerName = '';
             selectedPlayerId = null;
-            getAllPlayers();
+            getOrphanedPlayers();
         }
     }
 
@@ -162,7 +162,7 @@
                     <label>Spieler auswählen</label>
                     <select bind:value={selectedPlayerId}>
                         <option value={null}>Bitte wählen</option>
-                        {#each allPlayers as p}
+                        {#each orphanedPlayers as p}
                             {#if !players.some(tp => tp.playerId === p.playerId)}
                                 <option value={p.playerId}>{p.name}</option>
                             {/if}
@@ -207,6 +207,12 @@
         justify-content: center;
         align-items: center;
         color: white;
+    }
+
+    #header{
+        font-size:400%;
+        color:#f8f8f8;
+
     }
 
     #backArrow {
