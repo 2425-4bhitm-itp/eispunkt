@@ -1,8 +1,10 @@
 <script lang="ts">
-    import TeamDetailView from "$lib/components/TeamDetailView.svelte";
+	import TeamDetailView from '$lib/components/TeamDetailView.svelte';
 
-    let { teamId } = $props();
-    console.log(teamId)
+	const { data } = $props();
+	const teamId = $derived(data.teamId);
+
+	$inspect(teamId);
 </script>
 
-<TeamDetailView teamId={teamId} />
+<TeamDetailView {teamId} />
