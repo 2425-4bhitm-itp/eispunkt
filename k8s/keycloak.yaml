@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: keycloak
-          image: keycloak
+          image: ghcr.io/2425-4bhitm-itp/eispunkt-keycloak:latest
           imagePullPolicy: IfNotPresent
           command:
             - /opt/keycloak/bin/kc.sh
