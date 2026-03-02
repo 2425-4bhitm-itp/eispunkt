@@ -1,0 +1,134 @@
+*{
+    margin: 0;
+}
+
+
+#body-div {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+}
+
+
+.circle {
+    position: relative;
+    left: 30%;
+    transform: translateX(-50%);
+    width: 140vw;
+    height: 80vw;
+    background-color: #45caac;
+    border-radius: 0 0 80% 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle h1 {
+    color: white;
+    font-size: 1100%;
+    line-height: 1.4;
+    margin-left: 15%;
+    margin-top: -5%;
+    font-weight: lighter;
+    font-family: "Protest Strike", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+
+.circle h1 span {
+    font-size: 80%;
+    font-family: "Protest Strike", serif;
+    font-style: normal;
+}
+
+
+#box{
+    width: 80%;
+    margin-left: 7%;
+    margin-top: 10%;
+    border:1px solid rgb(127, 200, 238,0.4) ;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    padding: 3%;
+    font-family: 'Afacad', sans-serif;
+
+}
+
+.form-title {
+    font-size: 3.2rem;
+    font-weight: 600;
+    text-align: center;
+    color: #000;
+    margin-top: 5%;
+
+}
+
+.input-container {
+    margin-left: 4%;
+    margin-top: 2%;
+
+}
+
+.input-container input{
+    outline: none;
+    border:1px solid rgb(127, 200, 238,0.4) ;
+    border-radius: 10px;
+
+}
+
+#loginBox{
+    margin-top: 5%;
+}
+
+.input-container input {
+    background-color: #fff;
+    padding: 2rem;
+    font-size: 2rem;
+    width: 600px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    margin-left: 3%;
+}
+
+.submit {
+    display: block;
+    padding: 2%;
+    background-color: #4F46E5;
+    color: #ffffff;
+    font-size: 2rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    width: 100%;
+    border-radius: 0.5rem;
+    text-transform: uppercase;
+    margin-top: 10%;
+}
+
+label{
+    font-family: 'Afacad', sans-serif;
+    font-size: 2.2rem;
+    margin-left: 8%;
+    margin-top: 20%;
+}
+
+.save-btn {
+    width: 42%;
+    background-color: #7FC8EE;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 3%;
+    font-size: 50px;
+    cursor: pointer;
+    margin-top: 25%;
+    font-weight: bold;
+    border-radius: 16px;
+    margin-left: 30%;
+    font-family: "Afacad", sans-serif;
+    text-align: center;
+    margin-bottom: 3%;
+}
