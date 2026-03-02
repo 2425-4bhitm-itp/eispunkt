@@ -1,14 +1,15 @@
 <script>
-	import TeamListView from "$lib/components/TeamListView.svelte"
-	import TeamDetailView from "$lib/components/TeamDetailView.svelte";
-	
-let {data} = $props();
+	import TeamListView from '$lib/components/TeamListView.svelte';
+	import TeamDetailView from '$lib/components/TeamDetailView.svelte';
+
+	let { data } = $props();
+	console.log(data);
 </script>
 
 {#if data.isAdmin}
-	<TeamListView/>
+	<TeamListView />
 {/if}
 
 {#if data.isTeam}
-	<TeamDetailView teamId={data.team.teamId}/>
+	<TeamDetailView teamId={data.team.teamId} />
 {/if}
