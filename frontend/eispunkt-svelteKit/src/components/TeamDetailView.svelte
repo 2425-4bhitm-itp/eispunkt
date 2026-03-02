@@ -1,28 +1,22 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	let { teamId }: { teamId: number } = $props();
 
 	let showModal = $state(false);
 	let playerName = $state('');
-
-	onMount(() => {
-		getSelectedTeam();
-	});
-
 	let players = $state(new Array());
 
-	async function getSelectedTeam() {
-		let teamId = localStorage.getItem('teamId');
+	$effect(() => {
+		if (teamId) getPlayers();
+	});
 
+	async function getPlayers() {
 		const response = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/team/${teamId}`);
 		players = await response.json();
-		console.log('Players geladen:', players);
 	}
 
 	function openModal() {
 		if (players.length < 4) {
 			showModal = true;
-		} else {
-			console.log('Too many Players!');
 		}
 	}
 
@@ -38,27 +32,18 @@
 
 		const playerCreateResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/`, {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({ name: `${playerName}` })
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ name: playerName })
 		});
 
-		const playerResponse = await fetch(`${playerCreateResponse.headers.get('location')}`, {
-			method: 'GET'
-		});
-
+		const playerResponse = await fetch(`${playerCreateResponse.headers.get('location')}`);
 		let player = await playerResponse.json();
 
-		const addToTeamResposne = await fetch(
-			`https://it200230.cloud.htl-leonding.ac.at/api/players/${player.playerId}?teamId=${localStorage.getItem('teamId')}`,
-			{
-				method: 'PATCH'
-			}
-		);
+		await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/${player.playerId}?teamId=${teamId}`, {
+			method: 'PATCH'
+		});
 
-		console.log(await addToTeamResposne);
-		getSelectedTeam();
+		await getPlayers();
 		closeModal();
 	}
 
@@ -68,8 +53,7 @@
 		});
 
 		if (response.ok) {
-			console.log(`Spieler mit ID ${id} wurde gelöscht.`);
-			await getSelectedTeam();
+			await getPlayers();
 		} else {
 			console.error('Fehler beim Löschen des Spielers.');
 		}

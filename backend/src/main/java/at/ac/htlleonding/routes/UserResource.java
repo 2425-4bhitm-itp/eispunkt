@@ -7,6 +7,7 @@ import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 
 @Path("/api/users")
@@ -21,14 +22,16 @@ public class UserResource {
     @POST
     @Path("/init")
     @Transactional
-    public void initUser(){
+    public Response initUser(){
         String username = jwt.getClaim("preferred_username");
 
-        boolean teamExists = teamRepository.findByName(username) != null;
+        Team team = teamRepository.findByName(username);
 
-        if(!teamExists){
-            Team team = new Team(username);
+        if(team == null){
+            team = new Team(username);
             teamRepository.persist(team);
         }
+
+        return Response.ok(team).build();
     }
 }
