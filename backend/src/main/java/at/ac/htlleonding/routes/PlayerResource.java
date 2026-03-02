@@ -3,6 +3,7 @@ package at.ac.htlleonding.routes;
 import at.ac.htlleonding.entities.Player;
 import at.ac.htlleonding.repositories.PlayerRepository;
 import at.ac.htlleonding.repositories.TeamRepository;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -22,6 +23,7 @@ public class PlayerResource {
     @Transactional
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"Team", "TournamentAdmin"})
     public Response createPlayer(Player player) {
         Response.ResponseBuilder response;
         if (player == null) {
@@ -37,6 +39,7 @@ public class PlayerResource {
     }
 
     @Path("/{id:[0-9]+}")
+    @RolesAllowed({"Team", "TournamentAdmin"})
     @GET
     public Response findById(@PathParam("id") long playerId) {
         if (playerId == 0) {
@@ -47,6 +50,7 @@ public class PlayerResource {
 
     @Path("/team/{id:[0-9]+}")
     @GET
+    @RolesAllowed({"Team", "TournamentAdmin"})
     public Response getAllPlayersOfTeam(@PathParam("id") long teamId) {
 
         if(teamId == 0) {
@@ -57,6 +61,8 @@ public class PlayerResource {
     }
 
     @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed({"Team", "TournamentAdmin"})
     @Transactional
     public Response updatePlayer(Player player) {
         if (player == null) {
@@ -68,6 +74,7 @@ public class PlayerResource {
 
     @Path("/{id:[0-9]+}")
     @PATCH
+    @RolesAllowed({"Team", "TournamentAdmin"})
     @Transactional
     public Response setTeamOfPlayer(@PathParam("id") long playerId, @QueryParam("teamId") long teamId) {
         return Response.ok(playerRepository.setTeamOfPlayer(playerRepository.findById(playerId), teamRepository.findById(teamId)))
@@ -76,6 +83,7 @@ public class PlayerResource {
 
     @Path("/rename/{id:[0-9]+}")
     @PATCH
+    @RolesAllowed({"Team", "TournamentAdmin"})
     @Transactional
     public Response renamePlayer(@PathParam("id") long playerId, @QueryParam("newName") String newName) {
         playerRepository.renamePlayer(playerId, newName);
@@ -84,6 +92,7 @@ public class PlayerResource {
 
     @Path("/{id:[0-9]+}")
     @DELETE
+    @RolesAllowed({"Team", "TournamentAdmin"})
     @Transactional
     public Response deletePlayer(@PathParam("id") long playerId) {
         if (playerId == 0) {
