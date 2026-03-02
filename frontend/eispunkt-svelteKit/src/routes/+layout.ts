@@ -1,14 +1,19 @@
 import { browser } from '$app/environment';
 import { keycloak } from '$lib/keycloak';
 
+let initialized = false;
+
 export const load = async () => {
   if (!browser) return {};
 
-  await keycloak.init({
-    onLoad: 'check-sso',
-    silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
-    checkLoginIframe: false
-  });
+  if (!initialized) {
+    await keycloak.init({
+      onLoad: 'check-sso',
+      silentCheckSsoRedirectUri: `${window.location.origin}/silent-check-sso.html`,
+      checkLoginIframe: false
+    });
+    initialized = true;
+  }
 
   if (keycloak.authenticated) {
     const res = await fetch('/api/users/init', {
