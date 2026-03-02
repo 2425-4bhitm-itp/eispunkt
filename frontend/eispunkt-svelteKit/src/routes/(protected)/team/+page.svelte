@@ -3,7 +3,6 @@
 	import TeamDetailView from '$lib/components/TeamDetailView.svelte';
 
 	let { data } = $props();
-	console.log(data);
 </script>
 
 {#if data.isAdmin}

@@ -15,7 +15,6 @@ export const load = async () => {
 
     let team = await res.json();
 
-    console.log(team);
     return { authenticated: true, team };
   }
 
