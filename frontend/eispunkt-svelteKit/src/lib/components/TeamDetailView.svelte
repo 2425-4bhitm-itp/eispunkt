@@ -243,12 +243,12 @@
 				<h2>Spieler hinzufügen</h2>
 
 				<div class="mode-switch">
-					<label>Neu</label>
+					<label class="switchLabel">Neu</label>
 					<label class="switch">
 						<input type="checkbox" bind:checked={mode} />
 						<span class="slider round"></span>
 					</label>
-					<label>Bestehend</label>
+					<label class="switchLabel">Bestehend</label>
 				</div>
 
 				{#if !mode}
@@ -420,8 +420,13 @@
 	.switch {
 		position: relative;
 		display: inline-block;
-		width: 60px;
+		width: 20%;
 		height: 34px;
+	}
+
+	.switchLabel{
+		width:20%;
+		text-align: center;
 	}
 
 	.switch input {
