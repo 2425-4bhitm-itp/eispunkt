@@ -24,11 +24,12 @@ public class UserResource {
     @Transactional
     public Response initUser(){
         String username = jwt.getClaim("preferred_username");
+        String capitalized = username.substring(0,1).toUpperCase() + username.substring(1);
 
-        Team team = teamRepository.findByName(username);
+        Team team = teamRepository.findByName(capitalized);
 
         if(team == null){
-            team = new Team(username);
+            team = new Team(capitalized);
             teamRepository.persist(team);
         }
 
