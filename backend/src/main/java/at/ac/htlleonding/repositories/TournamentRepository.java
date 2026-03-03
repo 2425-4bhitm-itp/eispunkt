@@ -2,8 +2,8 @@ package at.ac.htlleonding.repositories;
 
 import at.ac.htlleonding.dto.MatchDto;
 import at.ac.htlleonding.entities.Game;
-import at.ac.htlleonding.entities.Tournament;
 import at.ac.htlleonding.entities.Team;
+import at.ac.htlleonding.entities.Tournament;
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -38,15 +38,16 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
         return findById(tournamentId).getTeams();
     }
 
-    public List<Tournament> getTournamentsOfTeam(long teamId){
-        return find("SELECT t FROM Tournament t JOIN t.teams team WHERE team.teamId = ?1", teamId).list();
+    public List<Tournament> getTournamentsOfTeam(long teamId) {
+        return find("SELECT t FROM Tournament t JOIN t.teams team WHERE team.teamId = ?1",
+                    teamId).list();
     }
 
     public Team addTeam(long tournamentId, long teamId) {
         Tournament tournament = findById(tournamentId);
         Team team = teamRepository.findById(teamId);
 
-        if(tournament != null && team != null && !tournament.getTeams().contains(team)) {
+        if (tournament != null && team != null && !tournament.getTeams().contains(team)) {
             tournament.addTeam(team);
 
             persistAndFlush(tournament);
@@ -78,14 +79,21 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
     // Only updates name and location
     public void updateTournament(Tournament tournament) {
         if (tournament != null) {
-            update("name = ?1, location = ?2 where tournamentId = ?3",
-                   tournament.getName(),
-                   tournament.getLocation(),
-                   tournament.getTournamentId());
+            update("name = ?1, location = ?2 where tournamentId = ?3", tournament.getName(),
+                   tournament.getLocation(), tournament.getTournamentId());
         }
     }
 
     private List<MatchDto> generateGames(Tournament tournament) {
+        if (tournament.getGames() == null || !tournament.getGames().isEmpty()) {
+            return tournament
+                    .getGames()
+                    .stream()
+                    .map(game -> new MatchDto(game.getTeams().getFirst(), game.getTeams().get(1),
+                                              game.getGameId()))
+                    .toList();
+        }
+
         List<MatchDto> gameplan = new LinkedList<>();
         List<Team> teams = new LinkedList<>(tournament.getTeams());
 
@@ -111,14 +119,10 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
 
                     tournament.addGame(game);
 
-                    gameplan.add(
-                            new MatchDto(team1, team2, game.getGameId())
-                    );
+                    gameplan.add(new MatchDto(team1, team2, game.getGameId()));
                 } else {
                     Team playing = team1 == null ? team2 : team1;
-                    gameplan.add(
-                            new MatchDto(playing, null, null)
-                    );
+                    gameplan.add(new MatchDto(playing, null, null));
                 }
             }
 
@@ -149,7 +153,7 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
 
             boolean team1InRound = checkTeamInRound(match.team1(), rounds.getLast());
             boolean team2InRound = checkTeamInRound(match.team2(), rounds.getLast());
-            if(!team1InRound && !team2InRound) {
+            if (!team1InRound && !team2InRound) {
                 rounds.getLast().add(match);
                 matches.removeFirst();
                 failsCounter = 0;
@@ -171,7 +175,7 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
     private boolean checkTeamInRound(Team team, List<MatchDto> currentRound) {
         boolean isInRound = false;
 
-        if(team == null) {
+        if (team == null) {
             return isInRound;
         }
 
