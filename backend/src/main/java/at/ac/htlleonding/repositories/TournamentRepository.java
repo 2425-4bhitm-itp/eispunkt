@@ -9,9 +9,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @ApplicationScoped
 public class TournamentRepository implements PanacheRepository<Tournament> {
@@ -85,13 +83,18 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
     }
 
     private List<MatchDto> generateGames(Tournament tournament) {
-        if (tournament.getGames() == null || !tournament.getGames().isEmpty()) {
-            return tournament
-                    .getGames()
-                    .stream()
-                    .map(game -> new MatchDto(game.getTeams().getFirst(), game.getTeams().get(1),
-                                              game.getGameId()))
-                    .toList();
+        // If games already exist, convert them to MatchDtos with bye information
+        if (tournament.getGames() != null && !tournament.getGames().isEmpty()) {
+            List<MatchDto> matches = new ArrayList<>();
+            for (Game game : tournament.getGames()) {
+                List<Team> teams = game.getTeams();
+                if (teams.size() == 2) {
+                    matches.add(new MatchDto(teams.get(0), teams.get(1), game.getGameId()));
+                } else if (teams.size() == 1) {
+                    matches.add(new MatchDto(teams.getFirst(), null, null));
+                }
+            }
+            return matches;
         }
 
         List<MatchDto> gameplan = new LinkedList<>();
@@ -138,55 +141,59 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
     public List<List<MatchDto>> generateGamesPaginated(Tournament tournament) {
         List<MatchDto> matches = new ArrayList<>(generateGames(tournament));
         List<List<MatchDto>> rounds = new ArrayList<>();
+        List<Team> allTeams = tournament.getTeams();
 
-        MatchDto match;
-        rounds.add(new ArrayList<>());
-        int failsCounter = 0;
         while (!matches.isEmpty()) {
-            boolean roundIsFull = rounds.getLast().size() >= tournament.getTeams().size() / 2;
+            List<MatchDto> currentRound = new ArrayList<>();
+            List<MatchDto> remainingMatches = new ArrayList<>();
 
-            match = matches.getFirst();
+            // Set to track teams that have already played in this round
+            Set<Team> teamsInRound = new HashSet<>();
 
-            if (rounds.isEmpty() || roundIsFull) {
-                rounds.add(new ArrayList<>());
+            for (MatchDto match : matches) {
+                Team team1 = match.team1();
+                Team team2 = match.team2();
+
+                // Check if both teams (or the single team if other is null) are available
+                boolean team1Available = !teamsInRound.contains(team1);
+                boolean team2Available = team2 == null || !teamsInRound.contains(team2);
+
+                if (team1Available && team2Available) {
+                    currentRound.add(match);
+                    teamsInRound.add(team1);
+                    if (team2 != null) {
+                        teamsInRound.add(team2);
+                    }
+                } else {
+                    remainingMatches.add(match);
+                }
             }
 
-            boolean team1InRound = checkTeamInRound(match.team1(), rounds.getLast());
-            boolean team2InRound = checkTeamInRound(match.team2(), rounds.getLast());
-            if (!team1InRound && !team2InRound) {
-                rounds.getLast().add(match);
-                matches.removeFirst();
-                failsCounter = 0;
-            } else if (failsCounter > matches.size()) {
-                rounds.add(new ArrayList<>());
-                failsCounter = 0;
-            } else {
-                failsCounter++;
-                matches.removeFirst();
-                matches.add(match);
+            if (!currentRound.isEmpty()) {
+                // Add teams that are on a break (bye) to the round
+                for (Team team : allTeams) {
+                    if (!teamsInRound.contains(team)) {
+                        currentRound.add(new MatchDto(team, null, null));
+                    }
+                }
+                rounds.add(currentRound);
+            }
+
+            matches = remainingMatches;
+
+            // Prevent infinite loop if we can't add any more matches
+            if (!currentRound.isEmpty() && matches.isEmpty()) {
+                break;
+            } else if (currentRound.isEmpty() && !matches.isEmpty()) {
+                // This shouldn't happen with valid tournament data
+                rounds.add(matches);
+                break;
             }
         }
 
         persistAndFlush(tournament);
 
         return rounds;
-    }
-
-    private boolean checkTeamInRound(Team team, List<MatchDto> currentRound) {
-        boolean isInRound = false;
-
-        if (team == null) {
-            return isInRound;
-        }
-
-        for (MatchDto match : currentRound) {
-            if (match.team2() == team || match.team1() == team) {
-                isInRound = true;
-                break;
-            }
-        }
-
-        return isInRound;
     }
 
 
