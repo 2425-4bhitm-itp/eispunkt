@@ -3,11 +3,17 @@
     import {cubicInOut} from "svelte/easing";
 	import { onMount } from "svelte";
     import {selectedTournament} from "$lib/stores/selectionStore"
+	import { user } from "$lib/stores/userStore";
+	import { goto } from "$app/navigation";
 
     let selectedTeam = $state("")
     let teams = $state(new Array())
     let tourneyTeams = $state(new Array())
 
+
+    if($user.role != 'TournamentAdmin'){
+        goto('/gameOverview')
+    }
 
     onMount(async () => {
         let tourneyTeamsResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/tournaments/team/${$selectedTournament.selectedTournament}`);

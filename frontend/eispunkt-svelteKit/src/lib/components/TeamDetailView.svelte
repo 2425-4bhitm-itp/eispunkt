@@ -8,7 +8,7 @@
 	let playerName = $state('');
 	let players = $state<any[]>([]);
 
-	let mode = $state<'new' | 'existing'>('new');
+	let mode = $state<boolean>(false); // false = new, true = existing
 	let orphanedPlayers = $state<any[]>([]);
 	let selectedPlayerId = $state<number | null>(null);
 
@@ -17,7 +17,9 @@
 	});
 
 	async function getPlayers() {
-		const response = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/team/${teamId}`);
+		const response = await fetch(
+			`https://it200230.cloud.htl-leonding.ac.at/api/players/team/${teamId}`
+		);
 		players = await response.json();
 	}
 
@@ -27,16 +29,14 @@
 		console.log(orphanedPlayers);
 	}
 
-    async function logout() {
-        user.set({ authenticated: false, team: null, role: null });
-        await keycloak.logout({ redirectUri: `${window.location.origin}/` });
-    }
+	async function logout() {
+		user.set({ authenticated: false, team: null, role: null });
+		await keycloak.logout({ redirectUri: `${window.location.origin}/` });
+	}
 
 	function openModal() {
 		if (players.length < 4) {
 			showModal = true;
-			mode = 'new';
-			playerName = '';
 			selectedPlayerId = null;
 			getOrphanedPlayers();
 		}
@@ -47,33 +47,42 @@
 	}
 
 	async function savePlayer() {
-		if (mode === 'new') {
+		if (!mode) {
 			if (playerName.trim() === '') {
 				alert('Bitte einen Playernamen eingeben!');
 				return;
 			}
 
-			const playerCreateResponse = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ name: playerName })
-			});
+			const playerCreateResponse = await fetch(
+				`https://it200230.cloud.htl-leonding.ac.at/api/players/`,
+				{
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ name: playerName })
+				}
+			);
 
 			const playerResponse = await fetch(playerCreateResponse.headers.get('location')!);
 			let player = await playerResponse.json();
 
-			await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/${player.playerId}?teamId=${teamId}`, {
-				method: 'PATCH'
-			});
+			await fetch(
+				`https://it200230.cloud.htl-leonding.ac.at/api/players/${player.playerId}?teamId=${teamId}`,
+				{
+					method: 'PATCH'
+				}
+			);
 		} else {
 			if (!selectedPlayerId) {
 				alert('Bitte einen Spieler auswählen!');
 				return;
 			}
 
-			await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/players/${selectedPlayerId}?teamId=${teamId}`, {
-				method: 'PATCH'
-			});
+			await fetch(
+				`https://it200230.cloud.htl-leonding.ac.at/api/players/${selectedPlayerId}?teamId=${teamId}`,
+				{
+					method: 'PATCH'
+				}
+			);
 		}
 
 		await getPlayers();
@@ -81,9 +90,12 @@
 	}
 
 	async function deletePlayer(id: number) {
-		const response = await fetch(`https://it200230.cloud.htl-leonding.ac.at/api/teams/${teamId}/removePlayer/${id}`, {
-			method: 'PUT'
-		});
+		const response = await fetch(
+			`https://it200230.cloud.htl-leonding.ac.at/api/teams/${teamId}/removePlayer/${id}`,
+			{
+				method: 'PUT'
+			}
+		);
 
 		if (response.ok) {
 			await getPlayers();
@@ -131,13 +143,13 @@
 			xmlns="http://www.w3.org/2000/svg"
 			xmlns:xlink="http://www.w3.org/1999/xlink"
 			color="#f8f8f8"
-            id="logout"
-            onclick={() => logout()}
+			id="logout"
+			onclick={() => logout()}
 		>
 			<rect width="50" height="50" id="icon-bound" fill="none" />
 			<path
 				d="M14,14l0,-12l-6,0l0,-2l8,0l0,16l-8,0l0,-2l6,0Zm-9.002,-0.998l-4.998,-5.002l5,-5l1.416,1.416l-2.588,2.584l8.172,0l0,2l-8.172,0l2.586,2.586l-1.416,1.416Z"
-                fill="#f8f8f8"
+				fill="#f8f8f8"
 			/>
 		</svg>
 	</div>
@@ -231,17 +243,15 @@
 				<h2>Spieler hinzufügen</h2>
 
 				<div class="mode-switch">
-					<label class="radio">
-						<input type="radio" bind:group={mode} value="new" />
-						Neu
+					<label class="switchLabel">Neu</label>
+					<label class="switch">
+						<input type="checkbox" bind:checked={mode} />
+						<span class="slider round"></span>
 					</label>
-					<label class="radio">
-						<input type="radio" bind:group={mode} value="existing" />
-						Bestehend
-					</label>
+					<label class="switchLabel">Bestehend</label>
 				</div>
 
-				{#if mode === 'new'}
+				{#if !mode}
 					<label>Name</label>
 					<input type="text" bind:value={playerName} />
 				{:else}
@@ -295,7 +305,7 @@
 
 	#header {
 		font-size: 400%;
-        font-weight:bold;
+		font-weight: bold;
 		color: #f8f8f8;
 	}
 
@@ -304,12 +314,12 @@
 		left: 2%;
 	}
 
-    #logout{
-        position:absolute;
-        right:5%;
-        margin-top:-1%;
-        cursor:pointer;
-    }
+	#logout {
+		position: absolute;
+		right: 5%;
+		margin-top: -1%;
+		cursor: pointer;
+	}
 
 	#team-details-outer-box {
 		height: 90%;
@@ -406,10 +416,69 @@
 		background: none;
 		outline: none;
 	}
-	.radio {
-		width: 40%;
-		font-size: 20px;
+
+	.switch {
+		position: relative;
+		display: inline-block;
+		width: 20%;
+		height: 34px;
+	}
+
+	.switchLabel{
+		width:20%;
 		text-align: center;
+	}
+
+	.switch input {
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}
+
+	.slider {
+		position: absolute;
+		cursor: pointer;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: #ccc;
+		-webkit-transition: 0.4s;
+		transition: 0.4s;
+	}
+
+	.slider:before {
+		position: absolute;
+		content: '';
+		height: 26px;
+		width: 26px;
+		left: 4px;
+		bottom: 4px;
+		background-color: white;
+		-webkit-transition: 0.4s;
+		transition: 0.4s;
+	}
+
+	input:checked + .slider {
+		background-color: #7fc8ee;
+	}
+
+	input:focus + .slider {
+		box-shadow: 0 0 1px #7fc8ee;
+	}
+
+	input:checked + .slider:before {
+		-webkit-transform: translateX(26px);
+		-ms-transform: translateX(26px);
+		transform: translateX(26px);
+	}
+
+	.slider.round {
+		border-radius: 34px;
+	}
+
+	.slider.round:before {
+		border-radius: 50%;
 	}
 
 	.save-btn {
