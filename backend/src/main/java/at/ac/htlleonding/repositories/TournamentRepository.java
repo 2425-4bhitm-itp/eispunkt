@@ -83,20 +83,19 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
     }
 
     private List<MatchDto> generateGames(Tournament tournament) {
-        // If games already exist, convert them to MatchDtos with bye information
+        // If games already exist, return them as MatchDtos without creating new ones
         if (tournament.getGames() != null && !tournament.getGames().isEmpty()) {
-            List<MatchDto> matches = new ArrayList<>();
+            List<MatchDto> gameplan = new LinkedList<>();
             for (Game game : tournament.getGames()) {
-                List<Team> teams = game.getTeams();
-                if (teams.size() == 2) {
-                    matches.add(new MatchDto(teams.get(0), teams.get(1), game.getGameId()));
-                } else if (teams.size() == 1) {
-                    matches.add(new MatchDto(teams.getFirst(), null, null));
+                List<Team> gameTeams = game.getTeams();
+                if (gameTeams.size() == 2) {
+                    gameplan.add(new MatchDto(gameTeams.get(0), gameTeams.get(1), game.getGameId()));
                 }
             }
-            return matches;
+            return gameplan;
         }
 
+        // Only create new games if they don't exist
         List<MatchDto> gameplan = new LinkedList<>();
         List<Team> teams = new LinkedList<>(tournament.getTeams());
 
@@ -123,9 +122,6 @@ public class TournamentRepository implements PanacheRepository<Tournament> {
                     tournament.addGame(game);
 
                     gameplan.add(new MatchDto(team1, team2, game.getGameId()));
-                } else {
-                    Team playing = team1 == null ? team2 : team1;
-                    gameplan.add(new MatchDto(playing, null, null));
                 }
             }
 
