@@ -23,12 +23,10 @@ public class TeamRepository implements PanacheRepository<Team> {
         return find("name", name).firstResult();
     }
 
+
     public List<Team> getAllTeams() {
-        System.out.println("Getting all teams!!!");
-
-        return listAll(Sort.ascending("name"));
+        return list("visible = true", Sort.ascending("name"));
     }
-
     public void renameTeam(long teamId, String newName) {
         update("name = ?1 where teamId = ?2", newName, teamId);
     }
