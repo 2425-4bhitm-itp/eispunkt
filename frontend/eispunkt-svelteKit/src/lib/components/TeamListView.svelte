@@ -212,7 +212,7 @@
 						</svg>
 					</a>
 
-					<svg onclick={() => deleteTeam(t.teamId)} width="40" height="40" viewBox="0 0 24 24">
+					<svg onclick={(e) => { e.stopPropagation(); deleteTeam(t.teamId); }} width="40" height="40" viewBox="0 0 24 24">
 						<path
 							d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V9C18 7.9 17.1 7 16 7H8C6.9
                     7 6 7.9 6 9V19ZM18 4H15.5L14.79 3.29C14.61 3.11 14.35 3 14.09 3H9.91C9.65
