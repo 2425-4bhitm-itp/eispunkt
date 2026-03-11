@@ -25,7 +25,7 @@ public class TeamRepository implements PanacheRepository<Team> {
 
 
     public List<Team> getAllTeams() {
-        return list("visible = true", Sort.ascending("name"));
+        return list("isVisible = true", Sort.ascending("name"));
     }
     public void renameTeam(long teamId, String newName) {
         update("name = ?1 where teamId = ?2", newName, teamId);
